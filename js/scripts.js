@@ -3,7 +3,7 @@ var Alaska = new Country("Alaska", 1, "nw","no one");
 var riskCountries = [Alaska, "North West Territory", "Alberta", "Ontario", "Quebec", "Western United States", "Eastern United States", "Central America", "Greenland"];
 
 var newPlayer = new Player("Melvin", 1);
-newPlayer.countryArray=["Alaska", "Ontario","NW US"];
+newPlayer.countryArray=[Alaska, "Ontario","NW US"];
 
 var newTurn = new Turn(newPlayer);
 
@@ -14,6 +14,7 @@ function Game(countries, players) {
   this.playing = false;
 };
 
+
 function Player(playerName, playerId) {
   this.playerName = playerName;
   this.playerId = playerId;
@@ -21,6 +22,14 @@ function Player(playerName, playerId) {
   this.countryArray = [];
   this.active = true;
 };
+
+function Continent(arrayOfCountries, continentName, bonus) {
+  this.countryArray = arrayOfCountries;
+  this.continentName = continentName;
+  this.bonus = bonus;
+}
+
+
 
 function Country(countryName, countryId, continent, adjacent) {
   this.countryName = countryName;
@@ -36,17 +45,18 @@ function Country(countryName, countryId, continent, adjacent) {
 function Turn(player) {
   this.currentPlayer = player;
   this.stage = 0;
-  this.availableTroops = 0;
+  this.Available = function(){
+
+    return (Math.floor(this.currentPlayer.countryArray.length / 3));
+  }
+  this.availableTroops = this.Available();
 };
 
-Turn.prototype.AssignTroops = function(){
-  this.availableTroops = Math.floor(this.currentPlayer.countryArray.length / 3);
+Turn.prototype.checkForBonus = function() {
+
 }
 
 
-Turn.prototype.outputTroops = function () {
-
-};
 
 Game.prototype.setup = function() {
   var countriesIdArray = []
@@ -121,16 +131,15 @@ function battle (attackDice, defendDice) {  //pass number of dice for each playe
 //=====================================================
 
 $(function() {
-  // $(".clickable-space").click(function() {
-    var spaceClicked = $(this).attr('id');//get country id of clicked space
-  //   console.log(spaceClicked);
-  // })
 
   $('.clickable-space').click(function(){
-    if(newTurn.availableTroops > 0){
-      var spaceClicked = $(this).attr('id');
+
+    if(newTurn.availableTroops > 0){ //add troops to space if there are troops available
+      console.log('in the function');
+      var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
       riskCountries[spaceClicked].unitCount++;
       $(this).children("span").text(riskCountries[spaceClicked].unitCount);
+      newTurn.availableTroops--;
     }
 
   })
