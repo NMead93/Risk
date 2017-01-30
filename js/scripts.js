@@ -29,11 +29,13 @@ function Country(countryName, countryId, continent, adjacent) {
 };
 
 function Turn(player) {
+  this.currentPlayer = player;
   this.currentGame = currentGame;
   this.stage = 0;
 };
 
 Game.prototype.setup = function() {
+  // This function will randomly assign countries to players
   var countriesIdArray = []
   for (var item = 0; item < this.countries.length; item++) {
     countriesIdArray.push(item);
@@ -66,6 +68,7 @@ Game.prototype.setup = function() {
 }
 
 var countryAssigner = function(arrayOfCountries) {
+  // this is a test function to grab countries from the dummy country list and make them objects
   for (var index = 0; index < arrayOfCountries.length; index++) {
     var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
     dummyCountries.push(makeCountry);
@@ -83,3 +86,8 @@ var game1 = new Game(dummyCountries, playerList);
 
 game1.setup();
 console.log(player1.countryArray);
+
+Turn.prototype.movement = function(troopLooser, troopGainer) {
+  troopLooser--;
+  troopGainer++;
+};
