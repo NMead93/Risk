@@ -1,8 +1,8 @@
 
 var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
-// Main Classes
 var dummyCountries = [];
 
+// Main Classes =================
 
 function Game(countries, players) {
   // The Game class contains the player objects and the country objects
@@ -34,20 +34,22 @@ function Turn(player) {
   this.stage = 0;
 };
 
+// prototype functions ==========================
+
 Game.prototype.setup = function() {
   // This function will randomly assign countries to players
   var countriesIdArray = []
+  //creates an array of the index locations of the countries, so that countries can be spliced out as they are assigned
   for (var item = 0; item < this.countries.length; item++) {
     countriesIdArray.push(item);
   }
   var numberOfPlayers = this.players.length;
+  // checks for an unevenly assigned number of countries and takes out the remainder
   var numberOfCountries = this.countries.length;
-  console.log(numberOfCountries);
   var remainderCountries = numberOfCountries % numberOfPlayers;
-  console.log(remainderCountries);
   var countriesPerPlayer = (numberOfCountries - remainderCountries) / numberOfPlayers;
-  console.log(countriesPerPlayer);
   for (var playerIndex = 0; playerIndex < numberOfPlayers; playerIndex++) {
+    //iterates through the players and assigns the whole product number of countries randomly
     for (var index = 0; index < countriesPerPlayer; index++) {
       var randomIndex = Math.floor(Math.random() * countriesIdArray.length);
       newCountryId = countriesIdArray[randomIndex];
@@ -58,6 +60,7 @@ Game.prototype.setup = function() {
     }
   }
   for (var remainder = 0; remainder < remainderCountries; remainder++) {
+    // assigns the remainder countries randomly starting with the last player
     var randomIndex = Math.floor(Math.random() * countriesIdArray.length);
     newCountryId = countriesIdArray[randomIndex];
     this.players[this.players.length-(remainder+1)].countryArray.push(this.countries[newCountryId]);
@@ -87,6 +90,11 @@ var game1 = new Game(dummyCountries, playerList);
 game1.setup();
 console.log(player1.countryArray);
 
-Turn.prototype.movement = function() {
-
+Turn.prototype.movement = function(troopLooser, troopGainer) {
+  troopLooser--;
+  troopGainer++;
 };
+
+Turn.prototype.combat = function(attacker, defender) {
+  // This function will execut
+}
