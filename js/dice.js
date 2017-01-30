@@ -32,3 +32,12 @@ function battle (attackDice, defendDice) {  //pass number of dice for each playe
 
     return armiesLost;
 }
+
+//=====================================================
+
+$(function() {
+  $(".clickable-space").click(function() {
+    var spaceClicked = $(this).attr('id');
+    console.log(spaceClicked);
+  })
+})

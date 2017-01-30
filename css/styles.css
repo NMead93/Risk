@@ -1,0 +1,9 @@
+#map {
+  width: 50%;
+  height: 50%;
+}
+
+.clickable-space {
+  border: solid;
+  height: 200px;
+}
