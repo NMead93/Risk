@@ -33,6 +33,8 @@ function battle (attackDice, defendDice) {  //pass number of dice for each playe
     return armiesLost;
 }
 
+var riskCountries = ["Alaska", "North West Territory", "Alberta", "Ontario", "Quebec", "Western United States", "Eastern United States", "Central America", "Greenland"]
+
 //=====================================================
 
 $(function() {
