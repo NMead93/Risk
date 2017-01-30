@@ -1,8 +1,10 @@
 // Main Classes
 
-function GameBoard(countries, players) {
+function Game(countries, players) {
+  // The Game class contains the player objects and the country objects
   this.countries = countries;
   this.players = players;
+  this.playing = false;
 };
 
 function Player(playerName, playerId) {
@@ -10,6 +12,7 @@ function Player(playerName, playerId) {
   this.playerId = playerId;
   this.reinforcements = 0;
   this.countryArray = [];
+  this.active = true;
 };
 
 function Country(countryName, countryId, continent, adjacent) {
@@ -21,7 +24,7 @@ function Country(countryName, countryId, continent, adjacent) {
   this.adjacent = adjacent;
 };
 
-function Turn(currentGame) {
+function Turn(player) {
   this.currentGame = currentGame;
   this.stage = 0;
 };
