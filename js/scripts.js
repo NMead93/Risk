@@ -121,9 +121,9 @@ Turn.prototype.combat = function(attackDice, defendDice) {
 
     //create sorted array of rolls for attack and defense
     var attackRolls = this.combatRolls(attackDice).sort(function(a, b){return b-a});
-    console.log(attackRolls + ' attack');
+    // console.log(attackRolls + ' attack');
     var defendRolls = this.combatRolls(defendDice).sort(function(a, b){return b-a});
-    console.log(defendRolls + ' defence');
+    // console.log(defendRolls + ' defence');
     var armiesLost = [0, 0];//array of armiesLost
 
     for (i = 0; i < Math.min(attackRolls.length, defendRolls.length); i++) {
@@ -133,16 +133,13 @@ Turn.prototype.combat = function(attackDice, defendDice) {
             armiesLost[0] -= 1;//attack loses one army
         }
     }
-    console.log(armiesLost);
+    // console.log(armiesLost);
     return armiesLost;
 }
 
 newTurn.combat(3,2);
 
 //=====================================================
-
-game1.setup();
-console.log(player1.countryArray);
 
 Turn.prototype.movement = function(troopLooser, troopGainer) {
   troopLooser--;
