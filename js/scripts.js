@@ -139,31 +139,23 @@ Game.prototype.setup = function() {
   }
 }
 
-// end Turn functions
 
-
-var Die = function (sides) {
-    this.sides = sides || 6;  //Creates n-sided Die Object or 6 sided if no args
-}
-
-Die.prototype.roll = function () {
-    return Math.floor((Math.random() * this.sides) + 1)//simulate roll
-}
-
-function battleRolls (numOfDice) {
+Turn.prototype.combatRolls = function(numOfDice) {
     var rolls = []
     for (i = 0; i < numOfDice; i++) {
-        var die = new Die();
-        rolls.push(die.roll());//new roll into array of rolls
+        rolls.push(Math.floor((Math.random() * 6) + 1));//new roll into array of rolls
     }
     return rolls;
 }
 
-function battle (attackDice, defendDice) {  //pass number of dice for each player
+Turn.prototype.combat = function(attackDice, defendDice) {
+//pass number of dice for each player
 
     //create sorted array of rolls for attack and defense
-    var attackRolls = battleRolls(attackDice).sort(function(a, b){return b-a});
-    var defendRolls = battleRolls(defendDice).sort(function(a, b){return b-a});
+    var attackRolls = this.combatRolls(attackDice).sort(function(a, b){return b-a});
+    console.log(attackRolls + ' attack');
+    var defendRolls = this.combatRolls(defendDice).sort(function(a, b){return b-a});
+    console.log(defendRolls + ' defence');
     var armiesLost = [0, 0];//array of armiesLost
 
     for (i = 0; i < Math.min(attackRolls.length, defendRolls.length); i++) {
@@ -173,9 +165,11 @@ function battle (attackDice, defendDice) {  //pass number of dice for each playe
             armiesLost[0] -= 1;//attack loses one army
         }
     }
-
+    console.log(armiesLost);
     return armiesLost;
 }
+
+newTurn.combat(3,2);
 
 //=====================================================
 
