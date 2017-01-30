@@ -39,7 +39,7 @@ var riskCountries = ["Alaska", "North West Territory", "Alberta", "Ontario", "Qu
 
 $(function() {
   $(".clickable-space").click(function() {
-    var spaceClicked = $(this).attr('id');
+    var spaceClicked = $(this).attr('id');//get country id of clicked space
     console.log(spaceClicked);
   })
 })
