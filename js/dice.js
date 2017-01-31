@@ -41,5 +41,5 @@ $(function() {
   $(".clickable-space").click(function() {
     var spaceClicked = $(this).attr('id');//get country id of clicked space
     console.log(spaceClicked);
-  })
+  })  
 })
