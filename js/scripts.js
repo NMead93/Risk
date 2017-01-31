@@ -288,12 +288,6 @@ $(function() {
 
   $('#select-player-quantity').hide();
   })// player setup form submit end
-<<<<<<< HEAD
-
-
-  generateElements(dummyCountries);
-=======
->>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
@@ -322,7 +316,6 @@ $(function() {
 
 
   $('.clickable-space').click(function(){
-<<<<<<< HEAD
 
     if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
@@ -336,11 +329,9 @@ $(function() {
       }
       $(this).children("span").text(newUnitCount);
       newPlayer.reinforcements--;
-    } else if(Game.phase === 1){
 
     }
-  });
-=======
+
     var spaceClicked = $(this).attr('id');
   //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
   //     console.log('in the function');
@@ -356,7 +347,6 @@ $(function() {
   //     newPlayer.reinforcements--;
   //   }
    });
->>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
 });
 
 //THIS ENDS JQUERY
