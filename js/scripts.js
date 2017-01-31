@@ -1,6 +1,6 @@
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
-var countries = [["Bosnia", 0, "Asia", 1],
-                ["Japan", 1, "Asia", 1],
+var countries = [["Alaska", "alaska", "Asia", 1],
+                ["Japan", "asia", "Asia", 1],
                 ["China", 2, "Asia", 1],
                 ["Chile", 3, "Asia", 1],
                 ["Madagascar", 4, "Asia", 1],
@@ -57,7 +57,7 @@ function Continent(continentName, bonus) {
   this.countryArray;
   this.continentName = continentName;
   this.bonus = bonus;
-}
+};
 
 
 
@@ -76,14 +76,14 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // prototype functions ==========================
 
-Game.prototype.turn = function(player) {
+Game.prototype.assignment = function(player) {
   this.currentPlayer = player;
-  this.stage = 0;
-  // this.Available = function(){
-  //
-  //   return (Math.floor(this.currentPlayer.countryArray.length / 3));
-  // }
-  // this.availableTroops = this.Available();
+  // this.stage = 0;
+  this.available = function(){
+
+    return (Math.floor(this.currentPlayer.countryArray.length / 3));
+  }
+  this.currentPlayer.reinforcements = this.available();
 }
 
 // Turn.prototype.continentCheck = function() {
@@ -140,7 +140,7 @@ Game.prototype.setup = function() {
 }
 
 
-Turn.prototype.combatRolls = function(numOfDice) {
+Game.prototype.combatRolls = function(numOfDice) {
     var rolls = []
     for (i = 0; i < numOfDice; i++) {
         rolls.push(Math.floor((Math.random() * 6) + 1));//new roll into array of rolls
@@ -148,7 +148,7 @@ Turn.prototype.combatRolls = function(numOfDice) {
     return rolls;
 }
 
-Turn.prototype.combat = function(attackDice, defendDice) {
+Game.prototype.combat = function(attackDice, defendDice) {
 //pass number of dice for each player
 
     //create sorted array of rolls for attack and defense
@@ -169,28 +169,32 @@ Turn.prototype.combat = function(attackDice, defendDice) {
     return armiesLost;
 }
 
-newTurn.combat(3,2);
-
 //=====================================================
 
 $(function() {
 
   $('.clickable-space').click(function(){
 
-    if(newTurn.availableTroops > 0){ //add troops to space if there are troops available
+    if(newPlayer.reinforcements > 0){ //add troops to space if there are troops available
       console.log('in the function');
+      var newUnitCount = 0;
       var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
-      riskCountries[spaceClicked].unitCount++;
-      $(this).children("span").text(riskCountries[spaceClicked].unitCount);
-      newTurn.availableTroops--;
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked) {
+          currentGame.countries[i].unitCount++
+          newUnitCount = currentGame.countries[i].unitCount;
+        }
+      }
+      $(this).children("span").text(newUnitCount);
+      newPlayer.reinforcements--;
     }
   });
 });
 
 //====================================
 
-// countryAssigner(countries)
-// newTurn = new Turn(newPlayer);
-// testGame = new Game(dummyCountries, [newPlayer]);
-// testGame.setup();
-// newTurn.continentCheck();
+countryAssigner(countries)
+continentAssigner(continents)
+var newPlayer = new Player("Melvin", 0)
+var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
+currentGame.setup();
