@@ -228,6 +228,12 @@ Game.prototype.combatRolls = function(numOfDice) {
     return rolls;
 }
 
+// Game.prototype.combatFlow = function(attacking, defending) {            //add adjacency later
+//   if (attacking.owner !== defending.owner && attacking.unitCount > 1 && attacking.adjacent.includes(defending.countryId)) {
+//
+//   }
+// }
+
 Game.prototype.combat = function(attackDice, defendDice) {
 //pass number of dice for each player
 
@@ -288,12 +294,10 @@ $(function() {
 
   $('#select-player-quantity').hide();
   })// player setup form submit end
-<<<<<<< HEAD
 
 
   generateElements(dummyCountries);
-=======
->>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
+
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
@@ -322,7 +326,6 @@ $(function() {
 
 
   $('.clickable-space').click(function(){
-<<<<<<< HEAD
 
     if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
@@ -336,12 +339,10 @@ $(function() {
       }
       $(this).children("span").text(newUnitCount);
       newPlayer.reinforcements--;
-    } else if(Game.phase === 1){
-
     }
   });
-=======
-    var spaceClicked = $(this).attr('id');
+    //
+    // var spaceClicked = $(this).attr('id');
   //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
   //     console.log('in the function');
   //     var newUnitCount = 0;
@@ -355,8 +356,7 @@ $(function() {
   //     $(this).children("area").text(newUnitCount);
   //     newPlayer.reinforcements--;
   //   }
-   });
->>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
+  //  });
 });
 
 //THIS ENDS JQUERY
