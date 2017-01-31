@@ -11,6 +11,7 @@
 .country-div {
   display: inline-block;
   height: 50px;
-  width: 50px;
+  width: 190px;
   border: solid;
+  padding: 10px;
 }
