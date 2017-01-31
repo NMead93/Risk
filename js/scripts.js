@@ -53,7 +53,7 @@ var makeElement = function(element, elementId, elementText, elementClasses, targ
 
 var generateElements = function(arrayOfCountries) {
   for (var index = 0; index < arrayOfCountries.length; index++) {
-    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName, "country-div", "#country-holder")
+    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName, "clickable-space country-div", "#country-holder")
   }
 }
 
@@ -80,7 +80,6 @@ newPlayer.countryArray = dummyCountries;
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
   for (var index = 0; index < arrayOfCountries.length; index++) {
-    console.log(arrayOfCountries);
     var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
     dummyCountries.push(makeCountry);
   }
@@ -188,7 +187,7 @@ Game.prototype.setup = function() {
       this.players[playerIndex].countryArray.push(this.countries[newCountryId]);
       this.countries[newCountryId].owner = this.players[playerIndex].playerName;
       countriesIdArray.splice(randomIndex,1);
-      console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[playerIndex].playerName);
+      // console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[playerIndex].playerName);
     }
   }
   for (var remainder = 0; remainder < remainderCountries; remainder++) {
@@ -198,7 +197,7 @@ Game.prototype.setup = function() {
     this.players[this.players.length-(remainder+1)].countryArray.push(this.countries[newCountryId]);
     this.countries[newCountryId].owner = this.players[this.players.length-(remainder+1)].playerName;
     countriesIdArray.splice(randomIndex,1);
-    console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[this.players.length-(remainder+1)].playerName);
+    // console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[this.players.length-(remainder+1)].playerName);
   }
 }
 
