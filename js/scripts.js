@@ -58,6 +58,13 @@ var generateElements = function(arrayOfCountries) {
   }
 }
 
+var generateList = function(arrayOfCountries) {
+  for (var index = 0; index < arrayOfCountries.length; index++) {
+    makeElement('div', arrayOfCountries[index].countryId + "-troops", arrayOfCountries[index].countryName + ": " + arrayOfCountries[index].unitCount, "current-country-owned", ".countries-on");
+
+  }
+}
+
 
 var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
 
@@ -75,9 +82,6 @@ var countries = [["Alaska", "alaska", "Asia", 1],
 var dummyCountries = [];
 var dummyContinents = [];
 var dummyPlayers = [];
-
-var newPlayer = new Player("Melvin", 1);
-newPlayer.countryArray = dummyCountries;
 
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
@@ -103,6 +107,7 @@ function Game(countries, players, continents) {
   // The Game class contains the player objects and the country objects
   this.countries = countries;
   this.players = players;
+  this.currentPlayer = this.players[0];
   this.playing = false;
   this.continents = continents;
   this.phase = 0;
@@ -141,7 +146,6 @@ function Country(countryName, countryId, continent, adjacent) {
 // prototype functions ==========================
 
 Game.prototype.assignment = function(player) {
-  this.currentPlayer = player;
   console.log(this.currentPlayer);
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
   this.continentChecker(player);
@@ -263,12 +267,6 @@ function choosePlayer(total, players){
 
 countryAssigner(countriesFull)
 continentAssigner(continents)
-var newPlayer = new Player("Melvin", 0)
-var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
-currentGame.setup();
-currentGame.buildContinents();
-currentGame.assignment(newPlayer);
-console.log(currentGame.currentPlayer.reinforcements);
 
 //=====================================================
 
@@ -290,15 +288,19 @@ $(function() {
 
   $('#select-player-quantity').hide();
   })// player setup form submit end
+<<<<<<< HEAD
 
 
   generateElements(dummyCountries);
+=======
+>>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
     for(i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
       currentPlayerColors.push($('#color'+i).val());
+
     }
 
     for(var i=0;i<totalPlayers;i++){
@@ -307,7 +309,11 @@ $(function() {
     console.log(currentPlayerColors);
     console.log(currentPlayerNames);
 
-
+    var currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    currentGame.setup();
+    currentGame.buildContinents();
+    generateList(currentGame.currentPlayer.countryArray);
+    console.log(currentGame.currentPlayer.reinforcements);
   })
 
   $('#next-turn').click(function(){
@@ -316,6 +322,7 @@ $(function() {
 
 
   $('.clickable-space').click(function(){
+<<<<<<< HEAD
 
     if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
@@ -333,6 +340,23 @@ $(function() {
 
     }
   });
+=======
+    var spaceClicked = $(this).attr('id');
+  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
+  //     console.log('in the function');
+  //     var newUnitCount = 0;
+  //      // select space with click, select country based on ID
+  //     for (i = 0; i < currentGame.countries.length; i++) {
+  //       if (currentGame.countries[i].countryId === spaceClicked) {
+  //         currentGame.countries[i].unitCount++
+  //         newUnitCount = currentGame.countries[i].unitCount;
+  //       }
+  //     }
+  //     $(this).children("area").text(newUnitCount);
+  //     newPlayer.reinforcements--;
+  //   }
+   });
+>>>>>>> ac7fe5885b201eac480e9d3838c1ac1baa789698
 });
 
 //THIS ENDS JQUERY
