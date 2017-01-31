@@ -42,6 +42,8 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
 
 //  START TEST FUNCTIONS AND VARIABLES
+var currentGame;
+
 
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
@@ -87,15 +89,15 @@ var continentAssigner = function(arrayOfContinents) {
 
 // END TEST FUNCTIONS AND VARIABLES
 
-function Game(countries, players, continents) {
+function Game(countries, continents) {
   // The Game class contains the player objects and the country objects
   this.countries = countries;
-  this.players = players;
+  this.players = [];
   // this.currentPlayer = this.players[0];
   this.playing = false;
   this.continents = continents;
   this.phase = 0;
-  this.currentPlayer = choosePlayer();
+  this.currentPlayer;
   this.playerCounter = 1;
 };
 
@@ -282,14 +284,17 @@ continentAssigner(continents)
 
 //=====================================================
 
-var currentPlayerNames = [];
-var totalPlayers = 0;
-var currentPlayerColors = [];
 
 // THIS BEGINS JQUERY
 // ========================================================================================================
 $(function() {
+  var currentPlayerNames = [];
+  var totalPlayers = 0;
+  var currentPlayerColors = [];
+  currentGame = new Game(dummyCountries, dummyContinents);
+  currentGame.buildContinents();
 
+// setup the players
   $('#number-form').submit(function(event) {
     event.preventDefault();
     totalPlayers = parseInt($('#number-of-players').val());
@@ -297,10 +302,10 @@ $(function() {
       $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
       $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
     }
-
-
     $('#select-player-quantity').hide();
   })
+
+//setup players ENDS
 
   // player setup form submit end
 
@@ -314,16 +319,15 @@ $(function() {
     }
 
     for(var i=0;i<totalPlayers;i++){
-      dummyPlayers.push(new Player(currentPlayerNames[i], i, currentPlayerColors[i]));
+      currentGame.players.push(new Player(currentPlayerNames[i], i, currentPlayerColors[i]));
     }
-    console.log(currentPlayerColors);
-    console.log(currentPlayerNames);
 
-    var currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    //setup starts
     currentGame.setup();
-    currentGame.buildContinents();
-    generateList(currentGame.currentPlayer.countryArray);
-    console.log(currentGame.currentPlayer.reinforcements);
+    choosePlayer(totalPlayers, currentGame.players);
+
+    // setup ends
+
   })
 
   $('#next-turn').click(function(){
@@ -331,21 +335,21 @@ $(function() {
   })
 
 
-  $('.clickable-space').click(function(){
+  $('.clickable-space').click(function(){ // this is the interaction between the user and the map
 
-    if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
-      console.log('in the function');
-      var newUnitCount = 0;
-      var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
-      for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked) {
-          currentGame.countries[i].unitCount++
-          newUnitCount = currentGame.countries[i].unitCount;
-        }
-      }
-      $(this).children("span").text(newUnitCount);
-      newPlayer.reinforcements--;
-    }
+    // if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
+    //   console.log('in the function');
+    //   var newUnitCount = 0;
+    //   var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
+    //   for (i = 0; i < currentGame.countries.length; i++) {
+    //     if (currentGame.countries[i].countryId === spaceClicked) {
+    //       currentGame.countries[i].unitCount++
+    //       newUnitCount = currentGame.countries[i].unitCount;
+    //     }
+    //   }
+    //   $(this).children("span").text(newUnitCount);
+    //   newPlayer.reinforcements--;
+    // }
   });
 
     //
