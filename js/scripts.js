@@ -301,7 +301,7 @@ $(function() {
           newUnitCount = currentGame.countries[i].unitCount;
         }
       }
-      $(this).children("span").text(newUnitCount);
+      $(this).children("area").text(newUnitCount);
       newPlayer.reinforcements--;
     }
   });
