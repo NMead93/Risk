@@ -212,11 +212,33 @@ Game.prototype.combatRolls = function(numOfDice) {
     return rolls;
 }
 
-// Game.prototype.combatFlow = function(attacking, defending) {            //add adjacency later
-//   if (attacking.owner !== defending.owner && attacking.unitCount > 1 && attacking.adjacent.includes(defending.countryId)) {
-//
-//   }
-// }
+Game.prototype.numberOfDice = function(attacking, defending) {            //add adjacency later
+  var diceArray = []
+  if (attacking.owner != defending.owner && attacking.unitCount > 1 && attacking.adjacent.includes(defending.countryId)) {
+    if (attacking.unitCount === 2 && defending.unitCount === 1) {
+      diceArray[0] = 1
+      diceArray[1] = 1
+    } else if (attacking.unitCount === 3 && defending.unitCount === 1) {
+      diceArray[0] = 2;
+      diceArray[1] = 1;
+    } else if (attacking.unitCount > 3 && defending.unitCount === 1) {
+      diceArray[0] = 3;
+      diceArray[1] = 1;
+    } else if (attacking.unitCount === 2 && defending.unitCount >= 2) {
+      diceArray[0] = 1;
+      diceArray[1] = 2;
+    } else if (attacking.unitCount === 3 && defending.unitCount >= 2) {
+      diceArray[0] = 2;
+      diceArray[1] = 2;
+    } else if (attacking.unitCount > 3 && defending.unitCount >= 2) {
+      diceArray[0] = 3;
+      diceArray[1] = 2;
+    }
+    return diceArray;
+  } else {
+    alert('select valid country and opponent!')
+  }
+}
 
 Game.prototype.combat = function(attackDice, defendDice) {
 //pass number of dice for each player
