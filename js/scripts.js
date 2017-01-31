@@ -1,5 +1,5 @@
-var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
-                ["Northwest Territory", "northwest-territory", "North America", ["alaska", "alberta", "ontario", "greenland"]],
+var countriesFull = [["Northwest Territory", "northwest-territory", "North America", ["alaska", "alberta", "ontario", "greenland"]],
+                ["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
                 ["Greenland", "greenland", "North America", ["northwest-territory", "ontario", "eastern-canada"]],
                 ["Alberta", "alberta", "North America", ["alaska", "northwest-territory", "ontario", "western-united-states"]],
                 ["Ontario", "ontario", "North America", ["alberta", "northwest-territory", "greenland", "eastern-canada", "eastern-united-states", "western-united-states"]],
@@ -117,12 +117,10 @@ function Player(playerName, playerId) {
 };
 
 function Continent(continentName, bonus) {
-  this.countryArray;
+  this.countryArray = [];
   this.continentName = continentName;
   this.bonus = bonus;
 };
-
-
 
 function Country(countryName, countryId, continent, adjacent) {
   this.countryName = countryName;
@@ -142,32 +140,31 @@ function Country(countryName, countryId, continent, adjacent) {
 Game.prototype.assignment = function(player) {
   this.currentPlayer = player;
   console.log(this.currentPlayer);
-  // this.stage = 0;
-  // this.available = function(){
-  //
-  //   return (Math.floor(this.currentPlayer.countryArray.length / 3));
-  // }
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
+  this.continentChecker(player);
 }
 
-// Turn.prototype.continentCheck = function() {
-//   // this.currentPlayer.continents.forEach(function(`continent`) {
-//   //   this.checkForBonus(continent);
-//   // })
-//
-// }
-
-// Turn.prototype.checkForBonus = function() {
-//   var counter = 0;
-//   for (i = 0; i < dummyCountries.length; i++) {
-//     if(dummyCountries[i].owner === "Melvin") {
-//       counter++;
-//     }
-//   }
-//   if(counter === 9) {
-//     this.availableTroops += 3
-//   }
-// }
+Game.prototype.continentChecker = function(player) {
+  for (var index = 0; index < this.continents.length; index++) {
+    var held = true;
+    for (var continentCountry = 0; continentCountry < this.continents[index].countryArray.length; continentCountry++) {
+      var hasCountry = false;
+      for (var playerCountry = 0; playerCountry < this.currentPlayer.countryArray.length; playerCountry++) {
+        if (this.currentPlayer.countryArray[playerCountry] === this.continents[index].countryArray[continentCountry]) {
+          hasCountry = true;
+          break;
+        }
+      }
+      if (hasCountry === false) {
+        held = false;
+        break;
+      }
+    }
+    if (held === true) {
+      this.currentPlayer.reinforcements += this.continents[index].bonus;
+    }
+  }
+}
 
 Game.prototype.setup = function() {
   // This function will randomly assign countries to players
@@ -203,6 +200,18 @@ Game.prototype.setup = function() {
   }
 }
 
+Game.prototype.buildContinents = function() {
+  console.log("called continent builder!");
+  // Assigns the appropiate countries to a continent
+  for (var index = 0; index < this.countries.length; index++) {
+    for (var continentIndex = 0; continentIndex < this.continents.length; continentIndex++) {
+      if (this.continents[continentIndex].continentName === this.countries[index].continent) {
+        // console.log(this.countries[index].countryName + " is in " + this.continents[continentIndex].continentName);
+        this.continents[continentIndex].countryArray.push(this.countries[index]);
+      }
+    }
+  }
+}
 
 Game.prototype.combatRolls = function(numOfDice) {
     var rolls = []
@@ -237,6 +246,7 @@ continentAssigner(continents)
 var newPlayer = new Player("Melvin", 0)
 var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
 currentGame.setup();
+currentGame.buildContinents();
 currentGame.assignment(newPlayer);
 console.log(currentGame.currentPlayer.reinforcements);
 
