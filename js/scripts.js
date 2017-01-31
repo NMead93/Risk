@@ -5,7 +5,7 @@ var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory
                 ["Ontario", "ontario", "North America", ["alberta", "northwest-territory", "greenland", "eastern-canada", "eastern-united-states", "western-united-states"]],
                 ["Eastern United States", "eastern-united-states", "North America", ["central-america", "western-united-states", "ontario", "eastern-canada"]],
                 ["Central America", "central-america", "North America", ["venezuela", "western-united-states", "eastern-united-states"]],
-                ["Venezuela", "venezuela", "South America", ["central-america", "peru", "brazil"]]
+                ["Venezuela", "venezuela", "South America", ["central-america", "peru", "brazil"]],
                 ["Peru", "peru", "South America", ["venezuela", "brazil", "argentina"]],
                 ["Argentina", "argentina", "South America", ["peru", "brazil"]],
                 ["Brazil", "brazil", "South America", ["argentina", "peru", "venezuela", "north-africa"]],
@@ -39,6 +39,22 @@ var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory
                 ["Eastern Austalia", "eastern-australia", "Austalia", ["new-guinea", "western-australia"]],
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
 
+//  START TEST FUNCTIONS AND VARIABLES
+
+var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
+  var newElement = document.createElement(element);
+  newElement.id = elementId;
+  newElement.className = elementClasses;
+  newElement.innerHTML = elementText;
+  $(targetElement).append(newElement);
+}
+
+var generateElements = function(arrayOfCountries) {
+  for (var index = 0; index < arrayOfCountries.length; index++) {
+    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName, "country-div", "#country-holder")
+  }
+}
+
 
 var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
 
@@ -62,6 +78,7 @@ newPlayer.countryArray = dummyCountries;
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
   for (var index = 0; index < arrayOfCountries.length; index++) {
+    console.log(arrayOfCountries);
     var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
     dummyCountries.push(makeCountry);
   }
@@ -212,10 +229,18 @@ Game.prototype.combat = function(attackDice, defendDice) {
     // console.log(armiesLost);
     return armiesLost;
 }
+countryAssigner(countriesFull)
+continentAssigner(continents)
+var newPlayer = new Player("Melvin", 0)
+var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
+currentGame.setup();
 
 //=====================================================
 
 $(function() {
+  generateElements(dummyCountries);
+
+
 
   $('.clickable-space').click(function(){
 
@@ -236,9 +261,3 @@ $(function() {
 });
 
 //====================================
-
-countryAssigner(countries)
-continentAssigner(continents)
-var newPlayer = new Player("Melvin", 0)
-var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
-currentGame.setup();
