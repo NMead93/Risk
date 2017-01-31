@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <meta charset="utf-8">
-    <title>RISK</title>
-  </head>
-  <body>
-    <div class="container">
-        <div class="row">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="js/scripts.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <meta charset="utf-8">
+  <title>RISK</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
 
-          <h1>Setup Game</h1>
-          <div id="select-player-quantity" class="col-md-3">
-              <form id="number-form">
-                  <div class="form-group player-numbers">
-                      <label for="number-of-player">Select Number of Players</label>
-                      <select class="setup" id="number-of-players">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                      </select><br>
-                      <button type="submit" name="button">Submit</button>
-                  </div>
-              </form>
+      <h1>Setup Game</h1>
+      <div id="select-player-quantity" class="col-md-3">
+        <form id="number-form">
+          <div class="form-group player-numbers">
+            <label for="number-of-player">Select Number of Players</label>
+            <select class="setup" id="number-of-players">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select><br>
+            <button type="submit" name="button">Submit</button>
           </div>
-
-
-            <form id="name-color-avatar">
-                <div class="col-md-3">
-                    <div class="form-group player-name">
-                      <label for=""></label>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group player-color">
-
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group player-avatar">
-
-                    </div>
-                </div>
-                <button type="submit" name="button">Submit Players</button>
-            </form>
+        </form>
       </div>
 
-      <button type="button" id="next-turn">Next Turn</button>
-      <div class="container">
+
+      <form id="name-color-avatar">
+        <div class="col-md-3">
+          <div class="form-group player-name">
+            <label for=""></label>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group player-color">
+
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group player-avatar">
+
+          </div>
+        </div>
+        <button type="submit" name="button">Submit Players</button>
+      </form>
+    </div>
+
+
+
+    <button type="button" id="next-turn">Next Turn</button>
+    <div class="container">
       <img id="Image-Maps-Com-image-maps-2017-01-30-133916" src="http://www.image-maps.com/m/private/77957/89359-1280px-Riskgameboard.svg.png" border="0" width="1280" height="905" orgWidth="1280" orgHeight="905" usemap="#image-maps-2017-01-30-133916" alt="" />
         <map name="image-maps-2017-01-30-133916" id="ImageMapsCom-image-maps-2017-01-30-133916">
         <area shape="rect" coords="1278,903,1280,905" alt="Image Map" style="outline:none;" title="Image Map" />
@@ -98,8 +100,45 @@
         <area class="clickable-space" id="wstralia" alt="" title="Western Australia" shape="poly" coords="1049,524,1072,526,1073,567,1112,565,1112,625,1103,633,1098,611,1103,598,1095,605,1075,590,1069,592,1061,595,1059,604,1047,600,1029,616,1023,614,1017,602,1013,592,1011,580,1008,570,1012,554,1033,551,1043,548,1045,539" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="estralia" alt="" title="Eastern Australia" shape="poly" coords="1070,514,1072,566,1112,566,1111,630,1137,629,1148,621,1155,605,1165,598,1163,589,1164,576,1165,566,1156,558,1148,549,1139,547,1133,527,1128,531,1124,510,1120,513,1120,530,1119,535,1108,539,1104,535,1097,525,1100,514" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="newguinea" alt="" title="New Guinea" shape="poly" coords="1065,468,1070,458,1087,473,1104,471,1123,475,1128,488,1136,495,1147,510,1147,521,1134,514,1127,514,1128,500,1116,505,1106,508,1096,501,1094,498,1094,489,1089,485,1084,483,1079,483,1074,483" style="outline:none;" target="_self"     />
-        </map>
 
+      </map>
+
+    </div>
+    <form class="form-control" action="index.html" method="post">
+    <div id="combat" class="row">
+      <div class="col-md-3">
+        <div class="panel-heading">
+          <span id="selected-attacker">Attacker</span>
+        </div>
+        <div  class="panel">
+          <span id="attacker-strength">Troop Strength</span>
+        </div>
+        <div  class="panel" >
+          <span id="attacker-dice">Number of Dice: </span>
+          <select class="" name="one">
+            <option value="1">One</option>
+            <option value="2">Two</option>
+
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div  class="panel-heading">
+          <span id="selected-defender">Defender</span>
+        </div>
+        <div  class="panel">
+          <span id="defender-strength">Troop Strength</span>
+        </div>
+        <div  class="panel">
+          <span id="defender-dice">Number of Dice: </span>
+              <select class="" name="two">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+              </select>
+        </div>
+        <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
+      </div>
+    </form>
     </div>
     <div class="container">
 
@@ -123,4 +162,4 @@
       </div>
     </div>
   </body>
-</html>
+  </html>

@@ -51,12 +51,6 @@ var makeElement = function(element, elementId, elementText, elementClasses, targ
   $(targetElement).append(newElement);
 }
 
-var generateElements = function(arrayOfCountries) {
-  for (var index = 0; index < arrayOfCountries.length; index++) {
-    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName + " ", "clickable-space country-div", "#country-holder");
-    makeElement('span', '', " Troops ", "peeps", "#" +  arrayOfCountries[index].countryId);
-  }
-}
 
 var generateList = function(arrayOfCountries) {
   for (var index = 0; index < arrayOfCountries.length; index++) {
@@ -66,18 +60,8 @@ var generateList = function(arrayOfCountries) {
 }
 
 
-var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
 
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
-var countries = [["Alaska", "alaska", "Asia", 1],
-                ["Japan", "asia", "Asia", 1],
-                ["China", 2, "Asia", 1],
-                ["Chile", 3, "Asia", 1],
-                ["Madagascar", 4, "Asia", 1],
-                ["Canada", 5, "Asia", 1],
-                ["Latvia", 6, "Asia", 1],
-                ["Russia", 7, "Asia", 1],
-                ["Germany", 8, "Asia", 1]];
 
 var dummyCountries = [];
 var dummyContinents = [];
@@ -107,7 +91,7 @@ function Game(countries, players, continents) {
   // The Game class contains the player objects and the country objects
   this.countries = countries;
   this.players = players;
-  this.currentPlayer = this.players[0];
+  // this.currentPlayer = this.players[0];
   this.playing = false;
   this.continents = continents;
   this.phase = 0;
@@ -292,11 +276,11 @@ $(function() {
       $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
     }
 
-  $('#select-player-quantity').hide();
-  })// player setup form submit end
 
+    $('#select-player-quantity').hide();
+  })
 
-  generateElements(dummyCountries);
+  // player setup form submit end
 
 
   $('#name-color-avatar').submit(function(event){
@@ -341,6 +325,7 @@ $(function() {
       newPlayer.reinforcements--;
     }
   });
+
     //
     // var spaceClicked = $(this).attr('id');
   //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
@@ -357,6 +342,7 @@ $(function() {
   //     newPlayer.reinforcements--;
   //   }
   //  });
+
 });
 
 //THIS ENDS JQUERY
