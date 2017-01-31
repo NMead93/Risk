@@ -243,6 +243,14 @@ console.log(currentGame.currentPlayer.reinforcements);
 //=====================================================
 
 $(function() {
+
+  $('#number-form').submit(function(event) {
+    event.preventDefault()
+    var totalPlayers = parseInt($('number-of-players').val())
+    for (var i = 0; i < totalPlayers; i++) {
+      $('.player-name').append("<input type='text' val='' id=''")
+    }
+  })
   generateElements(dummyCountries);
 
 
