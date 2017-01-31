@@ -65,19 +65,7 @@ var generateList = function(arrayOfCountries) {
   }
 }
 
-
-var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
-
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
-var countries = [["Alaska", "alaska", "Asia", 1],
-                ["Japan", "asia", "Asia", 1],
-                ["China", 2, "Asia", 1],
-                ["Chile", 3, "Asia", 1],
-                ["Madagascar", 4, "Asia", 1],
-                ["Canada", 5, "Asia", 1],
-                ["Latvia", 6, "Asia", 1],
-                ["Russia", 7, "Asia", 1],
-                ["Germany", 8, "Asia", 1]];
 
 var dummyCountries = [];
 var dummyContinents = [];
@@ -255,6 +243,8 @@ continentAssigner(continents)
 var currentPlayerNames = [];
 var totalPlayers = 0;
 var currentPlayerColors = [];
+
+
 $(function() {
   var currentGame;
 
