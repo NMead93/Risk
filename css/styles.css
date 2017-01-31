@@ -15,3 +15,11 @@
   border: solid;
   padding: 10px;
 }
+
+.marker-div {
+  position: 'absolute';
+  width: '10px';
+  height: '10px';
+  background: '#000000';
+  z-index: 1;
+}

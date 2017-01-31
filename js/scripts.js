@@ -65,19 +65,7 @@ var generateList = function(arrayOfCountries) {
   }
 }
 
-
-var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
-
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
-var countries = [["Alaska", "alaska", "Asia", 1],
-                ["Japan", "asia", "Asia", 1],
-                ["China", 2, "Asia", 1],
-                ["Chile", 3, "Asia", 1],
-                ["Madagascar", 4, "Asia", 1],
-                ["Canada", 5, "Asia", 1],
-                ["Latvia", 6, "Asia", 1],
-                ["Russia", 7, "Asia", 1],
-                ["Germany", 8, "Asia", 1]];
 
 var dummyCountries = [];
 var dummyContinents = [];
@@ -276,7 +264,9 @@ var currentPlayerColors = [];
 
 // THIS BEGINS JQUERY
 // ========================================================================================================
+
 $(function() {
+  var currentGame;
 
   $('#number-form').submit(function(event) {
     event.preventDefault();
@@ -294,7 +284,6 @@ $(function() {
     for(i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
       currentPlayerColors.push($('#color'+i).val());
-
     }
 
     for(var i=0;i<totalPlayers;i++){
@@ -303,7 +292,8 @@ $(function() {
     console.log(currentPlayerColors);
     console.log(currentPlayerNames);
 
-    var currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    console.log(currentGame);
     currentGame.setup();
     currentGame.buildContinents();
     generateList(currentGame.currentPlayer.countryArray);
@@ -333,21 +323,8 @@ $(function() {
     }
 
     var spaceClicked = $(this).attr('id');
-  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
-  //     console.log('in the function');
-  //     var newUnitCount = 0;
-  //      // select space with click, select country based on ID
-  //     for (i = 0; i < currentGame.countries.length; i++) {
-  //       if (currentGame.countries[i].countryId === spaceClicked) {
-  //         currentGame.countries[i].unitCount++
-  //         newUnitCount = currentGame.countries[i].unitCount;
-  //       }
-  //     }
-  //     $(this).children("area").text(newUnitCount);
-  //     newPlayer.reinforcements--;
-  //   }
-   });
-});
 
 //THIS ENDS JQUERY
 //====================================
+  });
+});
