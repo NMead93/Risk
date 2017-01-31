@@ -280,6 +280,7 @@ $(function() {
 
 //setup players ENDS
 
+  // player setup form submit end
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
