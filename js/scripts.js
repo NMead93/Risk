@@ -21,7 +21,7 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Great Britain", "great-britain", "Europe", ["iceland", "scandanavia", "northern-europe", "western-europe"]],
                 ["Iceland", "iceland", "Europe", ["greenland", "scandanavia", "great-britain"]],
                 ["Scandanavia", "scandanavia", "Europe", ["russia", "northern-europe", "great-britain", "iceland"]],
-                ["Russia", "russia", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
+                ["Ukraine", "ukraine", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
                 ["Southern Europe", "southern-europe", "Europe", ["middle-east", "egypt", "western-europe", "northern-europe", "russia", "northern-africa"]],
                 ["Northern Europe", "northern-europe", "Europe", ["southern-europe", "western-europe", "great-britain", "scandanavia", "russia"]],
                 ["Middle East", "middle-east", "Asia", ["east-africa", "egypt", "southern-europe", "russia", "afghanistan", "india"]],
@@ -105,6 +105,9 @@ function Game(countries, players, continents) {
   this.players = players;
   this.playing = false;
   this.continents = continents;
+  this.phase = 0;
+  this.currentPlayer = choosePlayer();
+  this.playerCounter = 1;
 };
 
 
@@ -133,9 +136,7 @@ function Country(countryName, countryId, continent, adjacent) {
   this.adjacent = adjacent;
 };
 
-// begin Turn functions
-
-
+// begin
 
 // prototype functions ==========================
 
@@ -243,6 +244,23 @@ Game.prototype.combat = function(attackDice, defendDice) {
     // console.log(armiesLost);
     return armiesLost;
 }
+
+//end prototype functions
+
+//begin regular functions
+
+function choosePlayer(total, players){
+  if(currentGame.playerCounter%total === 0){
+    currentGame.currentPlayer=(players[0]);
+    currentGame.playerCounter = 1;
+  } else {
+    currentGame.currentPlayer = players[currentGame.playerCounter-1]
+    currentGame.playerCounter++
+  }
+}
+
+
+
 countryAssigner(countriesFull)
 continentAssigner(continents)
 var newPlayer = new Player("Melvin", 0)
@@ -257,6 +275,9 @@ console.log(currentGame.currentPlayer.reinforcements);
 var currentPlayerNames = [];
 var totalPlayers = 0;
 var currentPlayerColors = [];
+
+// THIS BEGINS JQUERY
+// ========================================================================================================
 $(function() {
 
   $('#number-form').submit(function(event) {
@@ -269,6 +290,8 @@ $(function() {
 
   $('#select-player-quantity').hide();
   })// player setup form submit end
+
+
   generateElements(dummyCountries);
 
   $('#name-color-avatar').submit(function(event){
@@ -287,11 +310,14 @@ $(function() {
 
   })
 
+  $('#next-turn').click(function(){
+    choosePlayer(totalPlayers, dummyPlayers)
+  })
 
 
   $('.clickable-space').click(function(){
 
-    if(newPlayer.reinforcements > 0){ //add troops to space if there are troops available
+    if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
       var newUnitCount = 0;
       var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
@@ -303,8 +329,11 @@ $(function() {
       }
       $(this).children("span").text(newUnitCount);
       newPlayer.reinforcements--;
+    } else if(Game.phase === 1){
+
     }
   });
 });
 
+//THIS ENDS JQUERY
 //====================================
