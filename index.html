@@ -10,9 +10,45 @@
   </head>
   <body>
     <div class="container">
-      <form>
-        <input type="text">
-      </form>
+        <div class="row">
+
+          <h1>Setup Game</h1>
+          <div class="col-md-3">
+              <form id="number-form">
+                  <div class="form-group player-numbers">
+                      <label for="number-of-player">Select Number of Players</label>
+                      <select class="setup" id="number-of-players">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                      </select><br>
+                      <button type="submit" name="button">Submit</button>
+                  </div>
+              </form>
+          </div>
+
+
+            <form id="name-color-avatar">
+                <div class="col-md-3">
+                    <div class="form-group player-name">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group player-color">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group player-avatar">
+
+                    </div>
+                </div>
+            </form>
+      </div>
     </div>
     <div id="map" class="container">
       <div class="row">
