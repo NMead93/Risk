@@ -256,6 +256,7 @@ var currentPlayerNames = [];
 var totalPlayers = 0;
 var currentPlayerColors = [];
 $(function() {
+  var currentGame;
 
   $('#number-form').submit(function(event) {
     event.preventDefault();
@@ -273,7 +274,6 @@ $(function() {
     for(i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
       currentPlayerColors.push($('#color'+i).val());
-
     }
 
     for(var i=0;i<totalPlayers;i++){
@@ -282,7 +282,8 @@ $(function() {
     console.log(currentPlayerColors);
     console.log(currentPlayerNames);
 
-    var currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    currentGame = new Game(dummyCountries, dummyPlayers, dummyContinents);
+    console.log(currentGame);
     currentGame.setup();
     currentGame.buildContinents();
     generateList(currentGame.currentPlayer.countryArray);
@@ -293,20 +294,6 @@ $(function() {
 
   $('.clickable-space').click(function(){
     var spaceClicked = $(this).attr('id');
-  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
-  //     console.log('in the function');
-  //     var newUnitCount = 0;
-  //      // select space with click, select country based on ID
-  //     for (i = 0; i < currentGame.countries.length; i++) {
-  //       if (currentGame.countries[i].countryId === spaceClicked) {
-  //         currentGame.countries[i].unitCount++
-  //         newUnitCount = currentGame.countries[i].unitCount;
-  //       }
-  //     }
-  //     $(this).children("area").text(newUnitCount);
-  //     newPlayer.reinforcements--;
-  //   }
-   });
-});
 
-//====================================
+  });
+});
