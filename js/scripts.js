@@ -53,7 +53,8 @@ var makeElement = function(element, elementId, elementText, elementClasses, targ
 
 var generateElements = function(arrayOfCountries) {
   for (var index = 0; index < arrayOfCountries.length; index++) {
-    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName, "clickable-space country-div", "#country-holder")
+    makeElement('div', arrayOfCountries[index].countryId, arrayOfCountries[index].countryName + " ", "clickable-space country-div", "#country-holder");
+    makeElement('span', '', " Troops ", "peeps", "#" +  arrayOfCountries[index].countryId);
   }
 }
 
@@ -140,12 +141,13 @@ function Country(countryName, countryId, continent, adjacent) {
 
 Game.prototype.assignment = function(player) {
   this.currentPlayer = player;
+  console.log(this.currentPlayer);
   // this.stage = 0;
-  this.available = function(){
-
-    return (Math.floor(this.currentPlayer.countryArray.length / 3));
-  }
-  this.currentPlayer.reinforcements = this.available();
+  // this.available = function(){
+  //
+  //   return (Math.floor(this.currentPlayer.countryArray.length / 3));
+  // }
+  this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
 }
 
 // Turn.prototype.continentCheck = function() {
@@ -235,6 +237,8 @@ continentAssigner(continents)
 var newPlayer = new Player("Melvin", 0)
 var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
 currentGame.setup();
+currentGame.assignment(newPlayer);
+console.log(currentGame.currentPlayer.reinforcements);
 
 //=====================================================
 
