@@ -1,4 +1,4 @@
-var countries = [["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
+var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
                 ["Northwest Territory", "northwest-territory", "North America", ["alaska", "alberta", "ontario", "greenland"]],
                 ["Greenland", "greenland", "North America", ["northwest-territory", "ontario", "eastern-canada"]],
                 ["Alberta", "alberta", "North America", ["alaska", "northwest-territory", "ontario", "western-united-states"]],
@@ -38,19 +38,26 @@ var countries = [["Alaska", "alaska", "North America", ["northwest-territory", "
                 ["New Guinea", "new-guinea", "Australia", ["eastern-australia", "western-australia", "indonesia"]],
                 ["Eastern Austalia", "eastern-australia", "Austalia", ["new-guinea", "western-australia"]],
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
-                
+
 
 var countries = [["Bosnia", 0, 1, 1],["Japan", 1, 1, 1],["China", 2, 1, 1],["Chile", 3, 1, 1],["Madagascar", 4, 1, 1],["Canada", 5, 1, 1],["Latvia", 6, 1, 1],["Russia", 7, 1, 1],["Germany", 8, 1, 1]];
+
+var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
+var countries = [["Alaska", "alaska", "Asia", 1],
+                ["Japan", "asia", "Asia", 1],
+                ["China", 2, "Asia", 1],
+                ["Chile", 3, "Asia", 1],
+                ["Madagascar", 4, "Asia", 1],
+                ["Canada", 5, "Asia", 1],
+                ["Latvia", 6, "Asia", 1],
+                ["Russia", 7, "Asia", 1],
+                ["Germany", 8, "Asia", 1]];
+
 var dummyCountries = [];
-
-
-var Alaska = new Country("Alaska", 1, "nw","no one");
-var riskCountries = [Alaska, "North West Territory", "Alberta", "Ontario", "Quebec", "Western United States", "Eastern United States", "Central America", "Greenland"];
+var dummyContinents = [];
 
 var newPlayer = new Player("Melvin", 1);
-newPlayer.countryArray=[Alaska, "Ontario","NW US"];
-
-var newTurn = new Turn(newPlayer);
+newPlayer.countryArray = dummyCountries;
 
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
@@ -60,13 +67,24 @@ var countryAssigner = function(arrayOfCountries) {
   }
 };
 
+var continentAssigner = function(arrayOfContinents) {
+  // this is a test function to grab countries from the dummy country list and make them objects
+  for (var index = 0; index < arrayOfContinents.length; index++) {
+    var makeContinents = new Continent(arrayOfContinents[index][0], arrayOfContinents[index][1]);
+    dummyContinents.push(makeContinents);
+  }
+};
+
+
+
 // END TEST FUNCTIONS AND VARIABLES
 
-function Game(countries, players) {
+function Game(countries, players, continents) {
   // The Game class contains the player objects and the country objects
   this.countries = countries;
   this.players = players;
   this.playing = false;
+  this.continents = continents;
 };
 
 
@@ -74,15 +92,16 @@ function Player(playerName, playerId) {
   this.playerName = playerName;
   this.playerId = playerId;
   this.reinforcements = 0;
+  this.continents = ["super"]
   this.countryArray = [];
   this.active = true;
 };
 
-function Continent(arrayOfCountries, continentName, bonus) {
-  this.countryArray = arrayOfCountries;
+function Continent(continentName, bonus) {
+  this.countryArray;
   this.continentName = continentName;
   this.bonus = bonus;
-}
+};
 
 
 
@@ -97,21 +116,38 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // begin Turn functions
 
-function Turn(player) {
-  this.currentPlayer = player;
-  this.stage = 0;
-  this.Available = function(){
 
-    return (Math.floor(this.currentPlayer.countryArray.length / 3));
-  }
-  this.availableTroops = this.Available();
-};
 
 // prototype functions ==========================
 
-Turn.prototype.checkForBonus = function() {
+Game.prototype.assignment = function(player) {
+  this.currentPlayer = player;
+  // this.stage = 0;
+  this.available = function(){
 
+    return (Math.floor(this.currentPlayer.countryArray.length / 3));
+  }
+  this.currentPlayer.reinforcements = this.available();
 }
+
+// Turn.prototype.continentCheck = function() {
+//   // this.currentPlayer.continents.forEach(function(`continent`) {
+//   //   this.checkForBonus(continent);
+//   // })
+//
+// }
+
+// Turn.prototype.checkForBonus = function() {
+//   var counter = 0;
+//   for (i = 0; i < dummyCountries.length; i++) {
+//     if(dummyCountries[i].owner === "Melvin") {
+//       counter++;
+//     }
+//   }
+//   if(counter === 9) {
+//     this.availableTroops += 3
+//   }
+// }
 
 Game.prototype.setup = function() {
   // This function will randomly assign countries to players
@@ -148,7 +184,7 @@ Game.prototype.setup = function() {
 }
 
 
-Turn.prototype.combatRolls = function(numOfDice) {
+Game.prototype.combatRolls = function(numOfDice) {
     var rolls = []
     for (i = 0; i < numOfDice; i++) {
         rolls.push(Math.floor((Math.random() * 6) + 1));//new roll into array of rolls
@@ -156,7 +192,7 @@ Turn.prototype.combatRolls = function(numOfDice) {
     return rolls;
 }
 
-Turn.prototype.combat = function(attackDice, defendDice) {
+Game.prototype.combat = function(attackDice, defendDice) {
 //pass number of dice for each player
 
     //create sorted array of rolls for attack and defense
@@ -177,30 +213,32 @@ Turn.prototype.combat = function(attackDice, defendDice) {
     return armiesLost;
 }
 
-newTurn.combat(3,2);
-
 //=====================================================
-
-Turn.prototype.movement = function(troopLooser, troopGainer) {
-  troopLooser--;
-  troopGainer++;
-};
-
-Turn.prototype.combat = function(attacker, defender) {
-  // This function will execute combat
-}
-
 
 $(function() {
 
   $('.clickable-space').click(function(){
 
-    if(newTurn.availableTroops > 0){ //add troops to space if there are troops available
+    if(newPlayer.reinforcements > 0){ //add troops to space if there are troops available
       console.log('in the function');
+      var newUnitCount = 0;
       var spaceClicked = $(this).attr('id'); // select space with click, select country based on ID
-      riskCountries[spaceClicked].unitCount++;
-      $(this).children("span").text(riskCountries[spaceClicked].unitCount);
-      newTurn.availableTroops--;
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked) {
+          currentGame.countries[i].unitCount++
+          newUnitCount = currentGame.countries[i].unitCount;
+        }
+      }
+      $(this).children("span").text(newUnitCount);
+      newPlayer.reinforcements--;
     }
   });
 });
+
+//====================================
+
+countryAssigner(countries)
+continentAssigner(continents)
+var newPlayer = new Player("Melvin", 0)
+var currentGame = new Game(dummyCountries, [newPlayer], dummyContinents);
+currentGame.setup();
