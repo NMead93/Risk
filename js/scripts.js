@@ -5,6 +5,8 @@ var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory
                 ["Ontario", "ontario", "North America", ["alberta", "northwest-territory", "greenland", "eastern-canada", "eastern-united-states", "western-united-states"]],
                 ["Eastern United States", "eastern-united-states", "North America", ["central-america", "western-united-states", "ontario", "eastern-canada"]],
                 ["Central America", "central-america", "North America", ["venezuela", "western-united-states", "eastern-united-states"]],
+                ["Eastern Canada", "eastern-canada", "North America", ["greenland", "ontario", "eastern-united-states"]],
+                ["Western United States", "western-united-states", "North America", ["alberta", "ontario", "eastern-united-states", "central-america"]],
                 ["Venezuela", "venezuela", "South America", ["central-america", "peru", "brazil"]],
                 ["Peru", "peru", "South America", ["venezuela", "brazil", "argentina"]],
                 ["Argentina", "argentina", "South America", ["peru", "brazil"]],
@@ -36,7 +38,7 @@ var countriesFull = [["Alaska", "alaska", "North America", ["northwest-territory
                 ["Japan", "japan", "Asia", ["kamchatka", "mongolia"]],
                 ["Indonesia", "indonesia", "Australia", ["new-guinea", "southeast-asia", "western-australia"]],
                 ["New Guinea", "new-guinea", "Australia", ["eastern-australia", "western-australia", "indonesia"]],
-                ["Eastern Austalia", "eastern-australia", "Austalia", ["new-guinea", "western-australia"]],
+                ["Eastern Austalia", "eastern-australia", "Australia", ["new-guinea", "western-australia"]],
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
 
 //  START TEST FUNCTIONS AND VARIABLES
