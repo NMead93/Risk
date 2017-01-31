@@ -15,3 +15,8 @@
   border: solid;
   padding: 10px;
 }
+
+#attack-button {
+  height: 8em;
+  width: 6em;
+}

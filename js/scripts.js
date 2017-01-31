@@ -287,7 +287,9 @@ $(function() {
     }
 
   $('#select-player-quantity').hide();
-  })// player setup form submit end
+  })
+
+  // player setup form submit end
 <<<<<<< HEAD
 
 
