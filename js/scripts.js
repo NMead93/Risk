@@ -74,6 +74,7 @@ var countries = [["Alaska", "alaska", "Asia", 1],
 
 var dummyCountries = [];
 var dummyContinents = [];
+var dummyPlayers = [];
 
 var newPlayer = new Player("Melvin", 1);
 newPlayer.countryArray = dummyCountries;
@@ -107,9 +108,10 @@ function Game(countries, players, continents) {
 };
 
 
-function Player(playerName, playerId) {
+function Player(playerName, playerId, playerColor) {
   this.playerName = playerName;
   this.playerId = playerId;
+  this.playerColor = playerColor;
   this.reinforcements = 0;
   this.continents = ["super"]
   this.countryArray = [];
@@ -121,8 +123,6 @@ function Continent(continentName, bonus) {
   this.continentName = continentName;
   this.bonus = bonus;
 };
-
-
 
 function Country(countryName, countryId, continent, adjacent) {
   this.countryName = countryName;
@@ -242,16 +242,38 @@ console.log(currentGame.currentPlayer.reinforcements);
 
 //=====================================================
 
+var currentPlayerNames = [];
+var totalPlayers = 0;
+var currentPlayerColors = [];
 $(function() {
 
   $('#number-form').submit(function(event) {
-    event.preventDefault()
-    var totalPlayers = parseInt($('number-of-players').val())
+    event.preventDefault();
+    totalPlayers = parseInt($('#number-of-players').val());
     for (var i = 0; i < totalPlayers; i++) {
-      $('.player-name').append("<input type='text' val='' id=''")
+      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
+      $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
     }
-  })
+
+  $('#select-player-quantity').hide();
+  })// player setup form submit end
   generateElements(dummyCountries);
+
+  $('#name-color-avatar').submit(function(event){
+    event.preventDefault();
+    for(i=0;i<totalPlayers;i++){
+      currentPlayerNames.push($('#'+i).val());
+      currentPlayerColors.push($('#color'+i).val());
+    }
+
+    for(var i=0;i<totalPlayers;i++){
+      dummyPlayers.push(new Player(currentPlayerNames[i], i, currentPlayerColors[i]));
+    }
+    console.log(currentPlayerColors);
+    console.log(currentPlayerNames);
+
+
+  })
 
 
 
