@@ -1,3 +1,12 @@
+function Country(countryName, countryId, continent, adjacent) {
+  this.countryName = countryName;
+  this.countryId = countryId;
+  this.continent = continent;
+  this.owner;
+  this.unitCount = 0;
+  this.adjacent = adjacent;
+};
+
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -5,6 +14,16 @@ var makeElement = function(element, elementId, elementText, elementClasses, targ
   newElement.innerHTML = elementText;
   $(targetElement).append(newElement);
 }
+
+var dummyCountries = [];
+
+var countryAssigner = function(arrayOfCountries) {
+  // this is a test function to grab countries from the dummy country list and make them objects
+  for (var index = 0; index < arrayOfCountries.length; index++) {
+    var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
+    dummyCountries.push(makeCountry);
+  }
+};
 
 var countriesFull = [["Northwest Territory", "northwest-territory", "North America", ["alaska", "alberta", "ontario", "greenland"]],
                 ["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
@@ -100,10 +119,34 @@ var createIdOnClick = function(event) {
   console.log("(" + event.pageX + ", " + event.pageY + ")");
 }
 
-var placeIcon = function(coordsId) {
-  console.log("function");
-  console.log(coordsId);
-  makeElement('div', coordsId + "-icon", "XX", "marker-div", ".target-holder");
+function GetObjectFromArray(objectId, objectsArray, idType) {
+  var objectIndex = 0;
+  for (var index = 0; index < objectsArray.length; index++) {
+    if (objectsArray[index].idType === objectId) {
+      objectIndex = index;
+      break;
+    }
+  }
+  return objectIndex;
+}
+
+var placeIcon = function(coordsId, currentGame) {
+  // console.log("function");
+  // console.log(coordsId);
+  // console.log("removed #" + coordsId + "-icon");
+  var countryIndex;
+  var country;
+  for (var index = 0; index < currentGame.countries.length; index++) {
+    if (currentGame.countries[index].countryId === coordsId) {
+      countryIndex = index;
+      country = currentGame.countries[index];
+      break;
+    }
+  }
+  iconNumber = country.unitCount;
+
+  $("#" + coordsId + "-icon").remove();
+  makeElement('div', coordsId + "-icon", iconNumber, "marker-div", ".target-holder");
   var xcoord = 0;
   var ycoord = 0;
   for (var index = 0; index < locations.length; index ++) {

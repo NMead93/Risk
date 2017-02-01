@@ -382,24 +382,6 @@ $(function() {
     }
   }
 
-
-    //
-    // var spaceClicked = $(this).attr('id');
-  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
-  //     console.log('in the function');
-  //     var newUnitCount = 0;
-  //      // select space with click, select country based on ID
-  //     for (i = 0; i < currentGame.countries.length; i++) {
-  //       if (currentGame.countries[i].countryId === spaceClicked) {
-  //         currentGame.countries[i].unitCount++
-  //         newUnitCount = currentGame.countries[i].unitCount;
-  //       }
-  //     }
-  //     $(this).children("area").text(newUnitCount);
-  //     newPlayer.reinforcements--;
-  //   }
-  //  });
-
 });
 
 //THIS ENDS JQUERY
