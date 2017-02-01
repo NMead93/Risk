@@ -468,7 +468,7 @@ $(function() {
           currentGame.countries[i].unitCount++
         }
       }
-      currentGame.currentPlayer.unitCount--
+      currentGame.currentPlayer.reinforcements--
       choosePlayer();
     }
   });
