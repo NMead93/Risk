@@ -87,7 +87,7 @@ var locations = [["northwest-territory", 500, 420],
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
-
+//alsddfh
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -188,7 +188,6 @@ Game.prototype.assignment = function(player) {
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
   this.continentChecker(player);
 }
-
 Game.prototype.continentChecker = function(player) {
   for (var index = 0; index < this.continents.length; index++) {
     var held = true;
