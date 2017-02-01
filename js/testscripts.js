@@ -29,7 +29,7 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Great Britain", "great-britain", "Europe", ["iceland", "scandanavia", "northern-europe", "western-europe"]],
                 ["Iceland", "iceland", "Europe", ["greenland", "scandanavia", "great-britain"]],
                 ["Scandanavia", "scandanavia", "Europe", ["russia", "northern-europe", "great-britain", "iceland"]],
-                ["Ukraine", "ukraine", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
+                ["Russia", "russia", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
                 ["Southern Europe", "southern-europe", "Europe", ["middle-east", "egypt", "western-europe", "northern-europe", "russia", "northern-africa"]],
                 ["Northern Europe", "northern-europe", "Europe", ["southern-europe", "western-europe", "great-britain", "scandanavia", "russia"]],
                 ["Middle East", "middle-east", "Asia", ["east-africa", "egypt", "southern-europe", "russia", "afghanistan", "india"]],
@@ -49,23 +49,23 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Eastern Austalia", "eastern-australia", "Australia", ["new-guinea", "western-australia"]],
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
 
-var locations = [["nw-territory", 500, 420],
+var locations = [["northwest-territory", 500, 420],
                 ["alberta", 431, 486],
                 ["ontario", 488, 461],
-                ["quebec", 575, 463],
+                ["eastern-canada", 575, 463],
                 ["greenland", 679, 383],
                 ["western-united-states", 413, 538],
-                ["e-us", 549, 547],
-                ["central", 470, 603],
+                ["eastern-united-states", 549, 547],
+                ["central-america", 470, 603],
                 ["venezuela", 573, 691],
                 ["brazil", 652, 747],
                 ["peru", 597, 764],
                 ["argentina", 582, 800],
-                ["wstralia", 1250, 773],
-                ["estralia", 1283, 766],
-                ["newguinea", 1307, 705],
+                ["western-australia", 1250, 773],
+                ["eastern-australia", 1283, 766],
+                ["new-guinea", 1307, 705],
                 ["indonesia", 1199, 714],
-                ["siam", 1148, 630],
+                ["southeast-asia", 1148, 630],
                 ["india", 1062, 614],
                 ["china", 1170, 574],
                 ["mongolia", 1182, 534],
@@ -76,21 +76,21 @@ var locations = [["nw-territory", 500, 420],
                 ["yakutsk", 1221, 423],
                 ["siberia", 1132, 435],
                 ["ural", 1070, 490],
-                ["afghan", 1000, 534],
-                ["ukraine", 945, 481],
-                ["scndnva", 863, 450],
+                ["afghanistan", 1000, 534],
+                ["russia", 945, 481],
+                ["scandanavia", 863, 450],
                 ["iceland", 792, 408],
-                ["uk", 793, 470],
-                ["weurope", 792, 538],
-                ["ukrane", 886, 530],
-                ["neurope", 897, 493],
-                ["nafrica", 802, 646],
+                ["great-britain", 793, 470],
+                ["western-europe", 792, 538],
+                ["southern-europe", 886, 530],
+                ["northern-europe", 897, 493],
+                ["north-africa", 802, 646],
                 ["egypt", 915, 594],
-                ["eafrica", 960, 651],
-                ["congo", 898, 700],
-                ["safrica", 891, 788],
-                ["mdgscr", 972, 746],
-                ["meast", 995, 568]]
+                ["east-africa", 960, 651],
+                ["central-africa", 898, 700],
+                ["south-africa", 891, 788],
+                ["madagascar", 972, 746],
+                ["middle-east", 995, 568]]
 
 var createIdOnClick = function(event) {
   counter+=1
@@ -123,10 +123,15 @@ var placeIcon = function(coordsId) {
 $(document).ready(function() {
   $('.clickable-space').click(function() {
     for (var index = 0; index < countriesFull.length; index++) {
-      var inIt = false;
-      if ($(this).attr('id') === countriesFull[index][1]) {
-        console.log(countriesFull[index][1] + " in it. Equal to " + $(this).attr('id'));
-        console.log(index);
+      var contains = false;
+      for (var jdex = 0; jdex < locations.length; jdex++) {
+        if (locations[jdex][0] === countriesFull[index][1]) {
+          contains = true;
+          break;
+        }
+      }
+      if (contains === false) {
+        console.log(countriesFull[index][1]);
       }
     }
   });
