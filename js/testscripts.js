@@ -1,3 +1,12 @@
+function Country(countryName, countryId, continent, adjacent) {
+  this.countryName = countryName;
+  this.countryId = countryId;
+  this.continent = continent;
+  this.owner;
+  this.unitCount = 0;
+  this.adjacent = adjacent;
+};
+
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -5,6 +14,16 @@ var makeElement = function(element, elementId, elementText, elementClasses, targ
   newElement.innerHTML = elementText;
   $(targetElement).append(newElement);
 }
+
+var dummyCountries = [];
+
+var countryAssigner = function(arrayOfCountries) {
+  // this is a test function to grab countries from the dummy country list and make them objects
+  for (var index = 0; index < arrayOfCountries.length; index++) {
+    var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
+    dummyCountries.push(makeCountry);
+  }
+};
 
 var countriesFull = [["Northwest Territory", "northwest-territory", "North America", ["alaska", "alberta", "ontario", "greenland"]],
                 ["Alaska", "alaska", "North America", ["northwest-territory", "alberta", "kamchatka"]],
@@ -93,6 +112,7 @@ var locations = [["northwest-territory", 500, 420],
                 ["middle-east", 995, 568]]
 
 var createIdOnClick = function(event) {
+  // utility script to determine the coordinates of a click
   counter+=1
   console.log(counter);
   var coordsId = $(this).attr('id');
@@ -100,10 +120,24 @@ var createIdOnClick = function(event) {
   console.log("(" + event.pageX + ", " + event.pageY + ")");
 }
 
-var placeIcon = function(coordsId) {
-  console.log("function");
-  console.log(coordsId);
-  makeElement('div', coordsId + "-icon", "XX", "marker-div", ".target-holder");
+var placeIcon = function(coordsId, currentGame) {
+  // This function places an icon in the default coordinates in a country, and updates it with the number of troops in the country and the color of the owner.
+  // console.log("function");
+  // console.log(coordsId);
+  // console.log("removed #" + coordsId + "-icon");
+  var countryIndex;
+  var country;
+  for (var index = 0; index < currentGame.countries.length; index++) {
+    if (currentGame.countries[index].countryId === coordsId) {
+      countryIndex = index;
+      country = currentGame.countries[index];
+      break;
+    }
+  }
+  iconNumber = country.unitCount;
+
+  $("#" + coordsId + "-icon").remove();
+  makeElement('div', coordsId + "-icon", iconNumber, "marker-div", ".target-holder");
   var xcoord = 0;
   var ycoord = 0;
   for (var index = 0; index < locations.length; index ++) {
@@ -120,19 +154,24 @@ var placeIcon = function(coordsId) {
   })
 }
 
-$(document).ready(function() {
-  $('.clickable-space').click(function() {
-    for (var index = 0; index < countriesFull.length; index++) {
-      var contains = false;
-      for (var jdex = 0; jdex < locations.length; jdex++) {
-        if (locations[jdex][0] === countriesFull[index][1]) {
-          contains = true;
-          break;
-        }
-      }
-      if (contains === false) {
-        console.log(countriesFull[index][1]);
+var compareLists = function(array1, array2) {
+  // utility script to check if elements in an array are present in another
+  for (var index = 0; index < array1.length; index++) {
+    var contains = false;
+    for (var jdex = 0; jdex < array2.length; jdex++) {
+      if (array2[jdex][0] === array1[index][1]) {
+        contains = true;
+        break;
       }
     }
+    if (contains === false) {
+      console.log(array1[index][1]);
+    }
+  }
+}
+
+$(document).ready(function() {
+  $('.clickable-space').click(function() {
+    placeIcon($(this).attr('id'));
   });
 });

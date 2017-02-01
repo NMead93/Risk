@@ -25,10 +25,11 @@
 
 .marker-div {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #000000;
+  width: 8px;
+  height: 15px;
+  /*background: #000000;*/
   z-index: 1;
+  color: #ffffff;
 }
 
 

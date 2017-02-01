@@ -21,7 +21,7 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Great Britain", "great-britain", "Europe", ["iceland", "scandanavia", "northern-europe", "western-europe"]],
                 ["Iceland", "iceland", "Europe", ["greenland", "scandanavia", "great-britain"]],
                 ["Scandanavia", "scandanavia", "Europe", ["russia", "northern-europe", "great-britain", "iceland"]],
-                ["Ukraine", "ukraine", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
+                ["Russia", "russia", "Europe", ["ural", "afghanistan", "middle-east", "southern-europe", "northern-europe", "scandanavia"]],
                 ["Southern Europe", "southern-europe", "Europe", ["middle-east", "egypt", "western-europe", "northern-europe", "russia", "northern-africa"]],
                 ["Northern Europe", "northern-europe", "Europe", ["southern-europe", "western-europe", "great-britain", "scandanavia", "russia"]],
                 ["Middle East", "middle-east", "Asia", ["east-africa", "egypt", "southern-europe", "russia", "afghanistan", "india"]],
@@ -41,10 +41,53 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Eastern Austalia", "eastern-australia", "Australia", ["new-guinea", "western-australia"]],
                 ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
 
+var locations = [["northwest-territory", 500, 420],
+                ["alberta", 431, 486],
+                ["ontario", 488, 461],
+                ["eastern-canada", 575, 463],
+                ["greenland", 679, 383],
+                ["western-united-states", 413, 538],
+                ["eastern-united-states", 549, 547],
+                ["central-america", 470, 603],
+                ["venezuela", 573, 691],
+                ["brazil", 652, 747],
+                ["peru", 597, 764],
+                ["argentina", 582, 800],
+                ["western-australia", 1250, 773],
+                ["eastern-australia", 1283, 766],
+                ["new-guinea", 1307, 705],
+                ["indonesia", 1199, 714],
+                ["southeast-asia", 1148, 630],
+                ["india", 1062, 614],
+                ["china", 1170, 574],
+                ["mongolia", 1182, 534],
+                ["japan", 1309, 546],
+                ["alaska", 291, 409],
+                ["kamchatka", 1345, 433],
+                ["irkutsk", 1224, 464],
+                ["yakutsk", 1221, 423],
+                ["siberia", 1132, 435],
+                ["ural", 1070, 490],
+                ["afghanistan", 1000, 534],
+                ["russia", 945, 481],
+                ["scandanavia", 863, 450],
+                ["iceland", 792, 408],
+                ["great-britain", 793, 470],
+                ["western-europe", 792, 538],
+                ["southern-europe", 886, 530],
+                ["northern-europe", 897, 493],
+                ["north-africa", 802, 646],
+                ["egypt", 915, 594],
+                ["east-africa", 960, 651],
+                ["central-africa", 898, 700],
+                ["south-africa", 891, 788],
+                ["madagascar", 972, 746],
+                ["middle-east", 995, 568]]
+
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
-
+//alsddfh
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -61,11 +104,20 @@ var generateList = function(arrayOfCountries) {
   }
 }
 
+var playerArray = [['Sam', 0, '#4286f4'], ['Derek', 1, '#00ff00'], ['Jeff?', 2, '#0f0f0f']];
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
 
 var dummyCountries = [];
 var dummyContinents = [];
 var dummyPlayers = [];
+
+
+var playerAssigner = function(playerArray) {
+  for (var index = 0; index < playerArray.length; index++) {
+    var makePlayer = new Player(playerArray[index][0], playerArray[index][1], playerArray[index][2]);
+    dummyPlayers.push(makePlayer);
+  }
+};
 
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
@@ -83,6 +135,8 @@ var continentAssigner = function(arrayOfContinents) {
   }
 };
 
+countryAssigner(countriesFull);
+continentAssigner(continents);
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -121,7 +175,7 @@ function Country(countryName, countryId, continent, adjacent) {
   this.countryId = countryId;
   this.continent = continent;
   this.owner;
-  this.unitCount = 0;
+  this.unitCount = 5;
   this.adjacent = adjacent;
 };
 
@@ -134,7 +188,6 @@ Game.prototype.assignment = function(player) {
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
   this.continentChecker(player);
 }
-
 Game.prototype.continentChecker = function(player) {
   for (var index = 0; index < this.continents.length; index++) {
     var held = true;
@@ -221,8 +274,7 @@ Game.prototype.numberOfDice = function(attacking, defending) {            //add 
 }
 
 Game.prototype.combat = function(attackDice, defendDice) {
-//pass number of dice for each player
-
+  //pass number of dice for each player
     //create sorted array of rolls for attack and defense
     var attackRolls = this.combatRolls(attackDice).sort(function(a, b){return b-a});
     // console.log(attackRolls + ' attack');
@@ -245,6 +297,53 @@ Game.prototype.combat = function(attackDice, defendDice) {
 
 //begin regular functions
 
+var placeIcon = function(coordsId, currentGame) {
+  // This function places an icon in the default coordinates in a country, and updates it with the number of troops in the country and the color of the owner.
+  var countryIndex;
+  var country;
+  var playerIndex;
+  var player;
+
+  for (var index = 0; index < currentGame.countries.length; index++) {
+    if (currentGame.countries[index].countryId === coordsId) {
+      countryIndex = index;
+      country = currentGame.countries[index];
+      break;
+    }
+  }
+  for (var index = 0; index < currentGame.players.length; index++) {
+    if (currentGame.players[index].playerName === country.owner) {
+      console.log("player name " + currentGame.players[index].playerName);
+      console.log("country owner " + country.owner);
+      playerIndex = index;
+      player = currentGame.players[index];
+      console.log(currentGame.players[index]);
+      break;
+    }
+  }
+  var iconNumber = country.unitCount;
+
+  var iconColor = player.playerColor;
+
+  $("#" + coordsId + "-icon").remove();
+  makeElement('div', coordsId + "-icon", iconNumber, "marker-div", ".target-holder");
+  var xcoord = 0;
+  var ycoord = 0;
+  for (var index = 0; index < locations.length; index ++) {
+    if (locations[index][0] === coordsId) {
+      xcoord = locations[index][1]-100;
+      ycoord = locations[index][2]-70;
+      console.log(locations[index][1] + ", " + locations[index][2]);
+      break;
+    }
+  }
+  $("#" + coordsId + "-icon").css({
+    top: ycoord + "px",
+    left: xcoord + "px",
+    'background-color': iconColor
+  })
+}
+
 function choosePlayer(total, players){
   if(currentGame.playerCounter%total === 0){
     currentGame.currentPlayer=(players[0]);
@@ -255,16 +354,7 @@ function choosePlayer(total, players){
   }
 }
 
-
-
-countryAssigner(countriesFull)
-continentAssigner(continents)
-
-//=====================================================
-
 function checkAdjacentAndOwner(attacker, defender) {
-  var attackerObject;
-  var defenderObject;
   for (var i = 0; i < currentGame.countries.length; i++) {
     if (currentGame.countries[i].countryId === attacker) {
       attackerObject = currentGame.countries[i];
@@ -273,26 +363,50 @@ function checkAdjacentAndOwner(attacker, defender) {
       defenderObject = currentGame.countries[i]
     }
   }
-  if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner) {
+  if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
     return false;
   }
 }
-var attacker = "none";
-var defender = "none";
+
+function checkIfWinner() {//check for any troops left in defender
+  if (defenderObject.unitCount < 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function moveArmies(armyCount) {//change global vars to move attacker armies and owner
+  attackerObject.unitCount -= armyCount;
+  defenderObject.unitCount = armyCount;
+  defenderObject.owner = currentGame.currentPlayer.playerName;
+}
+
+//=====================================================
 
 // THIS BEGINS JQUERY
+
+var attacker = "none";
+var defender = "none";
+var attackerObject;
+var defenderObject;
+var currentPlayerNames = [];
+var currentPlayerColors = [];
+
+
+// THIS BEGINS JQUERY
+
 // ========================================================================================================
 
+
 $(function() {
-  var currentPlayerNames = [];
-  var totalPlayers = 0;
-  var currentPlayerColors = [];
   currentGame = new Game(dummyCountries, dummyContinents);
+  currentGame.players = dummyPlayers;
   currentGame.buildContinents();
 
-  // setup the players
+  // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
     event.preventDefault();
     totalPlayers = parseInt($('#number-of-players').val());
@@ -302,12 +416,13 @@ $(function() {
     }
     $('#select-player-quantity').hide();
   })
+  // end setup step 1
 
-  // player setup form submit end
+  // start setup the players step 2 - set the names of the players and call the setup prototype
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
-    for(i=0;i<totalPlayers;i++){
+    for(var i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
       currentPlayerColors.push($('#color'+i).val());
     }
@@ -316,11 +431,10 @@ $(function() {
       currentGame.players.push(new Player(currentPlayerNames[i], i, currentPlayerColors[i]));
     }
 
-    //setup starts
     currentGame.setup();
     choosePlayer(totalPlayers, currentGame.players);
 
-    // setup ends
+    // end setup step 2
 
   })
 
@@ -330,7 +444,7 @@ $(function() {
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
     var spaceClicked = $(this).attr('id');
-    if(currentGame.currentPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
+    if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
       var newUnitCount = 0;
 // select space with click, select country based on ID
@@ -342,65 +456,83 @@ $(function() {
       }
       $(this).children("span").text(newUnitCount);
       currentGame.currentPlayer.reinforcements--;
-    } else if (Game.phase === 1) {
+    } else if (currentGame.phase === 1) {
 
       console.log(attacker);
       console.log(defender);
       //game.combatflow
-        if (attacker === "none") {
-          attacker = spaceClicked;
-          console.log(spaceClicked);
-        } else if(attacker !== "none") {
-          defender = spaceClicked;
-          console.log(spaceClicked);
-          if(!checkAdjacentAndOwner(attacker, defender)){
-            console.log("choose valid target")
-            defender = "none";
-          } else {
-            console.log("To Battle!")
-          }
+      if (attacker === "none") {
+        attacker = spaceClicked;
+        console.log(spaceClicked);
+      } else if(attacker !== "none") {
+        defender = spaceClicked;
+        console.log(spaceClicked);
+        if(!checkAdjacentAndOwner(attacker, defender)){
+          console.log("choose valid target")
+          defender = "none";
+        } else {
+          console.log("To Battle!")
+          appendDice();
+
         }
+      }
     }
   });
 
-  function appendDice(dice) {
-     if (attacking.unitCount === 3 && defending.unitCount === 1) {
-      $('#attacker-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount > 3 && defending.unitCount === 1) {
-      $('#attacker-dice').append('<option value="2">Two</option>')
-      $('#attacker-dice').append('<option value="3">Three</option>')
-    } else if (attacking.unitCount === 2 && defending.unitCount >= 2) {
-      $('#defender-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount === 3 && defending.unitCount >= 2) {
-      $('#attacker-dice').append('<option value="2">Two</option>')
-      $('#defender-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount > 3 && defending.unitCount >= 2) {
-      $('#attacker-dice').append('<option value="2">Two</option>')
-      $('#attacker-dice').append('<option value="3">Three</option>')
-      $('#defender-dice').append('<option value="2">Two</option>')
+  $("#combat-form").submit(function(event) {
+    event.preventDefault()
+    attackerObject.diceNum = $("#attacker-dice option:selected").val()
+    defenderObject.diceNum = $("#defender-dice option:selected").val()
+    console.log(attackerObject.diceNum)
+    console.log(defenderObject.diceNum)
+    var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
+    attackerObject.unitCount += armiesLost[0];
+    defenderObject.unitCount += armiesLost[1];
+    if (checkIfWinner()) {//check if defender as any troops left
+      appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
 
+    }
+    attacker = "none";
+    defender = "none";
+  })
+
+  $("#move-army").submit(function(event) {
+    event.preventDefault()
+    var troopsToMove = $("#army-quantity option:selected").val()
+    moveArmies(troopsToMove);
+  })
+
+  $("#next-phase").click(function() {
+    console.log("in gamephase plus thingy")
+    currentGame.phase++;
+  });
+
+  function appendDice() {
+    $('#attacker-dice').empty()
+    $('#defender-dice').empty()
+    $('#attacker-dice').append("<option value='1'>One</option>")
+    $('#defender-dice').append("<option value='1'>One</option>")
+     if (attackerObject.unitCount === 3 && defenderObject.unitCount === 1) {
+      $('#attacker-dice').append('<option value="2">Two</option>')
+    } else if (attackerObject.unitCount > 3 && defenderObject.unitCount === 1) {
+      $('#attacker-dice').append('<option value="2">Two</option>')
+      $('#attacker-dice').append('<option value="3">Three</option>')
+    } else if (attackerObject.unitCount === 2 && defenderObject.unitCount >= 2) {
+      $('#defender-dice').append('<option value="2">Two</option>')
+    } else if (attackerObject.unitCount === 3 && defenderObject.unitCount >= 2) {
+      $('#attacker-dice').append('<option value="2">Two</option>')
+      $('#defender-dice').append('<option value="2">Two</option>')
+    } else if (attackerObject.unitCount > 3 && defenderObject.unitCount >= 2) {
+      $('#attacker-dice').append('<option value="2">Two</option>')
+      $('#attacker-dice').append('<option value="3">Three</option>')
+      $('#defender-dice').append('<option value="2">Two</option>')
     }
   }
 
-
-    //
-    // var spaceClicked = $(this).attr('id');
-  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
-  //     console.log('in the function');
-  //     var newUnitCount = 0;
-  //      // select space with click, select country based on ID
-  //     for (i = 0; i < currentGame.countries.length; i++) {
-  //       if (currentGame.countries[i].countryId === spaceClicked) {
-  //         currentGame.countries[i].unitCount++
-  //         newUnitCount = currentGame.countries[i].unitCount;
-  //       }
-  //     }
-  //     $(this).children("area").text(newUnitCount);
-  //     newPlayer.reinforcements--;
-  //   }
-  //  });
-
+  function appendTroopsQuantity() {
+    $("#army-quantity").empty().append("<option value='1'>One</option>");
+    for (var i = 2; i < attackerObject.unitCount; i++) {
+      $("#army-quantity").append("<option value='" + i + "'>" + parseInt(i) + "</option>");
+    }
+  }
 });
-
-//THIS ENDS JQUERY
-//====================================
