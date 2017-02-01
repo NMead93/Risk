@@ -462,6 +462,14 @@ $(function() {
 
         }
       }
+    } else if (currentGame.phase === "setup"){
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked) {
+          currentGame.countries[i].unitCount++
+        }
+      }
+      currentGame.currentPlayer.unitCount--
+      choosePlayer(currentGame.players.length, currentGame.players);
     }
   });
 
