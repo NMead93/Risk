@@ -40,10 +40,87 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
                 ["Indonesia", "indonesia", "Australia", ["new-guinea", "southeast-asia", "western-australia"]],
                 ["New Guinea", "new-guinea", "Australia", ["eastern-australia", "western-australia", "indonesia"]],
                 ["Eastern Austalia", "eastern-australia", "Australia", ["new-guinea", "western-australia"]],
-                ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]]];
+                ["Western Australia", "western-australia", "Australia", ["indonesia", "eastern-australia", "new-guinea"]],
+                ["The Moon", "the-moon", "Planets", ["alaska"]]];
 
-$(document).ready(function() {
-  $('.clickable-space').click(function() {
-    placeIcon($(this).attr('id'));
-  });
-});
+var dummyCountries = [];
+
+function Country(countryName, countryId, continent, adjacent) {
+  this.countryName = countryName;
+  this.countryId = countryId;
+  this.continent = continent;
+  this.owner;
+  this.unitCount = 5;
+  this.adjacent = adjacent;
+};
+
+var countryAssigner = function(arrayOfCountries) {
+  // this is a test function to grab countries from the dummy country list and make them objects
+  for (var index = 0; index < arrayOfCountries.length; index++) {
+    var makeCountry = new Country(arrayOfCountries[index][0], arrayOfCountries[index][1], arrayOfCountries[index][2], arrayOfCountries[index][3]);
+    dummyCountries.push(makeCountry);
+  }
+};
+
+var newChecker = function(startPoint, checkPoint, arrayOfCountries) {
+  var encountered = [];
+  var toCheck = []
+
+  var counter = 0;
+  toCheck.push();
+
+  while (toCheck.length != 0 && counter < 4000) {
+    counter += 1;
+    var current = toCheck.pop();
+
+
+  }
+
+}
+
+var contiguousOwnershipSearch = function(startPoint, checkPoint, arrayOfCountries) {
+  var encountered = [];
+  var toCheck = [];
+
+  toCheck.push(startPoint);
+  var counter = 0;
+  while (toCheck.length != 0 && counter < 4000) {
+    counter += 1;
+    var current = toCheck.pop();
+    if (current.countryId === checkPoint.countryId) {
+      console.log("Final result is TRUE");
+      return true;
+    }
+    for (var adjacentIndex = 0; adjacentIndex < current.adjacent.length; adjacentIndex++) {
+      var alreadyEncountered = false;
+      if (encountered.includes(current.adjacent[adjacentIndex]) === true) {
+        alreadyEncountered = true;
+      }
+      if (alreadyEncountered === false) {
+        var counter2 = 0;
+        encountered.push(current.adjacent[adjacentIndex]);
+        for (var countriesIndex = 0; countriesIndex < arrayOfCountries.length; countriesIndex++) {
+          counter++;
+          if (arrayOfCountries[countriesIndex].countryId === current.adjacent[adjacentIndex]) {
+            toCheck.push(arrayOfCountries[countriesIndex]);
+            counter2++;
+          }
+        }
+      }
+    }
+  }
+  console.log(encountered);
+  console.log(toCheck.length);
+  console.log("FALSE is the final result");
+  console.log(counter);
+  return false;
+}
+countryAssigner(countriesFull);
+// console.log(contiguousOwnershipSearch(dummyCountries[4], dummyCountries[42], dummyCountries));
+
+//
+// $(document).ready(function() {
+//   $('.clickable-space').click(function() {
+//     placeIcon($(this).attr('id'));
+//   });
+// });
