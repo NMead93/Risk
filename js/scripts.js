@@ -378,9 +378,11 @@ function checkIfWinner() {//check for any troops left in defender
   }
 }
 
-// function moveArmies(armyCount) {
-//   attackerObject.unitCount
-// }
+function moveArmies(armyCount) {//change global vars to move attacker armies and owner
+  attackerObject.unitCount -= armyCount;
+  defenderObject.unitCount = armyCount;
+  defenderObject.owner = currentGame.currentPlayer.playerName;
+}
 
 //=====================================================
 
@@ -488,15 +490,17 @@ $(function() {
     defenderObject.unitCount += armiesLost[1];
     if (checkIfWinner()) {//check if defender as any troops left
       appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
+
     }
     attacker = "none";
     defender = "none";
   })
 
-  // $("#move-army").submit(function(event) {
-  //   event.preventDefault()
-  //
-  // })
+  $("#move-army").submit(function(event) {
+    event.preventDefault()
+    var troopsToMove = $("#army-quantity option:selected").val()
+    moveArmies(troopsToMove);
+  })
 
   $("#next-phase").click(function() {
     console.log("in gamephase plus thingy")
