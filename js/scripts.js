@@ -137,7 +137,6 @@ var continentAssigner = function(arrayOfContinents) {
 
 countryAssigner(countriesFull);
 continentAssigner(continents);
-playerAssigner(playerArray);
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -358,10 +357,6 @@ function choosePlayer(total, players){
 
 
 //=====================================================
-
-var attacker = "none";
-var defender = "none";
-
 // THIS BEGINS JQUERY
 function checkAdjacentAndOwner(attacker, defender) {
   for (var i = 0; i < currentGame.countries.length; i++) {
@@ -383,7 +378,8 @@ var attacker = "none";
 var defender = "none";
 var attackerObject;
 var defenderObject;
-
+var currentPlayerNames = [];
+var currentPlayerColors = [];
 
 // THIS BEGINS JQUERY
 
@@ -393,11 +389,9 @@ var defenderObject;
 $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
   currentGame.players = dummyPlayers;
-  currentGame.setup();
   currentGame.buildContinents();
 
-
-  // setup the players
+  // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
     event.preventDefault();
     totalPlayers = parseInt($('#number-of-players').val());
@@ -407,12 +401,13 @@ $(function() {
     }
     $('#select-player-quantity').hide();
   })
+  // end setup step 1
 
-  // player setup form submit end
+  // start setup the players step 2 - set the names of the players and call the setup prototype
 
   $('#name-color-avatar').submit(function(event){
     event.preventDefault();
-    for(i=0;i<totalPlayers;i++){
+    for(var i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
       currentPlayerColors.push($('#color'+i).val());
     }
@@ -421,11 +416,10 @@ $(function() {
       currentGame.players.push(new Player(currentPlayerNames[i], i, currentPlayerColors[i]));
     }
 
-    //setup starts
     currentGame.setup();
     choosePlayer(totalPlayers, currentGame.players);
 
-    // setup ends
+    // end setup step 2
 
   })
 
