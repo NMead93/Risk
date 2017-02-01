@@ -87,7 +87,6 @@ var locations = [["northwest-territory", 500, 420],
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
-//alsddfh
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -354,10 +353,6 @@ function choosePlayer(){
   }
 }
 
-
-//=====================================================
-
-// THIS BEGINS JQUERY
 function checkAdjacentAndOwner(attacker, defender) {
   for (var i = 0; i < currentGame.countries.length; i++) {
     if (currentGame.countries[i].countryId === attacker) {
@@ -373,6 +368,24 @@ function checkAdjacentAndOwner(attacker, defender) {
     return false;
   }
 }
+
+function checkIfWinner() {//check for any troops left in defender
+  if (defenderObject.unitCount < 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function moveArmies(armyCount) {//change global vars to move attacker armies and owner
+  attackerObject.unitCount -= armyCount;
+  defenderObject.unitCount = armyCount;
+  defenderObject.owner = currentGame.currentPlayer.playerName;
+}
+
+//=====================================================
+
+// THIS BEGINS JQUERY
 
 var attacker = "none";
 var defender = "none";
@@ -486,8 +499,18 @@ $(function() {
     var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
     attackerObject.unitCount += armiesLost[0];
     defenderObject.unitCount += armiesLost[1];
+    if (checkIfWinner()) {//check if defender as any troops left
+      appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
+
+    }
     attacker = "none";
     defender = "none";
+  })
+
+  $("#move-army").submit(function(event) {
+    event.preventDefault()
+    var troopsToMove = $("#army-quantity option:selected").val()
+    moveArmies(troopsToMove);
   })
 
   $("#next-phase").click(function() {
@@ -514,7 +537,13 @@ $(function() {
       $('#attacker-dice').append('<option value="2">Two</option>')
       $('#attacker-dice').append('<option value="3">Three</option>')
       $('#defender-dice').append('<option value="2">Two</option>')
+    }
+  }
 
+  function appendTroopsQuantity() {
+    $("#army-quantity").empty().append("<option value='1'>One</option>");
+    for (var i = 2; i < attackerObject.unitCount; i++) {
+      $("#army-quantity").append("<option value='" + i + "'>" + parseInt(i) + "</option>");
     }
   }
 });
