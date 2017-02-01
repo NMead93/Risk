@@ -112,6 +112,7 @@ var locations = [["northwest-territory", 500, 420],
                 ["middle-east", 995, 568]]
 
 var createIdOnClick = function(event) {
+  // utility script to determine the coordinates of a click
   counter+=1
   console.log(counter);
   var coordsId = $(this).attr('id');
@@ -119,18 +120,8 @@ var createIdOnClick = function(event) {
   console.log("(" + event.pageX + ", " + event.pageY + ")");
 }
 
-function GetObjectFromArray(objectId, objectsArray, idType) {
-  var objectIndex = 0;
-  for (var index = 0; index < objectsArray.length; index++) {
-    if (objectsArray[index].idType === objectId) {
-      objectIndex = index;
-      break;
-    }
-  }
-  return objectIndex;
-}
-
 var placeIcon = function(coordsId, currentGame) {
+  // This function places an icon in the default coordinates in a country, and updates it with the number of troops in the country and the color of the owner.
   // console.log("function");
   // console.log(coordsId);
   // console.log("removed #" + coordsId + "-icon");
@@ -164,6 +155,7 @@ var placeIcon = function(coordsId, currentGame) {
 }
 
 var compareLists = function(array1, array2) {
+  // utility script to check if elements in an array are present in another
   for (var index = 0; index < array1.length; index++) {
     var contains = false;
     for (var jdex = 0; jdex < array2.length; jdex++) {
