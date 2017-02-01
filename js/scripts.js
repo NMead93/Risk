@@ -263,8 +263,6 @@ continentAssigner(continents)
 //=====================================================
 
 function checkAdjacentAndOwner(attacker, defender) {
-  var attackerObject;
-  var defenderObject;
   for (var i = 0; i < currentGame.countries.length; i++) {
     if (currentGame.countries[i].countryId === attacker) {
       attackerObject = currentGame.countries[i];
@@ -281,6 +279,9 @@ function checkAdjacentAndOwner(attacker, defender) {
 }
 var attacker = "none";
 var defender = "none";
+var attackerObject;
+var defenderObject;
+
 
 // THIS BEGINS JQUERY
 // ========================================================================================================
@@ -342,7 +343,7 @@ $(function() {
       }
       $(this).children("span").text(newUnitCount);
       currentGame.currentPlayer.reinforcements--;
-    } else if (Game.phase === 1) {
+    } else if (currentGame.phase === 1) {
 
       console.log(attacker);
       console.log(defender);
@@ -358,47 +359,41 @@ $(function() {
             defender = "none";
           } else {
             console.log("To Battle!")
+            appendDice();
           }
         }
     }
   });
 
-  function appendDice(dice) {
-     if (attacking.unitCount === 3 && defending.unitCount === 1) {
+  $("#combat-form").submit(function(event) {
+    event.preventDefault()
+    attackerObject.diceNum = $("#attacker-dice option:selected").val()
+    defenderObject.diceNum = $("#defender-dice option:selected").val()
+    console.log(attackerObject.diceNum)
+    console.log(defenderObject.diceNum)
+    var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
+    attackerObject.unitCount += armiesLost[0];
+    defenderObject.unitCount += armiesLost[1];
+  })
+
+  function appendDice() {
+     if (attackerObject.unitCount === 3 && defenderObject.unitCount === 1) {
       $('#attacker-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount > 3 && defending.unitCount === 1) {
+    } else if (attackerObject.unitCount > 3 && defenderObject.unitCount === 1) {
       $('#attacker-dice').append('<option value="2">Two</option>')
       $('#attacker-dice').append('<option value="3">Three</option>')
-    } else if (attacking.unitCount === 2 && defending.unitCount >= 2) {
+    } else if (attackerObject.unitCount === 2 && defenderObject.unitCount >= 2) {
       $('#defender-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount === 3 && defending.unitCount >= 2) {
+    } else if (attackerObject.unitCount === 3 && defenderObject.unitCount >= 2) {
       $('#attacker-dice').append('<option value="2">Two</option>')
       $('#defender-dice').append('<option value="2">Two</option>')
-    } else if (attacking.unitCount > 3 && defending.unitCount >= 2) {
+    } else if (attackerObject.unitCount > 3 && defenderObject.unitCount >= 2) {
       $('#attacker-dice').append('<option value="2">Two</option>')
       $('#attacker-dice').append('<option value="3">Three</option>')
       $('#defender-dice').append('<option value="2">Two</option>')
 
     }
   }
-
-
-    //
-    // var spaceClicked = $(this).attr('id');
-  //   if(currentGame.currentPlayer.reinforcements > 0){ //add troops to space if there are troops available
-  //     console.log('in the function');
-  //     var newUnitCount = 0;
-  //      // select space with click, select country based on ID
-  //     for (i = 0; i < currentGame.countries.length; i++) {
-  //       if (currentGame.countries[i].countryId === spaceClicked) {
-  //         currentGame.countries[i].unitCount++
-  //         newUnitCount = currentGame.countries[i].unitCount;
-  //       }
-  //     }
-  //     $(this).children("area").text(newUnitCount);
-  //     newPlayer.reinforcements--;
-  //   }
-  //  });
 
 });
 
