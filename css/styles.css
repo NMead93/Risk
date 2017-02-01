@@ -20,7 +20,7 @@
   position: absolute;
   width: 8px;
   height: 15px;
-  background: #000000;
+  /*background: #000000;*/
   z-index: 1;
   color: #ffffff;
 }

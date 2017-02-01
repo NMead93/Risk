@@ -104,11 +104,20 @@ var generateList = function(arrayOfCountries) {
   }
 }
 
+var playerArray = [['Sam', 0, '#4286f4'], ['Derek', 1, '#00ff00'], ['Jeff?', 2, '#0f0f0f']];
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
 
 var dummyCountries = [];
 var dummyContinents = [];
 var dummyPlayers = [];
+
+
+var playerAssigner = function(playerArray) {
+  for (var index = 0; index < playerArray.length; index++) {
+    var makePlayer = new Player(playerArray[index][0], playerArray[index][1], playerArray[index][2]);
+    dummyPlayers.push(makePlayer);
+  }
+};
 
 var countryAssigner = function(arrayOfCountries) {
   // this is a test function to grab countries from the dummy country list and make them objects
@@ -126,6 +135,9 @@ var continentAssigner = function(arrayOfContinents) {
   }
 };
 
+countryAssigner(countriesFull);
+continentAssigner(continents);
+playerAssigner(playerArray);
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -164,7 +176,7 @@ function Country(countryName, countryId, continent, adjacent) {
   this.countryId = countryId;
   this.continent = continent;
   this.owner;
-  this.unitCount = 0;
+  this.unitCount = 5;
   this.adjacent = adjacent;
 };
 
@@ -264,8 +276,7 @@ Game.prototype.numberOfDice = function(attacking, defending) {            //add 
 }
 
 Game.prototype.combat = function(attackDice, defendDice) {
-//pass number of dice for each player
-
+  //pass number of dice for each player
     //create sorted array of rolls for attack and defense
     var attackRolls = this.combatRolls(attackDice).sort(function(a, b){return b-a});
     // console.log(attackRolls + ' attack');
@@ -290,17 +301,31 @@ Game.prototype.combat = function(attackDice, defendDice) {
 
 var placeIcon = function(coordsId, currentGame) {
   // This function places an icon in the default coordinates in a country, and updates it with the number of troops in the country and the color of the owner.
-  // var countryIndex;
-  // var country;
-  // for (var index = 0; index < currentGame.countries.length; index++) {
-  //   if (currentGame.countries[index].countryId === coordsId) {
-  //     countryIndex = index;
-  //     country = currentGame.countries[index];
-  //     break;
-  //   }
-  // }
-  // iconNumber = country.unitCount;
-  var iconNumber = 0;
+  var countryIndex;
+  var country;
+  var playerIndex;
+  var player;
+
+  for (var index = 0; index < currentGame.countries.length; index++) {
+    if (currentGame.countries[index].countryId === coordsId) {
+      countryIndex = index;
+      country = currentGame.countries[index];
+      break;
+    }
+  }
+  for (var index = 0; index < currentGame.players.length; index++) {
+    if (currentGame.players[index].playerName === country.owner) {
+      console.log("player name " + currentGame.players[index].playerName);
+      console.log("country owner " + country.owner);
+      playerIndex = index;
+      player = currentGame.players[index];
+      console.log(currentGame.players[index]);
+      break;
+    }
+  }
+  var iconNumber = country.unitCount;
+
+  var iconColor = player.playerColor;
 
   $("#" + coordsId + "-icon").remove();
   makeElement('div', coordsId + "-icon", iconNumber, "marker-div", ".target-holder");
@@ -316,7 +341,8 @@ var placeIcon = function(coordsId, currentGame) {
   }
   $("#" + coordsId + "-icon").css({
     top: ycoord + "px",
-    left: xcoord + "px"
+    left: xcoord + "px",
+    'background-color': iconColor
   })
 }
 
@@ -331,12 +357,12 @@ function choosePlayer(total, players){
 }
 
 
-
-countryAssigner(countriesFull)
-continentAssigner(continents)
-
 //=====================================================
 
+var attacker = "none";
+var defender = "none";
+
+// THIS BEGINS JQUERY
 function checkAdjacentAndOwner(attacker, defender) {
   var attackerObject;
   var defenderObject;
@@ -354,16 +380,18 @@ function checkAdjacentAndOwner(attacker, defender) {
     return false;
   }
 }
-var attacker = "none";
-var defender = "none";
-
-// THIS BEGINS JQUERY
 // ========================================================================================================
 
+
 $(function() {
+  currentGame = new Game(dummyCountries, dummyContinents);
+  currentGame.players = dummyPlayers;
+  currentGame.setup();
+  currentGame.buildContinents();
   $('.clickable-space').click(function() {
-    placeIcon($(this).attr('id'));
+    placeIcon($(this).attr('id'), currentGame);
   });
+
 });
 //   var currentPlayerNames = [];
 //   var totalPlayers = 0;
