@@ -271,7 +271,7 @@ function checkAdjacentAndOwner(attacker, defender) {
       defenderObject = currentGame.countries[i]
     }
   }
-  if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner) {
+  if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
     return false;
@@ -331,7 +331,7 @@ $(function() {
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
     var spaceClicked = $(this).attr('id');
-    if(currentGame.currentPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
+    if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
       var newUnitCount = 0;
 // select space with click, select country based on ID
@@ -360,6 +360,7 @@ $(function() {
           } else {
             console.log("To Battle!")
             appendDice();
+
           }
         }
     }
@@ -374,9 +375,20 @@ $(function() {
     var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
     attackerObject.unitCount += armiesLost[0];
     defenderObject.unitCount += armiesLost[1];
+    attacker = "none";
+    defender = "none";
   })
 
+  $("#next-phase").click(function() {
+    console.log("in gamephase plus thingy")
+    currentGame.phase++;
+  });
+
   function appendDice() {
+    $('#attacker-dice').empty()
+    $('#defender-dice').empty()
+    $('#attacker-dice').append("<option value='1'>One</option>")
+    $('#defender-dice').append("<option value='1'>One</option>")
      if (attackerObject.unitCount === 3 && defenderObject.unitCount === 1) {
       $('#attacker-dice').append('<option value="2">Two</option>')
     } else if (attackerObject.unitCount > 3 && defenderObject.unitCount === 1) {
