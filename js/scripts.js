@@ -87,7 +87,6 @@ var locations = [["northwest-territory", 500, 420],
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
-//alsddfh
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
