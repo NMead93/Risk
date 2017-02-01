@@ -359,9 +359,6 @@ function choosePlayer(total, players){
 
 //=====================================================
 
-var attacker = "none";
-var defender = "none";
-
 // THIS BEGINS JQUERY
 function checkAdjacentAndOwner(attacker, defender) {
   for (var i = 0; i < currentGame.countries.length; i++) {
@@ -383,7 +380,6 @@ var attacker = "none";
 var defender = "none";
 var attackerObject;
 var defenderObject;
-
 
 // THIS BEGINS JQUERY
 
@@ -452,21 +448,21 @@ $(function() {
       console.log(attacker);
       console.log(defender);
       //game.combatflow
-        if (attacker === "none") {
-          attacker = spaceClicked;
-          console.log(spaceClicked);
-        } else if(attacker !== "none") {
-          defender = spaceClicked;
-          console.log(spaceClicked);
-          if(!checkAdjacentAndOwner(attacker, defender)){
-            console.log("choose valid target")
-            defender = "none";
-          } else {
-            console.log("To Battle!")
-            appendDice();
+      if (attacker === "none") {
+        attacker = spaceClicked;
+        console.log(spaceClicked);
+      } else if(attacker !== "none") {
+        defender = spaceClicked;
+        console.log(spaceClicked);
+        if(!checkAdjacentAndOwner(attacker, defender)){
+          console.log("choose valid target")
+          defender = "none";
+        } else {
+          console.log("To Battle!")
+          appendDice();
 
-          }
         }
+      }
     }
   });
 
