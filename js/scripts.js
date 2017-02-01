@@ -150,7 +150,7 @@ function Game(countries, continents) {
   this.continents = continents;
   this.phase = 0;
   this.currentPlayer;
-  this.playerCounter = 1;
+  this.playerCounter = 0;
 };
 
 
@@ -344,13 +344,13 @@ var placeIcon = function(coordsId, currentGame) {
   })
 }
 
-function choosePlayer(total, players){
-  if(currentGame.playerCounter%total === 0){
-    currentGame.currentPlayer=(players[0]);
+function choosePlayer(){
+  if(currentGame.playerCounter === (currentGame.players.length)){
     currentGame.playerCounter = 1;
+    currentGame.currentPlayer = currentGame.players[0];
   } else {
-    currentGame.currentPlayer = players[currentGame.playerCounter-1]
-    currentGame.playerCounter++
+    currentGame.currentPlayer = currentGame.players[currentGame.playerCounter]
+    currentGame.playerCounter++;
   }
 }
 
@@ -418,14 +418,14 @@ $(function() {
     }
 
     currentGame.setup();
-    choosePlayer(totalPlayers, currentGame.players);
+    currentGame.currentPlayer = currentGame.players[0];
 
     // end setup step 2
 
   })
 
   $('#next-turn').click(function(){
-    choosePlayer(totalPlayers, dummyPlayers)
+    choosePlayer()
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
@@ -469,7 +469,7 @@ $(function() {
         }
       }
       currentGame.currentPlayer.unitCount--
-      choosePlayer(currentGame.players.length, currentGame.players);
+      choosePlayer();
     }
   });
 
