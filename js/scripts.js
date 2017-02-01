@@ -241,6 +241,9 @@ Game.prototype.setup = function() {
     countriesIdArray.splice(randomIndex,1);
     // console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[this.players.length-(remainder+1)].playerName);
   }
+  for (var i = 0; i < this.countries.length; i++) {
+    placeIcon(this.countries[i].countryId, this);
+  }
 }
 
 Game.prototype.buildContinents = function() {
@@ -431,7 +434,7 @@ $(function() {
 
     currentGame.setup();
     currentGame.currentPlayer = currentGame.players[0];
-
+    $("#setup-display").hide();
     // end setup step 2
 
   })
