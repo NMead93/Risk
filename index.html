@@ -97,43 +97,41 @@
           <area class="clickable-space" id="newguinea" alt="" title="New Guinea" shape="poly" coords="1065,468,1070,458,1087,473,1104,471,1123,475,1128,488,1136,495,1147,510,1147,521,1134,514,1127,514,1128,500,1116,505,1106,508,1096,501,1094,498,1094,489,1089,485,1084,483,1079,483,1074,483" style="outline:none;" target="_self"     />
 
         </map>
-
       </div>
-      <form class="form-control" action="index.html" method="post">
-        <div id="combat" class="row">
-          <div class="col-md-3">
-            <div class="panel-heading">
-              <span id="selected-attacker">Attacker</span>
-            </div>
-            <div  class="panel">
-              <span id="attacker-strength">Troop Strength</span>
-            </div>
-            <div  class="panel" >
-              <span id="attacker-dice">Number of Dice: </span>
-              <select class="" name="one">
-                <option value="1">One</option>
-
-              </select>
-            </div>
+    <form class="form-control" action="index.html" method="post">
+      <div id="combat" class="row">
+        <div class="col-md-3">
+          <div class="panel-heading">
+            <span id="selected-attacker">Attacker</span>
           </div>
-          <div class="col-md-3">
-            <div  class="panel-heading">
-              <span id="selected-defender">Defender</span>
-            </div>
-            <div  class="panel">
-              <span id="defender-strength">Troop Strength</span>
-            </div>
-            <div  class="panel">
-              <span id="defender-dice">Number of Dice: </span>
-              <select class="" name="two">
-                <option value="1">One</option>
+          <div  class="panel">
+            <span id="attacker-strength">Troop Strength</span>
+          </div>
+          <div  class="panel" >
+            <span>Number of Dice: </span>
+            <select id="attacker-dice" class="" name="one">
+              <option value="1">One</option>
 
-              </select>
-            </div>
-            <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
+            </select>
           </div>
         </div>
-      </form>
+        <div class="col-md-3">
+          <div  class="panel-heading">
+            <span id="selected-defender">Defender</span>
+          </div>
+          <div  class="panel">
+            <span id="defender-strength">Troop Strength</span>
+          </div>
+          <div  class="panel">
+            <span>Number of Dice: </span>
+            <select id="defender-dice" class="" name="two">
+              <option value="1">One</option>
+            </select>
+          </div>
+          <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
+        </div>
+      </div>
+    </form>
       <div class="container">
 
         <div class="row">
