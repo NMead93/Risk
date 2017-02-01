@@ -150,7 +150,7 @@ function Game(countries, continents) {
   this.continents = continents;
   this.phase = 0;
   this.currentPlayer;
-  this.playerCounter = 0;
+  this.playerCounter = 1;
 };
 
 
@@ -463,6 +463,7 @@ $(function() {
         }
       }
     } else if (currentGame.phase === "setup"){
+      console.log('in setup');
       for (i = 0; i < currentGame.countries.length; i++) {
         if (currentGame.countries[i].countryId === spaceClicked) {
           currentGame.countries[i].unitCount++
@@ -470,6 +471,7 @@ $(function() {
       }
       currentGame.currentPlayer.reinforcements--
       choosePlayer();
+      console.log(currentGame.currentPlayer);
     }
   });
 
