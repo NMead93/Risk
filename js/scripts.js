@@ -465,8 +465,10 @@ $(function() {
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
       for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked) {
+        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
           currentGame.countries[i].unitCount++
+        } else {
+          console.log('not enough reinforcements')
         }
       }
       currentGame.currentPlayer.reinforcements--
