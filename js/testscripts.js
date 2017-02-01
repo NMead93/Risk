@@ -120,19 +120,23 @@ var placeIcon = function(coordsId) {
   })
 }
 
-$(document).ready(function() {
-  $('.clickable-space').click(function() {
-    for (var index = 0; index < countriesFull.length; index++) {
-      var contains = false;
-      for (var jdex = 0; jdex < locations.length; jdex++) {
-        if (locations[jdex][0] === countriesFull[index][1]) {
-          contains = true;
-          break;
-        }
-      }
-      if (contains === false) {
-        console.log(countriesFull[index][1]);
+var compareLists = function(array1, array2) {
+  for (var index = 0; index < array1.length; index++) {
+    var contains = false;
+    for (var jdex = 0; jdex < array2.length; jdex++) {
+      if (array2[jdex][0] === array1[index][1]) {
+        contains = true;
+        break;
       }
     }
+    if (contains === false) {
+      console.log(array1[index][1]);
+    }
+  }
+}
+
+$(document).ready(function() {
+  $('.clickable-space').click(function() {
+    placeIcon($(this).attr('id'));
   });
 });
