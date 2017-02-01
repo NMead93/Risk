@@ -98,68 +98,40 @@
 
       </map>
     </div>
-    <form class="form-control" id="combat-form">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="panel-heading">
-            <span id="selected-attacker">Attacker</span>
+    <div class="form-container">
+      <form id="combat-form" class="" action="index.html" method="post">
+        <div id="combat" class="row">
+          <div class="col-md-3  attacker-battle-panel">
+            <div class="panel-heading attacker-heading">
+              <span id="selected-attacker">Attacker</span>
+            </div>
+            <div  class="panel">
+              <span id="attacker-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control" >
+              <span>Number of Dice: </span>
+              <select id="attacker-dice" class="" name="one">
+                <option value="1">One <span class="dice-font"></span></option>
+              </select>
+            </div>
           </div>
-          <div  class="panel">
-            <span id="attacker-strength">Troop Strength</span>
-          </div>
-          <div  class="panel" >
-            <span>Number of Dice: </span>
-            <select id="attacker-dice" class="" name="one">
-              <option value="1">One</option>
+          <div class="col-md-3 defender-battle-panel">
+            <div  class="panel-heading defender-heading">
+              <span id="selected-defender">Defender</span>
+            </div>
+            <div  class="panel">
+              <span id="defender-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control">
+              <span>Number of Dice: </span>
+              <select id="defender-dice" class="" name="two">
 
-            </select>
+              </select>
+            </div>
           </div>
+          <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
         </div>
-        <div class="col-md-3">
-          <div  class="panel-heading">
-            <span id="selected-defender">Defender</span>
-          </div>
-          <div  class="panel">
-            <span id="defender-strength">Troop Strength</span>
-          </div>
-          <div  class="panel">
-            <span>Number of Dice: </span>
-            <select id="defender-dice" class="" name="two">
-              <option value="1">One</option>
-            </select>
-          </div>
-          <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
-        </div>
-      </div>
-    </form>
-    <div class="container">
-
-      <div class="row">
-
-        <form class="form-control" id="move-army">
-          <span>Enter Troops to Move</span>
-          <select id="army-quantity" class="" name="army-quantity">
-            <option value="1">One</option>
-          </select>
-          <button type="submit" class="btn btn-info" name="button">Take Over!</button>
-        </form>
-        <div class="instructions">
-          <div class="troop-total">
-
-          </div>
-          <div class="countries-on">
-
-          </div>
-          <div class="current-player">
-
-          </div>
-          <button type="button" name="turn" id="next-turn">Next Turn</button>
-        </div>
-        <div id="country-holder">
-
-        </div>
-
-      </div>
+      </form>
     </div>
   </body>
 </html>

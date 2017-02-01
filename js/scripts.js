@@ -87,7 +87,6 @@ var locations = [["northwest-territory", 500, 420],
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
-//alsddfh
 var makeElement = function(element, elementId, elementText, elementClasses, targetElement) {
   var newElement = document.createElement(element);
   newElement.id = elementId;
@@ -344,13 +343,13 @@ var placeIcon = function(countryId, currentGame) {
   })
 }
 
-function choosePlayer(total, players){
-  if(currentGame.playerCounter%total === 0){
-    currentGame.currentPlayer=(players[0]);
+function choosePlayer(){
+  if(currentGame.playerCounter === (currentGame.players.length)){
     currentGame.playerCounter = 1;
+    currentGame.currentPlayer = currentGame.players[0];
   } else {
-    currentGame.currentPlayer = players[currentGame.playerCounter-1]
-    currentGame.playerCounter++
+    currentGame.currentPlayer = currentGame.players[currentGame.playerCounter]
+    currentGame.playerCounter++;
   }
 }
 
@@ -431,14 +430,14 @@ $(function() {
     }
 
     currentGame.setup();
-    choosePlayer(totalPlayers, currentGame.players);
+    currentGame.currentPlayer = currentGame.players[0];
 
     // end setup step 2
 
   })
 
   $('#next-turn').click(function(){
-    choosePlayer(totalPlayers, dummyPlayers)
+    choosePlayer()
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
@@ -478,6 +477,18 @@ $(function() {
           defender = "none";
         }
       }
+    } else if (currentGame.phase === "setup"){
+      console.log('in setup');
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
+          currentGame.countries[i].unitCount++
+        } else {
+          console.log('not enough reinforcements')
+        }
+      }
+      currentGame.currentPlayer.reinforcements--
+      choosePlayer();
+      console.log(currentGame.currentPlayer);
     }
   });
 
