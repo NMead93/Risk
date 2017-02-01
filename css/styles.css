@@ -17,14 +17,18 @@
 }
 
 .marker-div {
-  position: 'absolute';
-  width: '10px';
-  height: '10px';
-  background: '#000000';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #000000;
   z-index: 1;
 }
 
 #attack-button {
   height: 8em;
   width: 6em;
+}
+
+.target-holder {
+  margin-left: 100px;
 }

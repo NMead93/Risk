@@ -56,17 +56,15 @@ var createIdOnClick = function(event) {
   console.log("(" + event.pageX + ", " + event.pageY + ")");
 }
 
-var placeIcon = function() {
+var placeIcon = function(coordsId) {
   console.log("function");
-  console.log($(this));
-  var coordsId = $(this).attr('id');
   console.log(coordsId);
-  makeElement('div', coordsId + "-icon", "XX", ".marker-div", "target-holder");
+  makeElement('div', coordsId + "-icon", "XX", "marker-div", ".target-holder");
   var xcoord = 0;
   var ycoord = 0;
   for (var index = 0; index < locations.length; index ++) {
     if (locations[index][0] === coordsId) {
-      xcoord = locations[index][1];
+      xcoord = locations[index][1]-100;
       ycoord = locations[index][2];
       console.log(locations[index][1] + ", " + locations[index][2]);
       break;
@@ -80,6 +78,6 @@ var placeIcon = function() {
 
 $(document).ready(function() {
   $('.clickable-space').click(function() {
-    placeIcon();
+    placeIcon($(this).attr('id'));
   });
 });

@@ -293,7 +293,7 @@ $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
   currentGame.buildContinents();
 
-// setup the players
+  // setup the players
   $('#number-form').submit(function(event) {
     event.preventDefault();
     totalPlayers = parseInt($('#number-of-players').val());
@@ -331,6 +331,7 @@ $(function() {
 
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
+    console.log($(this));
 
     // if(newPlayer.reinforcements > 0 && Game.phase === 0){ //add troops to space if there are troops available
     //   console.log('in the function');
