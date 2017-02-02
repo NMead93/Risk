@@ -118,7 +118,7 @@ img {
 body {
   background-image: radial-gradient(#c4cbff , #161c4f);
   background-repeat: no-repeat;
-
+  background-size: cover;
   height: 100%;
   width: 100%;
 
