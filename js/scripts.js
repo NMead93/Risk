@@ -636,6 +636,7 @@ $(function() {
           alert("You Fool! Choose a Valid Target")
         } else {
           console.log("To Battle!")
+          showBattle();
           appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
@@ -700,7 +701,7 @@ $(function() {
       defenderObject.unitCount += armiesLost[1];
       if (defenderObject.unitCount < 1) {//if attacker is winner
         appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
-        hideBattle();
+        showTakeOver();
       }
     }
     placeIcon(attackerObject.countryId, currentGame)
@@ -709,6 +710,7 @@ $(function() {
     appendTroopInfo();
     attacker = "none";
     defender = "none";
+    hideBattle();
   })
 
   $("#move-army").submit(function(event) {
@@ -719,7 +721,7 @@ $(function() {
     }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
-    showBattle();
+    hideTakeOver();
   })
 
   $("#next-phase").click(function() {
@@ -735,11 +737,19 @@ $(function() {
     $("#combat-form").show();
   }
 
+  function hideTakeOver() {
+    $("#move-army").hide();
+  }
+
+  function showTakeOver() {
+    $("#move-army").show();
+  }
+
   function appendTroopInfo() {
     $("#selected-attacker").text(attackerObject.countryName);
     $("#selected-defender").text(defenderObject.countryName);
-    $("#attacker-troops").text(attackerObject.unitCount);
-    $("#defender-troops").text(defenderObject.unitCount);
+    $("#attacker-strength").text(attackerObject.unitCount);
+    $("#defender-strength").text(defenderObject.unitCount);
   }
 
   function appendDice() {
