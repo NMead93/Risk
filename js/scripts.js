@@ -524,6 +524,8 @@ function checkEndSetup(){
     console.log('setup over');
     currentGame.phase = 0;
     $('#next-phase').show();
+    $("#player-name").text(currentGame.currentPlayer.playerName);
+    $("#phase").text("Place your reinforcements");
     currentGame.currentPlayer = currentGame.players[0]
     currentGame.assignment();
   }
@@ -735,9 +737,11 @@ $(function() {
   $("#next-phase").click(function() {
     console.log("in gamephase plus thingy")
     currentGame.phase++;
+    appendCurrentInfo();
     if (currentGame.phase === 2) {
       $('#next-phase').hide();
       $('#next-turn').show();
+
 
     }
   });
@@ -796,6 +800,18 @@ $(function() {
 
   function appendCurrentInfo() {
     $("#player-name").text(currentGame.currentPlayer.playerName);
-    $("#phase").text(currentGame.phase);
+    if (currentGame.phase === 0) {
+      $("#phase").text("Place your reinforcements");
+    }
+    else if (currentGame.phase === 1) {
+      $("#phase").text("Choose who to attack");
+    }
+    else if (currentGame.phase === 2) {
+      $("#phase").text("You may move troops");
+    }
+    else if (currentGame.phase === "setup") {
+      $("#phase").text("Take turns placing troops");
+    }
+
   }
 });
