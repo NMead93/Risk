@@ -559,7 +559,7 @@ $(function() {
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
     var spaceClicked = $(this).attr('id');
-    if(currentGame.phase === 0){ //add troops to space if there are troops available
+    if(currentGame.phase === 0){ //add troops to space if there reinforcements
       if (currentGame.checkOwner(spaceClicked) === true && currentGame.currentPlayer.reinforcements > 0) {
         var currentCountry = currentGame.getCountryObject(spaceClicked);
         currentCountry.unitCount += 1;
