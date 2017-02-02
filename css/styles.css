@@ -85,17 +85,19 @@ img {
   color: white;
   text-align: center;
   border-radius: 15px 15px 0px 0px;
-  background-color: #009206;
+  background-color: #3dcc3d;
 
 }
 .attacker-heading {
   color: white;
   text-align: center;
   border-radius: 15px 15px 0px 0px;
-  background-color: #b36027;
+  background-color: #cc843d;
 
 }
-
+.troop-strength {
+  padding-left: 14px;
+}
 .defender-battle-panel {
   padding: 1em;
   background-image: linear-gradient(#a00015, #400012);
@@ -121,6 +123,18 @@ body {
   width: 100%;
 
 }
+
+#attacker-dice, #defender-dice {
+  color: black;
+}
+.attack-box-bg {
+  background-color: #3daacc;
+  color: white;
+}
+.defend-box-bg {
+  background-color: #cc3d3d;
+  color: white;
+}
 /*#conquer-menu {
   position: absolute;
   top: 870px;
@@ -130,8 +144,8 @@ body {
 
 #combat-form {
   position: absolute;
-  top: 800px;
-  left: 515px;
+  top: 650px;
+  left: 535px;
   width: 750px;
   z-index: 3;
 
