@@ -62,23 +62,8 @@ var countryAssigner = function(arrayOfCountries) {
   }
 };
 
-var newChecker = function(startPoint, checkPoint, arrayOfCountries) {
-  var encountered = [];
-  var toCheck = []
-
-  var counter = 0;
-  toCheck.push();
-
-  while (toCheck.length != 0 && counter < 4000) {
-    counter += 1;
-    var current = toCheck.pop();
-
-
-  }
-
-}
-
-var contiguousOwnershipSearch = function(startPoint, checkPoint, arrayOfCountries) {
+Game.prototype.contiguousOwnershipSearch = function(startPoint, checkPoint) {
+  // This function checks to see if there is a path between two country objects via ownership
   var encountered = [];
   var toCheck = [];
 
@@ -99,10 +84,10 @@ var contiguousOwnershipSearch = function(startPoint, checkPoint, arrayOfCountrie
       if (alreadyEncountered === false) {
         var counter2 = 0;
         encountered.push(current.adjacent[adjacentIndex]);
-        for (var countriesIndex = 0; countriesIndex < arrayOfCountries.length; countriesIndex++) {
+        for (var countriesIndex = 0; countriesIndex < this.countries.length; countriesIndex++) {
           counter++;
-          if (arrayOfCountries[countriesIndex].countryId === current.adjacent[adjacentIndex]) {
-            toCheck.push(arrayOfCountries[countriesIndex]);
+          if (this.countries[countriesIndex].countryId === current.adjacent[adjacentIndex] && this.countries[countriesIndex].owner === this.currentPlayer.playerName) {
+            toCheck.push(this.countries[countriesIndex]);
             counter2++;
           }
         }
@@ -116,11 +101,3 @@ var contiguousOwnershipSearch = function(startPoint, checkPoint, arrayOfCountrie
   return false;
 }
 countryAssigner(countriesFull);
-// console.log(contiguousOwnershipSearch(dummyCountries[4], dummyCountries[42], dummyCountries));
-
-//
-// $(document).ready(function() {
-//   $('.clickable-space').click(function() {
-//     placeIcon($(this).attr('id'));
-//   });
-// });
