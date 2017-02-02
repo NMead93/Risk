@@ -14,7 +14,8 @@
 
 
 
-/*#a32828 red p1
+/* Potential color options
+#a32828 red p1
 #a38c28 gold p2
 #28a337 green p3
 #2898a3 cyan p4
@@ -26,6 +27,9 @@
   position: absolute;
   left: 407px;
   top: 147px;
+  background-color: white;
+  border-radius: 2em;
+  width: 700px;
 }
 #setup-bg {
   z-index: 9;
