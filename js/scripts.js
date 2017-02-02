@@ -434,6 +434,13 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
 
+function checkEndSetup(){
+  for(i=0;i<currentGame.players.length;i++){
+    if(currentGame.currentPlayer.reinforcements === 0)
+    choosePlayer();
+  }
+}
+
 //=====================================================
 
 // THIS BEGINS JQUERY
@@ -504,7 +511,7 @@ $(function() {
           currentGame.countries[i].unitCount++
         }
       }
-      $(this).children("span").text(newUnitCount);
+      // $(this).children("span").text();
       currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
       console.log(attacker)
@@ -531,11 +538,12 @@ $(function() {
       }
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
+      checkEndSetup();
       for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
+        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
           currentGame.countries[i].unitCount++
         } else {
-          console.log('not enough reinforcements')
+          console.log('you cant place here for some reason')
         }
       }
       currentGame.currentPlayer.reinforcements--
