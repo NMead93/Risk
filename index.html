@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
+
   <!--begin combat form-->
   <div class="container">
     <form id="combat-form">
@@ -28,7 +29,6 @@
           </div>
         </div>
         <div class="col-md-2 attack-padding">
-
           <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
         </div>
         <div class="col-md-4 defender-battle-panel">
@@ -41,7 +41,6 @@
           <div  class="panel  defend-box-bg form-control">
             <span>Number of Dice: </span>
             <select id="defender-dice" class="" name="two">
-
             </select>
           </div>
         </div>
@@ -101,33 +100,6 @@
   </div>
   <!-- end image map -->
   <!-- begin troops to move after conquering a country -->
-  <div class="form-container" id="conquer-menu">
-    <form class="" id="move-army">
-      <div class="dropdown">
-        <button class="btn dropdown-toggle" type="submit" data-toggle="dropdown">Troops to move
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <option type="submit">asd</option>
-          <option type="submit">dfg</option>
-          <option type="submit">zxc</option>
-        </ul>
-
-        <!-- <span>Enter Troops to Move</span>
-        <select id="army-quantity" class="" name="army-quantity">
-        <option value="1">One</option>
-      </select>
-      <button type="submit" class="btn btn-info" name="button">TakeOver!</button> -->
-    </div>
-  </form>
-</div>
-<!-- <div class="container">
-<form>
-<input type="text" name="name" value="">
-<button class="btn"type="submit" name="button">+</button>
-</form>
-
-</div> -->
 
 
 <div class="container" id="setup-bg">
@@ -170,14 +142,24 @@
     <button type="submit" name="button">Submit Players</button>
   </form>
 </div>
-
-
-
+  <form class="form-control" id="move-army">
+    <span>Enter Troops to Move</span>
+    <select id="army-quantity" class="" name="army-quantity">
+      <option value="1">1</option>
+    </select>
+    <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
+  </form>
+  <div class="current-player-info">
+    <div class="current-player-name">
+      <span>Current Player: <span id="player-name"></span></span>
+    </div>
+    <div class="current-phase">
+      <span>Phase: <span id="phase"></span></span>
+    </div>
+  </div>
 <div class="turn-buttons">
   <button type="button" class="btn next-buttons" id="next-phase">Next Phase</button>
   <button type="button" class="btn next-buttons" id="next-turn">Next Turn</button>
 </div>
-
-
 </body>
 </html>

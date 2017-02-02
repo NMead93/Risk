@@ -172,7 +172,11 @@ body {
   left: 535px;
   width: 750px;
   z-index: 3;
+  display: none;
+}
 
+#move-army {
+  display: none;
 }
 
 div.target-holder {
