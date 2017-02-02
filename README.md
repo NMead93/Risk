@@ -36,6 +36,7 @@
 * javascript with jQuery
 
 [Rules for Risk](http://www.ultraboardgames.com/risk/game-rules.php)
+[gh-pages link for this](NMead93.github.io/Risk/index.html)
 
 ##### Copyright (c) 2017 Derek Villars, Marc Larkin, Melvin Gruschow, Nick Mead, and Sam Kirsch.
 
