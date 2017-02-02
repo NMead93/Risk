@@ -451,25 +451,28 @@ var currentPlayerColors = [];
 
 
 $(function() {
-  currentGame = new Game(dummyCountries, dummyContinents);
   // START TEST FUNCTIONALITY
-  // currentGame.setup();
-  // currentGame.currentPlayer = currentGame.players[0];
-  // playerAssigner(playerArray);
-  // currentGame.players = dummyPlayers;
+  currentGame = new Game(dummyCountries, dummyContinents);
+  currentGame.currentPlayer = currentGame.players[0];
+  playerAssigner(playerArray);
+  currentGame.players = dummyPlayers;
   currentGame.buildContinents();
+  currentGame.setup();
 
   // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
     event.preventDefault();
+    // START TEST FUNCTIONALITY
 
-
-    totalPlayers = parseInt($('#number-of-players').val());
-    for (var i = 0; i < totalPlayers; i++) {
-      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
-      $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
-    }
-    $('#select-player-quantity').hide();
+    // END TEST FUNCTIONALITY
+  //
+  //
+  //   totalPlayers = parseInt($('#number-of-players').val());
+  //   for (var i = 0; i < totalPlayers; i++) {
+  //     $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
+  //     $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
+  //   }
+  //   $('#select-player-quantity').hide();
   })
   // end setup step 1
 
