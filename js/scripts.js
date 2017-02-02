@@ -145,12 +145,11 @@ function Game(countries, continents) {
   this.countries = countries;
   this.players = [];
   // this.currentPlayer = this.players[0];
-  this.playing = false;
+  this.playing = true;
   this.continents = continents;
   this.phase = 0;
   this.currentPlayer;
   this.playerCounter = 1;
-  this.inactivePlayers = [];
 };
 
 
@@ -350,14 +349,18 @@ Game.prototype.getCountryObject = function(countryId) {
 }
 
 Game.prototype.checkIfStillActive = function() {
+  var notPlaying = true;
   //check if current player still owns a country
   for (var i = 0; i < this.countries.length; i++) {
     if (this.countries[i].owner === this.currentPlayer.playerName) {
-      break;
+      notPlaying = false;
     }
   }
-  //else mark them inactive
-  this.currentPlayer.active = false;
+
+  if (notPlaying) {
+    //else mark them inactive
+    this.currentPlayer.active = false;
+  }
 }
 //check for winner
 Game.prototype.checkGameWinner = function() {
@@ -371,6 +374,40 @@ Game.prototype.checkGameWinner = function() {
   //if game over, set game object to false
   if (inactivePlayerCounter === this.players.length - 1) {
     this.playing = false;
+  }
+}
+
+Game.prototype.getGameWinner = function() {
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.players[i].active === true) {
+      return this.players[i].playerName;
+    }
+  }
+}
+
+Game.prototype.getNextActivePlayer = function() {
+  var currentPlayerStatus = false;
+  var currentPlayerIndex;
+  //get current player index in Game.players[]
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.currentPlayer.playerName === this.players[i].playerName) {
+      currentPlayerIndex = i;
+      break;
+    }
+  }
+  //loop through Game.players from index of currentPlayer to next active player
+  while (!currentPlayerStatus) {
+    //set index back to zero if reached end of Game.players
+    if (currentPlayerIndex === this.players.length) {
+      currentPlayerIndex = 0;
+    } else {
+      //set next active player as current and break from loop
+      if (this.players[currentPlayerIndex].active) {
+        this.currentPlayer = this.players[currentPlayerIndex];
+        currentPlayerStatus = true;
+      }
+      currentPlayerIndex++;
+    }
   }
 }
 
@@ -532,7 +569,19 @@ $(function() {
   })  // end user info
 
   $('#next-turn').click(function(){
-    choosePlayer()
+    choosePlayer();
+    currentGame.checkIfStillActive();
+    currentGame.checkGameWinner();
+    if (!currentGame.playing) {
+      //run end game celebration
+      //Implement celebrations here!
+      console.log("The winner is " + currentGame.getGameWinner())
+    }
+
+    if (!currentGame.currentPlayer.active) {
+      //get next active player and set to currentPlayer
+      currentGame.getNextActivePlayer();
+    }
     currentGame.phase = 0;
     originCountry = 'undefined';
     targetCountry = 'undefined';
