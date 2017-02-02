@@ -241,6 +241,9 @@ Game.prototype.setup = function() {
     countriesIdArray.splice(randomIndex,1);
     // console.log("added " + this.countries[newCountryId].countryName + " to " + this.players[this.players.length-(remainder+1)].playerName);
   }
+  for (var i = 0; i < this.countries.length; i++) {
+    placeIcon(this.countries[i].countryId, this);
+  }
 }
 
 Game.prototype.buildContinents = function() {
@@ -296,7 +299,7 @@ Game.prototype.combat = function(attackDice, defendDice) {
 
 //begin regular functions
 
-var placeIcon = function(coordsId, currentGame) {
+var placeIcon = function(countryId, currentGame) {
   // This function places an icon in the default coordinates in a country, and updates it with the number of troops in the country and the color of the owner.
   var countryIndex;
   var country;
@@ -304,7 +307,7 @@ var placeIcon = function(coordsId, currentGame) {
   var player;
 
   for (var index = 0; index < currentGame.countries.length; index++) {
-    if (currentGame.countries[index].countryId === coordsId) {
+    if (currentGame.countries[index].countryId === countryId) {
       countryIndex = index;
       country = currentGame.countries[index];
       break;
@@ -324,32 +327,32 @@ var placeIcon = function(coordsId, currentGame) {
 
   var iconColor = player.playerColor;
 
-  $("#" + coordsId + "-icon").remove();
-  makeElement('div', coordsId + "-icon", iconNumber, "marker-div", ".target-holder");
+  $("#" + countryId + "-icon").remove();
+  makeElement('div', countryId + "-icon", iconNumber, "marker-div", ".target-holder");
   var xcoord = 0;
   var ycoord = 0;
   for (var index = 0; index < locations.length; index ++) {
-    if (locations[index][0] === coordsId) {
+    if (locations[index][0] === countryId) {
       xcoord = locations[index][1]-100;
-      ycoord = locations[index][2]-70;
+      ycoord = locations[index][2]-40;
       console.log(locations[index][1] + ", " + locations[index][2]);
       break;
     }
   }
-  $("#" + coordsId + "-icon").css({
+  $("#" + countryId + "-icon").css({
     top: ycoord + "px",
     left: xcoord + "px",
     'background-color': iconColor
   })
 }
 
-function choosePlayer(total, players){
-  if(currentGame.playerCounter%total === 0){
-    currentGame.currentPlayer=(players[0]);
+function choosePlayer(){
+  if(currentGame.playerCounter === (currentGame.players.length)){
     currentGame.playerCounter = 1;
+    currentGame.currentPlayer = currentGame.players[0];
   } else {
-    currentGame.currentPlayer = players[currentGame.playerCounter-1]
-    currentGame.playerCounter++
+    currentGame.currentPlayer = currentGame.players[currentGame.playerCounter]
+    currentGame.playerCounter++;
   }
 }
 
@@ -357,8 +360,7 @@ function checkAdjacentAndOwner(attacker, defender) {
   for (var i = 0; i < currentGame.countries.length; i++) {
     if (currentGame.countries[i].countryId === attacker) {
       attackerObject = currentGame.countries[i];
-    }
-    if (currentGame.countries[i].countryId === defender) {
+    } else if (currentGame.countries[i].countryId === defender) {
       defenderObject = currentGame.countries[i]
     }
   }
@@ -431,14 +433,15 @@ $(function() {
     }
 
     currentGame.setup();
-    choosePlayer(totalPlayers, currentGame.players);
-
+    currentGame.currentPlayer = currentGame.players[0];
+    // $("#setup-display").hide();
     // end setup step 2
 
   })
 
   $('#next-turn').click(function(){
-    choosePlayer(totalPlayers, dummyPlayers)
+    choosePlayer()
+    currentGame.phase = 0;
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
@@ -456,9 +459,8 @@ $(function() {
       $(this).children("span").text(newUnitCount);
       currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
-
-      console.log(attacker);
-      console.log(defender);
+      console.log(attacker)
+      console.log(defender)
       //game.combatflow
       if (attacker === "none") {
         attacker = spaceClicked;
@@ -468,13 +470,29 @@ $(function() {
         console.log(spaceClicked);
         if(!checkAdjacentAndOwner(attacker, defender)){
           console.log("choose valid target")
+          attacker = "none"
           defender = "none";
         } else {
           console.log("To Battle!")
           appendDice();
-
+          placeIcon(attackerObject.countryId, currentGame)
+          placeIcon(defenderObject.countryId, currentGame)
+          attacker = "none";
+          defender = "none";
         }
       }
+    } else if (currentGame.phase === "setup"){
+      console.log('in setup');
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
+          currentGame.countries[i].unitCount++
+        } else {
+          console.log('not enough reinforcements')
+        }
+      }
+      currentGame.currentPlayer.reinforcements--
+      choosePlayer();
+      console.log(currentGame.currentPlayer);
     }
   });
 
@@ -491,20 +509,26 @@ $(function() {
       appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
 
     }
+    placeIcon(attackerObject.countryId, currentGame)
+    placeIcon(defenderObject.countryId, currentGame)
     attacker = "none";
     defender = "none";
   })
 
   $("#move-army").submit(function(event) {
     event.preventDefault()
-    var troopsToMove = $("#army-quantity option:selected").val()
+    var troopsToMove = parseInt($("#army-quantity option:selected").val())
     moveArmies(troopsToMove);
+    placeIcon(attackerObject.countryId, currentGame)
+    placeIcon(defenderObject.countryId, currentGame)
   })
 
   $("#next-phase").click(function() {
     console.log("in gamephase plus thingy")
     currentGame.phase++;
   });
+
+
 
   function appendDice() {
     $('#attacker-dice').empty()
