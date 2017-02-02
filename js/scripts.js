@@ -523,6 +523,7 @@ function checkEndSetup(){
   if(noReinforcements.length === currentGame.players.length){
     console.log('setup over');
     currentGame.phase = 0;
+    $('#next-phase').show();
     currentGame.currentPlayer = currentGame.players[0]
     currentGame.assignment();
   }
@@ -559,6 +560,8 @@ var targetCountry = "undefined";
 $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
   currentGame.buildContinents();
+  $('#next-phase').hide();
+  $('#next-turn').hide();
 
   // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
@@ -596,6 +599,8 @@ $(function() {
 
   $('#next-turn').click(function(){
     choosePlayer();
+    $('#next-phase').show();
+    $('#next-turn').hide();
     currentGame.checkIfStillActive();
     currentGame.checkGameWinner();
     if (!currentGame.playing) {
@@ -723,6 +728,11 @@ $(function() {
   $("#next-phase").click(function() {
     console.log("in gamephase plus thingy")
     currentGame.phase++;
+    if (currentGame.phase === 2) {
+      $('#next-phase').hide();
+      $('#next-turn').show();
+
+    }
   });
 
   function hideBattle() {
