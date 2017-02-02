@@ -134,8 +134,8 @@ var continentAssigner = function(arrayOfContinents) {
   }
 };
 
-countryAssigner(countriesFull);
-continentAssigner(continents);
+countryAssigner(countriesFull); //initializing the game
+continentAssigner(continents); //initializing the game
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -182,12 +182,13 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // prototype functions ==========================
 
-Game.prototype.assignment = function(player) {
+Game.prototype.assignment = function(player) { //give troops at beginning of turn
   console.log(this.currentPlayer);
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
   this.continentChecker(player);
 }
-Game.prototype.continentChecker = function(player) {
+
+Game.prototype.continentChecker = function(player) { //check for continent bonus
   for (var index = 0; index < this.continents.length; index++) {
     var held = true;
     for (var continentCountry = 0; continentCountry < this.continents[index].countryArray.length; continentCountry++) {
@@ -405,13 +406,8 @@ function choosePlayer(){
 }
 
 function checkAdjacentAndOwner(attacker, defender) {
-  for (var i = 0; i < currentGame.countries.length; i++) {
-    if (currentGame.countries[i].countryId === attacker) {
-      attackerObject = currentGame.countries[i];
-    } else if (currentGame.countries[i].countryId === defender) {
-      defenderObject = currentGame.countries[i]
-    }
-  }
+  attackerObject = currentGame.countries[currentGame.getIndex(attacker)];
+  defenderObject = currentGame.countries[currentGame.getIndex(defender)];
   if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
@@ -419,8 +415,8 @@ function checkAdjacentAndOwner(attacker, defender) {
   }
 }
 
-function checkIfWinner() {//check for any troops left in defender
-  if (defenderObject.unitCount < 1) {
+function checkIfWinner() {//check for any troops left in defender or attacker
+  if (defenderObject.unitCount < 1 || attackerObject.unitCount < 2) {
     return true;
   } else {
     return false;
@@ -432,6 +428,7 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.unitCount = armyCount;
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
+
 
 //=====================================================
 
@@ -452,11 +449,6 @@ var currentPlayerColors = [];
 
 $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
-  // START TEST FUNCTIONALITY
-  // currentGame.setup();
-  // currentGame.currentPlayer = currentGame.players[0];
-  // playerAssigner(playerArray);
-  // currentGame.players = dummyPlayers;
   currentGame.buildContinents();
 
   // start setup step 1 - choose the number of players
@@ -475,7 +467,7 @@ $(function() {
 
   // start setup the players step 2 - set the names of the players and call the setup prototype
 
-  $('#name-color-avatar').submit(function(event){
+  $('#name-color-avatar').submit(function(event){  //enter user info
     event.preventDefault();
     for(var i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
@@ -491,7 +483,7 @@ $(function() {
     $("#setup-display").hide();
     // end setup step 2
 
-  })
+  })  // end user info
 
   $('#next-turn').click(function(){
     choosePlayer()
@@ -502,38 +494,31 @@ $(function() {
     var spaceClicked = $(this).attr('id');
     if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
-      var newUnitCount = 0;
 // select space with click, select country based on ID
       for (i = 0; i < currentGame.countries.length; i++) {
         if (currentGame.countries[i].countryId === spaceClicked) {
           currentGame.countries[i].unitCount++
-          newUnitCount = currentGame.countries[i].unitCount;
         }
       }
       $(this).children("span").text(newUnitCount);
       currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
-      console.log(attacker)
-      console.log(defender)
       //game.combatflow
       if (attacker === "none") {
         attacker = spaceClicked;
-        console.log(spaceClicked);
       } else if(attacker !== "none") {
         defender = spaceClicked;
-        console.log(spaceClicked);
         if(!checkAdjacentAndOwner(attacker, defender)){
-          console.log("choose valid target")
-          attacker = "none"
-          defender = "none";
+          alert("You Fool! Choose a Valid Target")
         } else {
           console.log("To Battle!")
+          appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
           placeIcon(defenderObject.countryId, currentGame)
-          attacker = "none";
-          defender = "none";
         }
+        attacker = "none";
+        defender = "none";
       }
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
@@ -551,21 +536,22 @@ $(function() {
   });
 
   $("#combat-form").submit(function(event) {
-    console.log("in submit")
     event.preventDefault()
     attackerObject.diceNum = $("#attacker-dice option:selected").val()
     defenderObject.diceNum = $("#defender-dice option:selected").val()
-    console.log(attackerObject.diceNum)
-    console.log(defenderObject.diceNum)
-    var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
-    attackerObject.unitCount += armiesLost[0];
-    defenderObject.unitCount += armiesLost[1];
-    if (checkIfWinner()) {//check if defender as any troops left
-      appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
-
+    if (!checkIfWinner()) {//do combat if still able to
+      var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
+      attackerObject.unitCount += armiesLost[0];
+      defenderObject.unitCount += armiesLost[1];
+      if (defenderObject.unitCount < 1) {//if attacker is winner
+        appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
+        hideBattle();
+      }
     }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
+    appendDice();
+    appendTroopInfo();
     attacker = "none";
     defender = "none";
   })
@@ -573,9 +559,12 @@ $(function() {
   $("#move-army").submit(function(event) {
     event.preventDefault()
     var troopsToMove = parseInt($("#army-quantity option:selected").val())
-    moveArmies(troopsToMove);
+    if(checkIfWinner() && defenderObject.unitCount < 1) {
+      moveArmies(troopsToMove);
+    }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
+    showBattle();
   })
 
   $("#next-phase").click(function() {
@@ -583,7 +572,20 @@ $(function() {
     currentGame.phase++;
   });
 
+  function hideBattle() {
+    $("#combat-form").hide();
+  }
 
+  function showBattle() {
+    $("#combat-form").show();
+  }
+
+  function appendTroopInfo() {
+    $("#selected-attacker").text(attackerObject.countryName);
+    $("#selected-defender").text(defenderObject.countryName);
+    $("#attacker-troops").text(attackerObject.unitCount);
+    $("#defender-troops").text(defenderObject.unitCount);
+  }
 
   function appendDice() {
     $('#attacker-dice').empty()
