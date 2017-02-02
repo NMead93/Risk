@@ -295,7 +295,7 @@ Game.prototype.combat = function(attackDice, defendDice) {
     return armiesLost;
 }
 Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) {
-  // This function checks to see if there is a path between two country objects via ownership
+  // This function checks to see if there is a path between two country objects via ownership, the countries are passed in as Ids
   var startPoint = this.countries[this.getIndex(startPointId)];
   var checkPoint = this.countries[this.getIndex(checkPointId)];
   var encountered = [];
