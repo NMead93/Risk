@@ -43,47 +43,46 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
 
 var locations = [["northwest-territory", 500, 420],
                 ["alberta", 431, 486],
-                ["ontario", 480, 461],
+                ["ontario", 488, 461],
                 ["eastern-canada", 575, 463],
                 ["greenland", 679, 383],
-                ["western-united-states", 443, 550],
-                ["eastern-united-states", 510, 530],
+                ["western-united-states", 413, 538],
+                ["eastern-united-states", 549, 547],
                 ["central-america", 470, 603],
-                ["venezuela", 570, 682],
+                ["venezuela", 573, 691],
                 ["brazil", 652, 747],
                 ["peru", 597, 764],
                 ["argentina", 582, 800],
-                ["western-australia", 1235, 773],
-                ["eastern-australia", 1320, 810],
-                ["new-guinea", 1290, 705],
-                ["indonesia", 1180, 714],
+                ["western-australia", 1250, 773],
+                ["eastern-australia", 1325, 818],
+                ["new-guinea", 1307, 705],
+                ["indonesia", 1199, 714],
                 ["southeast-asia", 1148, 630],
                 ["india", 1062, 614],
                 ["china", 1170, 574],
-                ["mongolia", 1171, 534],
-                ["japan", 1299, 540],
+                ["mongolia", 1182, 534],
+                ["japan", 1309, 546],
                 ["alaska", 291, 409],
                 ["kamchatka", 1345, 433],
-                ["irkutsk", 1209, 464],
-                ["yakutsk", 1211, 423],
+                ["irkutsk", 1224, 464],
+                ["yakutsk", 1221, 423],
                 ["siberia", 1132, 435],
                 ["ural", 1070, 490],
-                ["afghanistan", 1018, 548],
+                ["afghanistan", 1000, 534],
                 ["russia", 945, 481],
                 ["scandanavia", 863, 450],
                 ["iceland", 792, 408],
                 ["great-britain", 793, 470],
                 ["western-europe", 792, 538],
-                ["southern-europe", 875, 530],
-                ["northern-europe", 885, 497],
+                ["southern-europe", 886, 530],
+                ["northern-europe", 897, 493],
                 ["north-africa", 802, 646],
-                ["egypt", 902, 592],
-                ["east-africa", 957, 649],
+                ["egypt", 915, 594],
+                ["east-africa", 960, 651],
                 ["central-africa", 898, 700],
                 ["south-africa", 891, 788],
-                ["madagascar", 965, 730],
+                ["madagascar", 972, 746],
                 ["middle-east", 995, 568]]
-
 
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
@@ -135,8 +134,8 @@ var continentAssigner = function(arrayOfContinents) {
   }
 };
 
-countryAssigner(countriesFull); //initializing the game
-continentAssigner(continents); //initializing the game
+countryAssigner(countriesFull);
+continentAssigner(continents);
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -146,9 +145,9 @@ function Game(countries, continents) {
   this.countries = countries;
   this.players = [];
   // this.currentPlayer = this.players[0];
-  this.playing = true;
+  this.playing = false;
   this.continents = continents;
-  this.phase = "setup";
+  this.phase = 0;
   this.currentPlayer;
   this.playerCounter = 1;
 };
@@ -183,13 +182,12 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // prototype functions ==========================
 
-Game.prototype.assignment = function() { //give troops at beginning of turn
+Game.prototype.assignment = function(player) {
   console.log(this.currentPlayer);
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
-  this.continentChecker(this.currentPlayer);
+  this.continentChecker(player);
 }
-
-Game.prototype.continentChecker = function(player) { //check for continent bonus
+Game.prototype.continentChecker = function(player) {
   for (var index = 0; index < this.continents.length; index++) {
     var held = true;
     for (var continentCountry = 0; continentCountry < this.continents[index].countryArray.length; continentCountry++) {
@@ -246,7 +244,6 @@ Game.prototype.setup = function() {
   for (var i = 0; i < this.countries.length; i++) {
     placeIcon(this.countries[i].countryId, this);
   }
-  this.giveBaseTroops();
 }
 
 Game.prototype.buildContinents = function() {
@@ -310,9 +307,7 @@ Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) 
   while (toCheck.length != 0) {
     counter += 1;
     var current = toCheck.pop();
-    console.log(current.countryId + ' current <>  checkpoint ' + checkPoint.countryId);
     if (current.countryId === checkPoint.countryId) {
-      console.log("Final result is TRUE");
       return true;
     }
     for (var adjacentIndex = 0; adjacentIndex < current.adjacent.length; adjacentIndex++) {
@@ -333,10 +328,6 @@ Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) 
       }
     }
   }
-  console.log(encountered);
-  console.log(toCheck.length);
-  console.log("FALSE is the final result");
-  console.log(counter);
   return false;
 }
 
@@ -350,68 +341,9 @@ Game.prototype.getCountryObject = function(countryId) {
   return "Found Nothing";
 }
 
-Game.prototype.checkIfStillActive = function() {
-  var notPlaying = true;
-  //check if current player still owns a country
-  for (var i = 0; i < this.countries.length; i++) {
-    if (this.countries[i].owner === this.currentPlayer.playerName) {
-      notPlaying = false;
-    }
-  }
 
-  if (notPlaying) {
-    //else mark them inactive
-    this.currentPlayer.active = false;
-  }
-}
-//check for winner
-Game.prototype.checkGameWinner = function() {
-  var inactivePlayerCounter = 0;
-  //iterate through and collect number of inactive players
-  for (var i = 0; i < this.players.length; i++) {
-    if (this.players[i].active === false) {
-      inactivePlayerCounter++;
-    }
-  }
-  //if game over, set game object to false
-  if (inactivePlayerCounter === this.players.length - 1) {
-    this.playing = false;
-  }
-}
+// ADDED FUNCTIONS ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
 
-Game.prototype.getGameWinner = function() {
-  for (var i = 0; i < this.players.length; i++) {
-    if (this.players[i].active === true) {
-      return this.players[i].playerName;
-    }
-  }
-}
-
-Game.prototype.getNextActivePlayer = function() {
-  var currentPlayerStatus = false;
-  var currentPlayerIndex;
-  //get current player index in Game.players[]
-  for (var i = 0; i < this.players.length; i++) {
-    if (this.currentPlayer.playerName === this.players[i].playerName) {
-      currentPlayerIndex = i;
-      break;
-    }
-  }
-  //loop through Game.players from index of currentPlayer to next active player
-  while (!currentPlayerStatus) {
-    //set index back to zero if reached end of Game.players
-    if (currentPlayerIndex === this.players.length) {
-      currentPlayerIndex = 0;
-    } else {
-      //set next active player as current and break from loop
-      if (this.players[currentPlayerIndex].active) {
-        this.currentPlayer = this.players[currentPlayerIndex];
-        currentPlayerStatus = true;
-      }
-      currentPlayerIndex++;
-    }
-  }
-}
 
 Game.prototype.checkOwner = function(countryId) {
   if (this.currentPlayer.playerName === (this.getCountryObject(countryId)).owner) {
@@ -430,12 +362,9 @@ Game.prototype.moveTroops = function(originId, targetId) {
   }
 }
 
-Game.prototype.giveBaseTroops = function(){
-  var defaultTroops = (40 - (5*(this.players.length -2)));
-  for(var i=0;i<this.players.length;i++){
-    this.players[i].reinforcements = defaultTroops;
-  }
-}
+// END ADDED FUNCTIONS ==+++++=++++++++======++++====++++===+++===++========++==+==+==+
+
+
 //end prototype functions
 
 //begin regular functions
@@ -454,7 +383,6 @@ var placeIcon = function(countryId, currentGame) {
       break;
     }
   }
-
   for (var index = 0; index < currentGame.players.length; index++) {
     if (currentGame.players[index].playerName === country.owner) {
       playerIndex = index;
@@ -473,7 +401,7 @@ var placeIcon = function(countryId, currentGame) {
   for (var index = 0; index < locations.length; index ++) {
     if (locations[index][0] === countryId) {
       xcoord = locations[index][1]-100;
-      ycoord = locations[index][2]-230;
+      ycoord = locations[index][2]-80;
       break;
     }
   }
@@ -495,8 +423,13 @@ function choosePlayer(){
 }
 
 function checkAdjacentAndOwner(attacker, defender) {
-  attackerObject = currentGame.getCountryObject(attacker);
-  defenderObject = currentGame.getCountryObject(defender);
+  for (var i = 0; i < currentGame.countries.length; i++) {
+    if (currentGame.countries[i].countryId === attacker) {
+      attackerObject = currentGame.countries[i];
+    } else if (currentGame.countries[i].countryId === defender) {
+      defenderObject = currentGame.countries[i]
+    }
+  }
   if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
@@ -504,8 +437,8 @@ function checkAdjacentAndOwner(attacker, defender) {
   }
 }
 
-function checkIfWinner() {//check for any troops left in defender or attacker
-  if (defenderObject.unitCount < 1 || attackerObject.unitCount < 2) {
+function checkIfWinner() {//check for any troops left in defender
+  if (defenderObject.unitCount < 1) {
     return true;
   } else {
     return false;
@@ -518,25 +451,6 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
 
-var noReinforcements =[];
-function checkEndSetup(){
-  if(noReinforcements.length === currentGame.players.length){
-    console.log('setup over');
-    currentGame.phase = 0;
-    currentGame.currentPlayer = currentGame.players[0]
-    currentGame.assignment();
-  }
-  else if(currentGame.currentPlayer.reinforcements === 0){
-    if(!noReinforcements.includes(currentGame.currentPlayer)){
-      noReinforcements.push(currentGame.currentPlayer);
-    }
-    console.log('check next person');
-    choosePlayer();
-    checkEndSetup();
-  }
-  console.log('you have units');
-}
-
 //=====================================================
 
 // THIS BEGINS JQUERY
@@ -547,8 +461,11 @@ var attackerObject;
 var defenderObject;
 var currentPlayerNames = [];
 var currentPlayerColors = [];
-var originCountry = "undefined";
-var targetCountry = "undefined";
+
+// ADDED STUFF ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
+var originCountry;
+var targetCountry;
+// END ADDED STUFF ==+++++=+++++++++++++++======++++====++++===+++===++========++==+==+==+
 
 
 // THIS BEGINS JQUERY
@@ -557,26 +474,37 @@ var targetCountry = "undefined";
 
 
 $(function() {
+  // START TEST FUNCTIONALITY
   currentGame = new Game(dummyCountries, dummyContinents);
+  playerAssigner(playerArray);
+  currentGame.players = dummyPlayers;
+  currentGame.currentPlayer = currentGame.players[0];
+  console.log(currentGame.players[0]);
   currentGame.buildContinents();
+  currentGame.setup();
+  $('.player-label').text(currentGame.currentPlayer.playerName);
+  $('.game-phase-label').text(currentGame.phase);
 
   // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
     event.preventDefault();
+    // START TEST FUNCTIONALITY
 
-
-    totalPlayers = parseInt($('#number-of-players').val());
-    for (var i = 0; i < totalPlayers; i++) {
-      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
-      $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
-    }
-    $('#select-player-quantity').hide();
+    // END TEST FUNCTIONALITY
+  //
+  //
+  //   totalPlayers = parseInt($('#number-of-players').val());
+  //   for (var i = 0; i < totalPlayers; i++) {
+  //     $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
+  //     $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
+  //   }
+  //   $('#select-player-quantity').hide();
   })
   // end setup step 1
 
   // start setup the players step 2 - set the names of the players and call the setup prototype
 
-  $('#name-color-avatar').submit(function(event){  //enter user info
+  $('#name-color-avatar').submit(function(event){
     event.preventDefault();
     for(var i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
@@ -592,63 +520,59 @@ $(function() {
     $("#setup-display").hide();
     // end setup step 2
 
-  })  // end user info
+  })
 
   $('#next-turn').click(function(){
-    choosePlayer();
-    currentGame.checkIfStillActive();
-    currentGame.checkGameWinner();
-    if (!currentGame.playing) {
-      //run end game celebration
-      //Implement celebrations here!
-      console.log("The winner is " + currentGame.getGameWinner())
-    }
-
-    if (!currentGame.currentPlayer.active) {
-      //get next active player and set to currentPlayer
-      currentGame.getNextActivePlayer();
-    }
-    //next phase
+    choosePlayer()
     currentGame.phase = 0;
-    currentGame.assignment();
-    originCountry = 'undefined';
-    targetCountry = 'undefined';
+    $('.player-label').text(currentGame.currentPlayer.playerName);
+    $('.game-phase-label').text(currentGame.phase);
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
     var spaceClicked = $(this).attr('id');
-    if(currentGame.phase === 0){ //add troops to space if there reinforcements
-      if (currentGame.checkOwner(spaceClicked) === true && currentGame.currentPlayer.reinforcements > 0) {
-        var currentCountry = currentGame.getCountryObject(spaceClicked);
-        currentCountry.unitCount += 1;
-        currentGame.currentPlayer.reinforcements -= 1;
-        placeIcon(spaceClicked, currentGame);
-        console.log("you have " + currentGame.currentPlayer.reinforcements + " troops left.");
+    if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
+      console.log('in the function');
+      var newUnitCount = 0;
+// select space with click, select country based on ID
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked) {
+          currentGame.countries[i].unitCount++
+          newUnitCount = currentGame.countries[i].unitCount;
+        }
       }
+      $(this).children("span").text(newUnitCount);
+      currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
+      console.log(attacker)
+      console.log(defender)
       //game.combatflow
       if (attacker === "none") {
         attacker = spaceClicked;
+        console.log(spaceClicked);
       } else if(attacker !== "none") {
         defender = spaceClicked;
+        console.log(spaceClicked);
         if(!checkAdjacentAndOwner(attacker, defender)){
-          alert("You Fool! Choose a Valid Target")
+          console.log("choose valid target")
+          attacker = "none"
+          defender = "none";
         } else {
           console.log("To Battle!")
-          appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
           placeIcon(defenderObject.countryId, currentGame)
+          attacker = "none";
+          defender = "none";
         }
-        attacker = "none";
-        defender = "none";
       }
-    } else if (currentGame.phase === 2) { // This is the
+// ADDED STUFF ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
+    } else if (currentGame.phase === 2) {
       var clickedId = $(this).attr('id')
       if (currentGame.checkOwner(clickedId) === true) { // currentPlayer can only select countries they own
-        if (originCountry === 'undefined') { // check if originCountry needs assignment
+        if (typeof(originCountry) === 'undefined') { // check if originCountry needs assignment
           originCountry = currentGame.getCountryObject(clickedId);
-        } else if (originCountry.countryId !== clickedId && targetCountry === 'undefined') { // check if targetCountry needs assignment
+        } else if (originCountry.countryId !== clickedId && typeof(targetCountry) === 'undefined') { // check if targetCountry needs assignment
           if (currentGame.contiguousOwnershipSearch(originCountry.countryId, clickedId) === true) {
             targetCountry = currentGame.getCountryObject(clickedId);
           } else {
@@ -664,47 +588,46 @@ $(function() {
       } else {
         console.log("you are not the owner");
       }
-      if (originCountry != 'undefined' && targetCountry != 'undefined') {
+      if (typeof(originCountry) !== 'undefined' && typeof(targetCountry) !== 'undefined') {
         placeIcon(originCountry.countryId, currentGame);
         placeIcon(targetCountry.countryId, currentGame);
       }
-    } else if (currentGame.phase === "setup"){ // rotate through players assigning troops to spaces at beginning of game
-        for (i = 0; i < currentGame.countries.length; i++) {
-          if(currentGame.countries[i].countryId === spaceClicked && currentGame.countries[i].owner === currentGame.currentPlayer.playerName){
-            if(currentGame.currentPlayer.reinforcements > 0){
-              currentGame.countries[i].unitCount++
-              placeIcon(currentGame.countries[i].countryId, currentGame);
-              currentGame.currentPlayer.reinforcements--
-              console.log('added unit at '+ currentGame.countries[i].countryId);
-              checkEndSetup();
-              choosePlayer();
-            }
-          } else {
-            console.log('you dont own this');
-          }
+
+      // MOVEMENT PHASE ACTION
+
+// END ADDED STUFF ==+++++=+++++++++++++++======++++====++++===+++===++========++==+==+==+
+
+    } else if (currentGame.phase === "setup"){
+      console.log('in setup');
+      for (i = 0; i < currentGame.countries.length; i++) {
+        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
+          currentGame.countries[i].unitCount++
+        } else {
+          console.log('not enough reinforcements')
         }
-        checkEndSetup();
-        console.log(currentGame.currentPlayer);
+      }
+      currentGame.currentPlayer.reinforcements--
+      choosePlayer();
+      console.log(currentGame.currentPlayer);
     }
   });
 
   $("#combat-form").submit(function(event) {
+    console.log("in submit")
     event.preventDefault()
     attackerObject.diceNum = $("#attacker-dice option:selected").val()
     defenderObject.diceNum = $("#defender-dice option:selected").val()
-    if (!checkIfWinner()) {//do combat if still able to
-      var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
-      attackerObject.unitCount += armiesLost[0];
-      defenderObject.unitCount += armiesLost[1];
-      if (defenderObject.unitCount < 1) {//if attacker is winner
-        appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
-        hideBattle();
-      }
+    console.log(attackerObject.diceNum)
+    console.log(defenderObject.diceNum)
+    var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
+    attackerObject.unitCount += armiesLost[0];
+    defenderObject.unitCount += armiesLost[1];
+    if (checkIfWinner()) {//check if defender as any troops left
+      appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
+
     }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
-    appendDice();
-    appendTroopInfo();
     attacker = "none";
     defender = "none";
   })
@@ -712,33 +635,18 @@ $(function() {
   $("#move-army").submit(function(event) {
     event.preventDefault()
     var troopsToMove = parseInt($("#army-quantity option:selected").val())
-    if(checkIfWinner() && defenderObject.unitCount < 1) {
-      moveArmies(troopsToMove);
-    }
+    moveArmies(troopsToMove);
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
-    showBattle();
   })
 
   $("#next-phase").click(function() {
-    console.log("in gamephase plus thingy")
+    console.log(currentGame.phase)
     currentGame.phase++;
+    $('.game-phase-label').text(currentGame.phase);
   });
 
-  function hideBattle() {
-    $("#combat-form").hide();
-  }
 
-  function showBattle() {
-    $("#combat-form").show();
-  }
-
-  function appendTroopInfo() {
-    $("#selected-attacker").text(attackerObject.countryName);
-    $("#selected-defender").text(defenderObject.countryName);
-    $("#attacker-troops").text(attackerObject.unitCount);
-    $("#defender-troops").text(defenderObject.unitCount);
-  }
 
   function appendDice() {
     $('#attacker-dice').empty()

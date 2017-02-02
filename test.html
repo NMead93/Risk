@@ -1,19 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" title="no title" charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/testscripts.js"></script>
-    <meta charset="utf-8">
-    <title>Risk Test</title>
-  </head>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="js/devscripts.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/testcss.css">
+  <meta charset="utf-8">
+  <title>RISK</title>
+</head>
   <body>
-    <div class="jumbotron">
-      <h1>Live</h1>
+    <div class="container">
+      <div class="row" id="setup-display">
+        <h1>Setup Game</h1>
+        <p>Current Player: <span class="player-label"></span> +++++++ Current Phase: <span class="game-phase-label"</span></p>
+        <div id="select-player-quantity" class="col-md-3">
+          <form id="number-form">
+            <div class="form-group player-numbers">
+              <label for="number-of-players">Select Number of Players</label>
+              <select class="setup" id="number-of-players">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select><br>
+              <button type="submit" name="button">Submit</button>
+            </div>
+          </form>
+        </div>
+        <form id="name-color-avatar">
+          <div class="col-md-3">
+            <div class="form-group player-name">
+              <label for=""></label>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group player-color">
+
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group player-avatar">
+
+            </div>
+          </div>
+          <button type="submit" name="button">Submit Players</button>
+        </form>
+      </div>
     </div>
+    <button type="button" id="next-phase">Next Phase</button>
+    <button type="button" id="next-turn">Next Turn</button>
     <div class="target-holder">
-      <img id="Image-Maps-Com-image-maps-2017-01-30-133916" src="http://www.image-maps.com/m/private/77957/89359-1280px-Riskgameboard.svg.png" border="0" width="1280" height="905" orgWidth="1280" orgHeight="905" usemap="#image-maps-2017-01-30-133916" alt="" />
+      <img id="Image-Maps-Com-image-maps-2017-01-30-133916" src="images/map.png" border="0" width="1280" height="905" orgWidth="1280" orgHeight="905" usemap="#image-maps-2017-01-30-133916" alt="" />
       <map name="image-maps-2017-01-30-133916" id="ImageMapsCom-image-maps-2017-01-30-133916">
         <area shape="rect" coords="1278,903,1280,905" alt="Image Map" style="outline:none;" title="Image Map" />
         <area class="clickable-space" id="alaska" alt="" title="Alaska" shape="poly" coords="125,169,116,169,110,160,103,167,96,162,71,163,66,172,52,177,71,196,54,190,49,196,73,205,56,209,56,222,64,223,65,235,74,235,46,255,46,266,93,240,93,226,107,219,105,228,114,218,169,247,171,237,162,231,161,223,154,223,138,211,126,211" style="outline:none;" target="_self"     />
@@ -50,7 +89,7 @@
         <area class="clickable-space" id="yakutsk" alt="" title="Yakutsk" shape="poly" coords="1016,145,1032,145,1042,165,1048,156,1058,160,1066,154,1100,156,1110,163,1099,169,1096,176,1106,184,1110,196,1097,205,1092,198,1082,204,1068,202,1060,202,1040,201,1038,209,1032,209,1019,221,1011,223,1006,229,1000,233,1000,224,1008,216,1011,211,1005,205,1010,194,1000,195,993,195,997,184,1013,180,1011,173,1022,162" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="irkutsk" alt="" title="Irkutsk" shape="poly" coords="937,238,954,234,955,231,969,236,999,233,1010,223,1021,221,1030,209,1037,207,1040,201,1060,204,1051,218,1043,227,1043,245,1051,267,1049,274,1049,284,1044,285,1042,273,1037,271,1034,258,1024,258,1020,265,1013,266,1017,279,1010,281,1000,275,995,277,987,273,982,275,974,272,963,274,952,269,940,264,945,258,941,254,945,245" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="china" alt="" title="China" shape="poly" coords="915,268,915,277,903,279,895,286,888,291,885,303,874,305,874,321,884,324,887,334,894,344,893,349,902,353,911,362,920,357,927,364,936,359,946,361,954,378,960,372,972,372,978,382,1012,364,1015,347,1014,342,1006,333,988,327,977,321,963,315,959,315,951,307,943,303,936,294,930,290,933,281,934,273,925,270" style="outline:none;" target="_self"     />
-        <area class="clickable-space" id="southeast-asia" alt="" title="Southeast Asia" shape="poly" coords="911,381,925,371,929,363,934,359,944,362,953,379,959,373,973,372,978,383,973,395,967,397,970,384,961,391,971,405,970,421,960,427,942,415,949,442,947,445,933,428,935,413,934,399,923,404,920,389" style="outline:none;" target="_self"     />
+        <area class="clickable-space" id="southeast-asia" alt="" title="Southeast-Asia" shape="poly" coords="911,381,925,371,929,363,934,359,944,362,953,379,959,373,973,372,978,383,973,395,967,397,970,384,961,391,971,405,970,421,960,427,942,415,949,442,947,445,933,428,935,413,934,399,923,404,920,389" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="mongolia" alt="" title="Mongolia" shape="poly" coords="939,294,939,279,938,273,942,263,960,272,969,271,976,276,984,274,997,274,1015,279,1011,265,1021,264,1024,256,1035,258,1044,284,1042,294,1051,301,1033,315,1038,326,1033,336,1025,338,1028,325,1008,335,990,329,979,323,969,314,959,316,951,304,944,305" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="kamchatka" alt="" title="Kamchatka" shape="poly" coords="1049,302,1059,299,1072,274,1073,258,1066,251,1058,249,1069,235,1083,228,1094,228,1115,232,1127,216,1136,223,1127,231,1122,244,1124,268,1136,256,1143,255,1140,238,1158,223,1169,229,1177,219,1199,213,1194,207,1203,197,1216,191,1216,177,1209,179,1202,173,1178,164,1170,168,1165,165,1167,174,1140,171,1134,166,1125,163,1115,164,1108,167,1102,169,1099,174,1097,177,1107,185,1111,197,1103,201,1096,205,1090,200,1081,203,1072,203,1066,203,1056,209,1049,221,1043,234,1043,247,1045,261,1053,270,1049,280,1043,286,1043,296" style="outline:none;" target="_self"     />
         <area class="clickable-space" id="japan" alt="" title="Japan" shape="poly" coords="1109,274,1100,313,1099,335,1094,342,1091,350,1085,350,1084,360,1077,370,1065,381,1089,397,1105,377,1115,361,1125,315,1134,283" style="outline:none;" target="_self"     />
@@ -60,6 +99,49 @@
         <area class="clickable-space" id="new-guinea" alt="" title="New Guinea" shape="poly" coords="1065,468,1070,458,1087,473,1104,471,1123,475,1128,488,1136,495,1147,510,1147,521,1134,514,1127,514,1128,500,1116,505,1106,508,1096,501,1094,498,1094,489,1089,485,1084,483,1079,483,1074,483" style="outline:none;" target="_self"     />
 
       </map>
+    </div>
+    <div class="form-container">
+      <form id="combat-form">
+        <div id="combat" class="row">
+          <div class="col-md-3  attacker-battle-panel">
+            <div class="panel-heading attacker-heading">
+              <span id="selected-attacker">Attacker</span>
+            </div>
+            <div  class="panel">
+              <span id="attacker-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control" >
+              <span>Number of Dice: </span>
+              <select id="attacker-dice" class="" name="one">
+                <option value="1">One <span class="dice-font"></span></option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 defender-battle-panel">
+            <div  class="panel-heading defender-heading">
+              <span id="selected-defender">Defender</span>
+            </div>
+            <div  class="panel">
+              <span id="defender-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control">
+              <span>Number of Dice: </span>
+              <select id="defender-dice" class="" name="two">
+
+              </select>
+            </div>
+          </div>
+          <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
+        </div>
+      </form>
+
+      <form class="form-control" id="move-army">
+       <span>Enter Troops to Move</span>
+       <select id="army-quantity" class="" name="army-quantity">
+        <option value="1">One</option>
+       </select>
+       <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
+      </form>
     </div>
   </body>
 </html>
