@@ -406,13 +406,8 @@ function choosePlayer(){
 }
 
 function checkAdjacentAndOwner(attacker, defender) {
-  for (var i = 0; i < currentGame.countries.length; i++) {
-    if (currentGame.countries[i].countryId === attacker) {
-      attackerObject = currentGame.countries[i];
-    } else if (currentGame.countries[i].countryId === defender) {
-      defenderObject = currentGame.countries[i]
-    }
-  }
+  attackerObject = currentGame.countries[currentGame.getIndex(attacker)];
+  defenderObject = currentGame.countries[currentGame.getIndex(defender)];
   if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
@@ -508,28 +503,22 @@ $(function() {
       $(this).children("span").text(newUnitCount);
       currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
-      console.log(attacker)
-      console.log(defender)
       //game.combatflow
       if (attacker === "none") {
         attacker = spaceClicked;
-        console.log(spaceClicked);
       } else if(attacker !== "none") {
         defender = spaceClicked;
-        console.log(spaceClicked);
         if(!checkAdjacentAndOwner(attacker, defender)){
-          console.log("choose valid target")
-          attacker = "none"
-          defender = "none";
+          alert("You Fool! Choose a Valid Target")
         } else {
           console.log("To Battle!")
           appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
           placeIcon(defenderObject.countryId, currentGame)
-          attacker = "none";
-          defender = "none";
         }
+        attacker = "none";
+        defender = "none";
       }
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
@@ -547,12 +536,9 @@ $(function() {
   });
 
   $("#combat-form").submit(function(event) {
-    console.log("in submit")
     event.preventDefault()
     attackerObject.diceNum = $("#attacker-dice option:selected").val()
     defenderObject.diceNum = $("#defender-dice option:selected").val()
-    console.log(attackerObject.diceNum)
-    console.log(defenderObject.diceNum)
     if (!checkIfWinner()) {//do combat if still able to
       var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
       attackerObject.unitCount += armiesLost[0];
