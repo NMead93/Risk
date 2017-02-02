@@ -434,10 +434,19 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
 
+var noReinforcements =[];
 function checkEndSetup(){
-  for(i=0;i<currentGame.players.length;i++){
-    if(currentGame.currentPlayer.reinforcements === 0)
+  if(noReinforcements.length === currentGame.players.length){
+    currentGame.phase = 0;
+  }
+  else if(currentGame.currentPlayer.reinforcements === 0){
+    if(!noReinforcements.includes(currentGame.currentPlayer)){
+      noReinforcements.push(currentGame.currentPlayer);
+    }
     choosePlayer();
+    return false;
+  } else {
+    return true;
   }
 }
 
@@ -538,17 +547,17 @@ $(function() {
       }
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
-      checkEndSetup();
-      for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
-          currentGame.countries[i].unitCount++
-        } else {
-          console.log('you cant place here for some reason')
+      if(checkEndSetup()){
+        for (i = 0; i < currentGame.countries.length; i++) {
+          if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
+            currentGame.countries[i].unitCount++
+            currentGame.currentPlayer.reinforcements--
+          }
         }
+        choosePlayer();
+        console.log(currentGame.currentPlayer);
       }
-      currentGame.currentPlayer.reinforcements--
-      choosePlayer();
-      console.log(currentGame.currentPlayer);
+      checkEndSetup();
     }
   });
 
