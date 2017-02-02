@@ -315,11 +315,8 @@ var placeIcon = function(countryId, currentGame) {
   }
   for (var index = 0; index < currentGame.players.length; index++) {
     if (currentGame.players[index].playerName === country.owner) {
-      console.log("player name " + currentGame.players[index].playerName);
-      console.log("country owner " + country.owner);
       playerIndex = index;
       player = currentGame.players[index];
-      console.log(currentGame.players[index]);
       break;
     }
   }
@@ -334,8 +331,7 @@ var placeIcon = function(countryId, currentGame) {
   for (var index = 0; index < locations.length; index ++) {
     if (locations[index][0] === countryId) {
       xcoord = locations[index][1]-100;
-      ycoord = locations[index][2]-40;
-      console.log(locations[index][1] + ", " + locations[index][2]);
+      ycoord = locations[index][2]-80;
       break;
     }
   }
@@ -404,18 +400,25 @@ var currentPlayerColors = [];
 
 $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
+  playerAssigner(playerArray);
   currentGame.players = dummyPlayers;
   currentGame.buildContinents();
 
   // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
     event.preventDefault();
-    totalPlayers = parseInt($('#number-of-players').val());
-    for (var i = 0; i < totalPlayers; i++) {
-      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
-      $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
-    }
-    $('#select-player-quantity').hide();
+
+    // START TEST FUNCTIONALITY
+    currentGame.setup();
+    currentGame.currentPlayer = currentGame.players[0];
+  // COMMENT BELOW IS NECESSARY <><><><><><><><><><><><><><><><><><><><><><><><
+    // totalPlayers = parseInt($('#number-of-players').val());
+    // for (var i = 0; i < totalPlayers; i++) {
+    //   $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
+    //   $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
+    // }
+    // $('#select-player-quantity').hide();
+    // COMMENT ABOVE IS NECESSARY <><><><><><><><><><><><><><><><><><><><><><><><^^^^^^^^^^^^^^
   })
   // end setup step 1
 
