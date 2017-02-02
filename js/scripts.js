@@ -294,6 +294,48 @@ Game.prototype.combat = function(attackDice, defendDice) {
     // console.log(armiesLost);
     return armiesLost;
 }
+Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) {
+  // This function checks to see if there is a path between two country objects via ownership
+  var startPoint = this.countries[this.getIndex(startPointId)];
+  var checkPoint = this.countries[this.getIndex(checkPointId)];
+  var encountered = [];
+  var toCheck = [];
+
+  toCheck.push(startPoint);
+  encountered.push(startPoint.countryId);
+  var counter = 0;
+  while (toCheck.length != 0) {
+    counter += 1;
+    var current = toCheck.pop();
+    console.log(current.countryId + ' current <>  checkpoint ' + checkPoint.countryId);
+    if (current.countryId === checkPoint.countryId) {
+      console.log("Final result is TRUE");
+      return true;
+    }
+    for (var adjacentIndex = 0; adjacentIndex < current.adjacent.length; adjacentIndex++) {
+      var alreadyEncountered = false;
+      if (encountered.includes(current.adjacent[adjacentIndex]) === true) {
+        alreadyEncountered = true;
+      }
+      if (alreadyEncountered === false) {
+        var counter2 = 0;
+        encountered.push(current.adjacent[adjacentIndex]);
+        for (var countriesIndex = 0; countriesIndex < this.countries.length; countriesIndex++) {
+          counter++;
+          if (this.countries[countriesIndex].countryId === current.adjacent[adjacentIndex] && this.countries[countriesIndex].owner === this.currentPlayer.playerName) {
+            toCheck.push(this.countries[countriesIndex]);
+            counter2++;
+          }
+        }
+      }
+    }
+  }
+  console.log(encountered);
+  console.log(toCheck.length);
+  console.log("FALSE is the final result");
+  console.log(counter);
+  return false;
+}
 
 Game.prototype.getIndex = function(countryId) {
   // utility script for finding the index of a country in the Game.countries array
