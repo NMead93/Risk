@@ -478,6 +478,8 @@ function checkEndSetup(){
   if(noReinforcements.length === currentGame.players.length){
     console.log('setup over');
     currentGame.phase = 0;
+    currentGame.currentPlayer = currentGame.players[0]
+    currentGame.assignment();
   }
   else if(currentGame.currentPlayer.reinforcements === 0){
     if(!noReinforcements.includes(currentGame.currentPlayer)){
