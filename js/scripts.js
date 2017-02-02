@@ -583,7 +583,9 @@ $(function() {
     currentGame.phase++;
   });
 
-
+  function appendTroopInfo() {
+    
+  }
 
   function appendDice() {
     $('#attacker-dice').empty()
