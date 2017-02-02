@@ -100,7 +100,7 @@
       </map>
     </div>
     <div class="form-container">
-      <form id="combat-form" class="" action="index.html" method="post">
+      <form id="combat-form">
         <div id="combat" class="row">
           <div class="col-md-3  attacker-battle-panel">
             <div class="panel-heading attacker-heading">
@@ -130,8 +130,16 @@
               </select>
             </div>
           </div>
-          <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
+          <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
         </div>
+      </form>
+
+      <form class="form-control" id="move-army">
+       <span>Enter Troops to Move</span>
+       <select id="army-quantity" class="" name="army-quantity">
+        <option value="1">One</option>
+       </select>
+       <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
       </form>
     </div>
   </body>

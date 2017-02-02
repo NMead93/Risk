@@ -497,6 +497,7 @@ $(function() {
   });
 
   $("#combat-form").submit(function(event) {
+    console.log("in submit")
     event.preventDefault()
     attackerObject.diceNum = $("#attacker-dice option:selected").val()
     defenderObject.diceNum = $("#defender-dice option:selected").val()
