@@ -348,6 +348,23 @@ Game.prototype.getCountryObject = function(countryId) {
   return "Found Nothing";
 }
 
+Game.prototype.checkOwner = function(countryId) {
+  if (this.currentPlayer.playerName === (this.getCountryObject(countryId)).owner) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Game.prototype.moveTroops = function(originId, targetId) {
+  var origin = this.getCountryObject(originId);
+  var target = this.getCountryObject(targetId);
+  if (origin.unitCount > 1 && target.unitCount < 100) {
+    origin.unitCount--;
+    target.unitCount++;
+  }
+}
+
 //end prototype functions
 
 //begin regular functions
@@ -384,7 +401,7 @@ var placeIcon = function(countryId, currentGame) {
   for (var index = 0; index < locations.length; index ++) {
     if (locations[index][0] === countryId) {
       xcoord = locations[index][1]-100;
-      ycoord = locations[index][2]-80;
+      ycoord = locations[index][2]-200;
       break;
     }
   }
@@ -440,6 +457,8 @@ var attackerObject;
 var defenderObject;
 var currentPlayerNames = [];
 var currentPlayerColors = [];
+var originCountry = "undefined";
+var targetCountry = "undefined";
 
 
 // THIS BEGINS JQUERY
@@ -488,6 +507,8 @@ $(function() {
   $('#next-turn').click(function(){
     choosePlayer()
     currentGame.phase = 0;
+    originCountry = 'undefined';
+    targetCountry = 'undefined';
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
@@ -519,6 +540,31 @@ $(function() {
         }
         attacker = "none";
         defender = "none";
+      }
+    } else if (currentGame.phase === 2) { // This is the
+      var clickedId = $(this).attr('id')
+      if (currentGame.checkOwner(clickedId) === true) { // currentPlayer can only select countries they own
+        if (originCountry === 'undefined') { // check if originCountry needs assignment
+          originCountry = currentGame.getCountryObject(clickedId);
+        } else if (originCountry.countryId !== clickedId && targetCountry === 'undefined') { // check if targetCountry needs assignment
+          if (currentGame.contiguousOwnershipSearch(originCountry.countryId, clickedId) === true) {
+            targetCountry = currentGame.getCountryObject(clickedId);
+          } else {
+            console.log("The two are not connected");
+          }
+        } else { // take from the other country and add to the clicked country
+          if (clickedId === targetCountry.countryId) {
+            currentGame.moveTroops(originCountry.countryId, targetCountry.countryId);
+          } else {
+            currentGame.moveTroops(targetCountry.countryId, originCountry.countryId);
+          }
+        }
+      } else {
+        console.log("you are not the owner");
+      }
+      if (originCountry != 'undefined' && targetCountry != 'undefined') {
+        placeIcon(originCountry.countryId, currentGame);
+        placeIcon(targetCountry.countryId, currentGame);
       }
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
