@@ -84,6 +84,7 @@ var locations = [["northwest-territory", 500, 420],
                 ["madagascar", 972, 746],
                 ["middle-east", 995, 568]]
 
+
 //  START TEST FUNCTIONS AND VARIABLES
 var currentGame;
 
@@ -147,7 +148,7 @@ function Game(countries, continents) {
   // this.currentPlayer = this.players[0];
   this.playing = true;
   this.continents = continents;
-  this.phase = 0;
+  this.phase = "setup";
   this.currentPlayer;
   this.playerCounter = 1;
 };
@@ -245,6 +246,7 @@ Game.prototype.setup = function() {
   for (var i = 0; i < this.countries.length; i++) {
     placeIcon(this.countries[i].countryId, this);
   }
+  this.giveBaseTroops();
 }
 
 Game.prototype.buildContinents = function() {
@@ -428,6 +430,12 @@ Game.prototype.moveTroops = function(originId, targetId) {
   }
 }
 
+Game.prototype.giveBaseTroops = function(){
+  var defaultTroops = (40 - (5*(this.players.length -2)));
+  for(var i=0;i<this.players.length;i++){
+    this.players[i].reinforcements = defaultTroops;
+  }
+}
 //end prototype functions
 
 //begin regular functions
@@ -665,6 +673,7 @@ $(function() {
           if(currentGame.countries[i].countryId === spaceClicked && currentGame.countries[i].owner === currentGame.currentPlayer.playerName){
             if(currentGame.currentPlayer.reinforcements > 0){
               currentGame.countries[i].unitCount++
+              placeIcon(currentGame.countries[i].countryId, currentGame);
               currentGame.currentPlayer.reinforcements--
               console.log('added unit at '+ currentGame.countries[i].countryId);
               checkEndSetup();
