@@ -150,6 +150,7 @@ function Game(countries, continents) {
   this.phase = 0;
   this.currentPlayer;
   this.playerCounter = 1;
+  this.inactivePlayers = [];
 };
 
 
@@ -348,6 +349,31 @@ Game.prototype.getCountryObject = function(countryId) {
   return "Found Nothing";
 }
 
+Game.prototype.checkIfStillActive = function() {
+  //check if current player still owns a country
+  for (var i = 0; i < this.countries.length; i++) {
+    if (this.countries[i].owner === this.currentPlayer.playerName) {
+      break;
+    }
+  }
+  //else mark them inactive
+  this.currentPlayer.active = false;
+}
+//check for winner
+Game.prototype.checkGameWinner = function() {
+  var inactivePlayerCounter = 0;
+  //iterate through and collect number of inactive players
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.players[i].active === false) {
+      inactivePlayerCounter++;
+    }
+  }
+  //if game over, set game object to false
+  if (inactivePlayerCounter === this.players.length - 1) {
+    this.playing = false;
+  }
+}
+
 Game.prototype.checkOwner = function(countryId) {
   if (this.currentPlayer.playerName === (this.getCountryObject(countryId)).owner) {
     return true;
@@ -383,6 +409,7 @@ var placeIcon = function(countryId, currentGame) {
       break;
     }
   }
+
   for (var index = 0; index < currentGame.players.length; index++) {
     if (currentGame.players[index].playerName === country.owner) {
       playerIndex = index;
@@ -446,6 +473,24 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
 
+var noReinforcements =[];
+function checkEndSetup(){
+  if(noReinforcements.length === currentGame.players.length){
+    console.log('setup over');
+    currentGame.phase = 0;
+    currentGame.currentPlayer = currentGame.players[0]
+    currentGame.assignment();
+  }
+  else if(currentGame.currentPlayer.reinforcements === 0){
+    if(!noReinforcements.includes(currentGame.currentPlayer)){
+      noReinforcements.push(currentGame.currentPlayer);
+    }
+    console.log('check next person');
+    choosePlayer();
+    checkEndSetup();
+  }
+  console.log('you have units');
+}
 
 //=====================================================
 
@@ -565,18 +610,22 @@ $(function() {
         placeIcon(originCountry.countryId, currentGame);
         placeIcon(targetCountry.countryId, currentGame);
       }
-    } else if (currentGame.phase === "setup"){
-      console.log('in setup');
-      for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
-          currentGame.countries[i].unitCount++
-        } else {
-          console.log('not enough reinforcements')
+    } else if (currentGame.phase === "setup"){ // rotate through players assigning troops to spaces at beginning of game
+        for (i = 0; i < currentGame.countries.length; i++) {
+          if(currentGame.countries[i].countryId === spaceClicked && currentGame.countries[i].owner === currentGame.currentPlayer.playerName){
+            if(currentGame.currentPlayer.reinforcements > 0){
+              currentGame.countries[i].unitCount++
+              currentGame.currentPlayer.reinforcements--
+              console.log('added unit at '+ currentGame.countries[i].countryId);
+              checkEndSetup();
+              choosePlayer();
+            }
+          } else {
+            console.log('you dont own this');
+          }
         }
-      }
-      currentGame.currentPlayer.reinforcements--
-      choosePlayer();
-      console.log(currentGame.currentPlayer);
+        checkEndSetup();
+        console.log(currentGame.currentPlayer);
     }
   });
 
