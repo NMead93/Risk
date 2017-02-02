@@ -592,7 +592,9 @@ $(function() {
 
     currentGame.setup();
     currentGame.currentPlayer = currentGame.players[0];
+    appendCurrentInfo();
     $("#setup-display").hide();
+    $("#setup-bg").hide();
     // end setup step 2
 
   })  // end user info
