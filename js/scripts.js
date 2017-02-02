@@ -446,6 +446,7 @@ function checkEndSetup(){
     choosePlayer();
     return false;
   } else {
+    choosePlayer();
     return true;
   }
 }
@@ -546,18 +547,17 @@ $(function() {
         }
       }
     } else if (currentGame.phase === "setup"){
-      console.log('in setup');
-      if(checkEndSetup()){
         for (i = 0; i < currentGame.countries.length; i++) {
           if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
             currentGame.countries[i].unitCount++
             currentGame.currentPlayer.reinforcements--
+            console.log('added unit at '+ currentGame.countries[i].countryId)
+          } else if(currentGame.currentPlayer.reinforcements === 0){
+            checkEndSetup();
           }
         }
-        choosePlayer();
+        checkEndSetup();
         console.log(currentGame.currentPlayer);
-      }
-      checkEndSetup();
     }
   });
 
