@@ -359,7 +359,7 @@ Game.prototype.checkIfStillActive = function() {
   //else mark them inactive
   this.currentPlayer.active = false;
 }
-
+//check for winner
 Game.prototype.checkGameWinner = function() {
   var inactivePlayerCounter = 0;
   //iterate through and collect number of inactive players
