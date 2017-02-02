@@ -476,18 +476,18 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
 var noReinforcements =[];
 function checkEndSetup(){
   if(noReinforcements.length === currentGame.players.length){
+    console.log('setup over');
     currentGame.phase = 0;
   }
   else if(currentGame.currentPlayer.reinforcements === 0){
     if(!noReinforcements.includes(currentGame.currentPlayer)){
       noReinforcements.push(currentGame.currentPlayer);
     }
+    console.log('check next person');
     choosePlayer();
-    return false;
-  } else {
-    choosePlayer();
-    return true;
+    checkEndSetup();
   }
+  console.log('you have units');
 }
 
 //=====================================================
@@ -611,12 +611,16 @@ $(function() {
       }
     } else if (currentGame.phase === "setup"){ // rotate through players assigning troops to spaces at beginning of game
         for (i = 0; i < currentGame.countries.length; i++) {
-          if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
-            currentGame.countries[i].unitCount++
-            currentGame.currentPlayer.reinforcements--
-            console.log('added unit at '+ currentGame.countries[i].countryId)
-          } else if(currentGame.currentPlayer.reinforcements === 0){
-            checkEndSetup();
+          if(currentGame.countries[i].countryId === spaceClicked && currentGame.countries[i].owner === currentGame.currentPlayer.playerName){
+            if(currentGame.currentPlayer.reinforcements > 0){
+              currentGame.countries[i].unitCount++
+              currentGame.currentPlayer.reinforcements--
+              console.log('added unit at '+ currentGame.countries[i].countryId);
+              checkEndSetup();
+              choosePlayer();
+            }
+          } else {
+            console.log('you dont own this');
           }
         }
         checkEndSetup();
