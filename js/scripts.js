@@ -570,7 +570,7 @@ $(function() {
 
     totalPlayers = parseInt($('#number-of-players').val());
     for (var i = 0; i < totalPlayers; i++) {
-      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"'>");
+      $('.player-name').append("<label>Player"+(i+1)+ " name: <br><input class='currentPlayerNames' type='text' id='"+i+"' required>");
       $('.player-color').append("<label>Player"+(i+1)+ " color: <br><input type='color' id='color"+i+"'>")
     }
     $('#select-player-quantity').hide();
@@ -606,7 +606,8 @@ $(function() {
     if (!currentGame.playing) {
       //run end game celebration
       //Implement celebrations here!
-      console.log("The winner is " + currentGame.getGameWinner())
+      alert("The winner is " + currentGame.getGameWinner())
+      alert("Nick is super cool")
     }
 
     if (!currentGame.currentPlayer.active) {
