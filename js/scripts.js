@@ -150,6 +150,7 @@ function Game(countries, continents) {
   this.phase = 0;
   this.currentPlayer;
   this.playerCounter = 1;
+  this.inactivePlayers = [];
 };
 
 
@@ -348,6 +349,31 @@ Game.prototype.getIndex = function(countryId) {
   return "Found Nothing";
 }
 
+Game.prototype.checkIfStillActive = function() {
+  //check if current player still owns a country
+  for (var i = 0; i < this.countries.length; i++) {
+    if (this.countries[i].owner === this.currentPlayer.playerName) {
+      break;
+    }
+  }
+  //else mark them inactive
+  this.currentPlayer.active = false;
+}
+
+Game.prototype.checkGameWinner = function() {
+  var inactivePlayerCounter = 0;
+  //iterate through and collect number of inactive players
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.players[i].active === false) {
+      inactivePlayerCounter++;
+    }
+  }
+  //if game over, set game object to false
+  if (inactivePlayerCounter === this.players.length - 1) {
+    this.playing = false;
+  }
+}
+
 //end prototype functions
 
 //begin regular functions
@@ -366,6 +392,7 @@ var placeIcon = function(countryId, currentGame) {
       break;
     }
   }
+
   for (var index = 0; index < currentGame.players.length; index++) {
     if (currentGame.players[index].playerName === country.owner) {
       playerIndex = index;
@@ -440,6 +467,7 @@ var attackerObject;
 var defenderObject;
 var currentPlayerNames = [];
 var currentPlayerColors = [];
+var inactivePlayers = [];
 
 
 // THIS BEGINS JQUERY
