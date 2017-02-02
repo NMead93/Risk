@@ -296,8 +296,8 @@ Game.prototype.combat = function(attackDice, defendDice) {
 }
 Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) {
   // This function checks to see if there is a path between two country objects via ownership, the countries are passed in as Ids
-  var startPoint = this.countries[this.getIndex(startPointId)];
-  var checkPoint = this.countries[this.getIndex(checkPointId)];
+  var startPoint = this.getCountryObject(startPointId);
+  var checkPoint = this.getCountryObject(checkPointId);
   var encountered = [];
   var toCheck = [];
 
@@ -337,11 +337,11 @@ Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) 
   return false;
 }
 
-Game.prototype.getIndex = function(countryId) {
-  // utility script for finding the index of a country in the Game.countries array
+Game.prototype.getCountryObject = function(countryId) {
+  // utility script for finding the object of a country from the id in the Game.countries array
   for (var index = 0; index < this.countries.length; index++) {
     if (this.countries[index].countryId === countryId) {
-      return index;
+      return this.countries[index];
     }
   }
   return "Found Nothing";

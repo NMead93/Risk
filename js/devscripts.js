@@ -296,8 +296,8 @@ Game.prototype.combat = function(attackDice, defendDice) {
 }
 Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) {
   // This function checks to see if there is a path between two country objects via ownership, the countries are passed in as Ids
-  var startPoint = this.countries[this.getIndex(startPointId)];
-  var checkPoint = this.countries[this.getIndex(checkPointId)];
+  var startPoint = this.getCountryObject(startPointId);
+  var checkPoint = this.getCountryObject(checkPointId);
   var encountered = [];
   var toCheck = [];
 
@@ -307,9 +307,7 @@ Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) 
   while (toCheck.length != 0) {
     counter += 1;
     var current = toCheck.pop();
-    console.log(current.countryId + ' current <>  checkpoint ' + checkPoint.countryId);
     if (current.countryId === checkPoint.countryId) {
-      console.log("Final result is TRUE");
       return true;
     }
     for (var adjacentIndex = 0; adjacentIndex < current.adjacent.length; adjacentIndex++) {
@@ -330,22 +328,42 @@ Game.prototype.contiguousOwnershipSearch = function(startPointId, checkPointId) 
       }
     }
   }
-  console.log(encountered);
-  console.log(toCheck.length);
-  console.log("FALSE is the final result");
-  console.log(counter);
   return false;
 }
 
-Game.prototype.getIndex = function(countryId) {
-  // utility script for finding the index of a country in the Game.countries array
+Game.prototype.getCountryObject = function(countryId) {
+  // utility script for finding the object of a country from the id in the Game.countries array
   for (var index = 0; index < this.countries.length; index++) {
     if (this.countries[index].countryId === countryId) {
-      return index;
+      return this.countries[index];
     }
   }
   return "Found Nothing";
 }
+
+
+// ADDED FUNCTIONS ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
+
+
+Game.prototype.checkOwner = function(countryId) {
+  if (this.currentPlayer.playerName === (this.getCountryObject(countryId)).owner) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Game.prototype.moveTroops = function(originId, targetId) {
+  var origin = this.getCountryObject(originId);
+  var target = this.getCountryObject(targetId);
+  if (origin.unitCount > 1 && target.unitCount < 100) {
+    origin.unitCount--;
+    target.unitCount++;
+  }
+}
+
+// END ADDED FUNCTIONS ==+++++=++++++++======++++====++++===+++===++========++==+==+==+
+
 
 //end prototype functions
 
@@ -444,6 +462,11 @@ var defenderObject;
 var currentPlayerNames = [];
 var currentPlayerColors = [];
 
+// ADDED STUFF ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
+var originCountry;
+var targetCountry;
+// END ADDED STUFF ==+++++=+++++++++++++++======++++====++++===+++===++========++==+==+==+
+
 
 // THIS BEGINS JQUERY
 
@@ -453,11 +476,14 @@ var currentPlayerColors = [];
 $(function() {
   // START TEST FUNCTIONALITY
   currentGame = new Game(dummyCountries, dummyContinents);
-  currentGame.currentPlayer = currentGame.players[0];
   playerAssigner(playerArray);
   currentGame.players = dummyPlayers;
+  currentGame.currentPlayer = currentGame.players[0];
+  console.log(currentGame.players[0]);
   currentGame.buildContinents();
   currentGame.setup();
+  $('.player-label').text(currentGame.currentPlayer.playerName);
+  $('.game-phase-label').text(currentGame.phase);
 
   // start setup step 1 - choose the number of players
   $('#number-form').submit(function(event) {
@@ -499,6 +525,8 @@ $(function() {
   $('#next-turn').click(function(){
     choosePlayer()
     currentGame.phase = 0;
+    $('.player-label').text(currentGame.currentPlayer.playerName);
+    $('.game-phase-label').text(currentGame.phase);
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
@@ -538,6 +566,37 @@ $(function() {
           defender = "none";
         }
       }
+// ADDED STUFF ==+++++=++++++++++++++++++======++++====++++===+++===++========++==+==+==+
+    } else if (currentGame.phase === 2) {
+      var clickedId = $(this).attr('id')
+      if (currentGame.checkOwner(clickedId) === true) { // currentPlayer can only select countries they own
+        if (typeof(originCountry) === 'undefined') { // check if originCountry needs assignment
+          originCountry = currentGame.getCountryObject(clickedId);
+        } else if (originCountry.countryId !== clickedId && typeof(targetCountry) === 'undefined') { // check if targetCountry needs assignment
+          if (currentGame.contiguousOwnershipSearch(originCountry.countryId, clickedId) === true) {
+            targetCountry = currentGame.getCountryObject(clickedId);
+          } else {
+            console.log("The two are not connected");
+          }
+        } else { // take from the other country and add to the clicked country
+          if (clickedId === targetCountry.countryId) {
+            currentGame.moveTroops(originCountry.countryId, targetCountry.countryId);
+          } else {
+            currentGame.moveTroops(targetCountry.countryId, originCountry.countryId);
+          }
+        }
+      } else {
+        console.log("you are not the owner");
+      }
+      if (typeof(originCountry) !== 'undefined' && typeof(targetCountry) !== 'undefined') {
+        placeIcon(originCountry.countryId, currentGame);
+        placeIcon(targetCountry.countryId, currentGame);
+      }
+
+      // MOVEMENT PHASE ACTION
+
+// END ADDED STUFF ==+++++=+++++++++++++++======++++====++++===+++===++========++==+==+==+
+
     } else if (currentGame.phase === "setup"){
       console.log('in setup');
       for (i = 0; i < currentGame.countries.length; i++) {
@@ -582,8 +641,9 @@ $(function() {
   })
 
   $("#next-phase").click(function() {
-    console.log("in gamephase plus thingy")
+    console.log(currentGame.phase)
     currentGame.phase++;
+    $('.game-phase-label').text(currentGame.phase);
   });
 
 
