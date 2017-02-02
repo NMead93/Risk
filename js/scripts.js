@@ -419,8 +419,8 @@ function checkAdjacentAndOwner(attacker, defender) {
   }
 }
 
-function checkIfWinner() {//check for any troops left in defender
-  if (defenderObject.unitCount < 1) {
+function checkIfWinner() {//check for any troops left in defender or attacker
+  if (defenderObject.unitCount < 1 || attackerObject.unitCount < 2) {
     return true;
   } else {
     return false;
@@ -432,6 +432,7 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.unitCount = armyCount;
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
+
 
 //=====================================================
 
@@ -528,6 +529,7 @@ $(function() {
           defender = "none";
         } else {
           console.log("To Battle!")
+          appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
           placeIcon(defenderObject.countryId, currentGame)
@@ -557,15 +559,19 @@ $(function() {
     defenderObject.diceNum = $("#defender-dice option:selected").val()
     console.log(attackerObject.diceNum)
     console.log(defenderObject.diceNum)
-    var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
-    attackerObject.unitCount += armiesLost[0];
-    defenderObject.unitCount += armiesLost[1];
-    if (checkIfWinner()) {//check if defender as any troops left
-      appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
-
+    if (!checkIfWinner()) {//do combat if still able to
+      var armiesLost = currentGame.combat(attackerObject.diceNum, defenderObject.diceNum)
+      attackerObject.unitCount += armiesLost[0];
+      defenderObject.unitCount += armiesLost[1];
+      if (defenderObject.unitCount < 1) {//if attacker is winner
+        appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
+        hideBattle();
+      }
     }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
+    appendDice();
+    appendTroopInfo();
     attacker = "none";
     defender = "none";
   })
@@ -573,9 +579,12 @@ $(function() {
   $("#move-army").submit(function(event) {
     event.preventDefault()
     var troopsToMove = parseInt($("#army-quantity option:selected").val())
-    moveArmies(troopsToMove);
+    if(checkIfWinner() && defenderObject.unitCount < 1) {
+      moveArmies(troopsToMove);
+    }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
+    showBattle();
   })
 
   $("#next-phase").click(function() {
@@ -583,8 +592,19 @@ $(function() {
     currentGame.phase++;
   });
 
+  function hideBattle() {
+    $("#combat-form").hide();
+  }
+
+  function showBattle() {
+    $("#combat-form").show();
+  }
+
   function appendTroopInfo() {
-    
+    $("#selected-attacker").text(attackerObject.countryName);
+    $("#selected-defender").text(defenderObject.countryName);
+    $("#attacker-troops").text(attackerObject.unitCount);
+    $("#defender-troops").text(defenderObject.unitCount);
   }
 
   function appendDice() {
