@@ -43,45 +43,45 @@ var countriesFull = [["Northwest Territory", "northwest-territory", "North Ameri
 
 var locations = [["northwest-territory", 500, 420],
                 ["alberta", 431, 486],
-                ["ontario", 488, 461],
+                ["ontario", 480, 461],
                 ["eastern-canada", 575, 463],
                 ["greenland", 679, 383],
-                ["western-united-states", 413, 538],
-                ["eastern-united-states", 549, 547],
+                ["western-united-states", 443, 550],
+                ["eastern-united-states", 510, 530],
                 ["central-america", 470, 603],
-                ["venezuela", 573, 691],
+                ["venezuela", 570, 682],
                 ["brazil", 652, 747],
                 ["peru", 597, 764],
                 ["argentina", 582, 800],
-                ["western-australia", 1250, 773],
-                ["eastern-australia", 1325, 818],
-                ["new-guinea", 1307, 705],
-                ["indonesia", 1199, 714],
+                ["western-australia", 1235, 773],
+                ["eastern-australia", 1320, 810],
+                ["new-guinea", 1290, 705],
+                ["indonesia", 1180, 714],
                 ["southeast-asia", 1148, 630],
                 ["india", 1062, 614],
                 ["china", 1170, 574],
-                ["mongolia", 1182, 534],
-                ["japan", 1309, 546],
+                ["mongolia", 1171, 534],
+                ["japan", 1299, 540],
                 ["alaska", 291, 409],
                 ["kamchatka", 1345, 433],
-                ["irkutsk", 1224, 464],
-                ["yakutsk", 1221, 423],
+                ["irkutsk", 1209, 464],
+                ["yakutsk", 1211, 423],
                 ["siberia", 1132, 435],
                 ["ural", 1070, 490],
-                ["afghanistan", 1000, 534],
+                ["afghanistan", 1018, 548],
                 ["russia", 945, 481],
                 ["scandanavia", 863, 450],
                 ["iceland", 792, 408],
                 ["great-britain", 793, 470],
                 ["western-europe", 792, 538],
-                ["southern-europe", 886, 530],
-                ["northern-europe", 897, 493],
+                ["southern-europe", 875, 530],
+                ["northern-europe", 885, 497],
                 ["north-africa", 802, 646],
-                ["egypt", 915, 594],
-                ["east-africa", 960, 651],
+                ["egypt", 902, 592],
+                ["east-africa", 957, 649],
                 ["central-africa", 898, 700],
                 ["south-africa", 891, 788],
-                ["madagascar", 972, 746],
+                ["madagascar", 965, 730],
                 ["middle-east", 995, 568]]
 
 //  START TEST FUNCTIONS AND VARIABLES
@@ -383,7 +383,7 @@ var placeIcon = function(countryId, currentGame) {
   for (var index = 0; index < locations.length; index ++) {
     if (locations[index][0] === countryId) {
       xcoord = locations[index][1]-100;
-      ycoord = locations[index][2]-80;
+      ycoord = locations[index][2]-230;
       break;
     }
   }
