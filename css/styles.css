@@ -1,10 +1,19 @@
 #map {
   width: 50%;
   height: 50%;
+  position: absolute;
 }
 #attack-button {
-  height: 8em;
+  height: 4em;
   width: 6em;
+  background-image: linear-gradient(270deg, #a00015, #400012, #002d40, #0073a0);
+  border: none;
+  box-shadow: -5px 7px rgba(0, 0, 0, .4);
+}
+
+.attack-padding {
+  padding-top: 68px;
+  padding-bottom: 69px;
 }
 
 .clickable-space {
@@ -25,13 +34,16 @@
 
 .marker-div {
   position: absolute;
-  width: 8px;
-  height: 15px;
-  /*background: #000000;*/
+  width: 20px;
+  height: 20px;
   z-index: 1;
   color: #ffffff;
 }
 
+option:hover {
+  color: white;
+  background-color: cornflowerblue;
+}
 
 .target-holder {
   margin-left: 100px;
@@ -40,7 +52,9 @@
 .map-container {
   text-align: center;
   width: 1280px;
+  z-index: -1;
 }
+
 img {
   border: solid black 10px;
   border-radius: 2em;
@@ -49,29 +63,55 @@ img {
 .defender-heading {
   color: white;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 15px 15px 0px 0px;
   background-color: #009206;
+
 }
 .attacker-heading {
   color: white;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 15px 15px 0px 0px;
   background-color: #b36027;
+
 }
 
 .defender-battle-panel {
   padding: 1em;
-  background-image: linear-gradient(#a00015,#400012);
+  background-image: linear-gradient(#a00015, #400012);
   border-radius: 1em;
+  margin: 2px;
+  box-shadow: -5px 7px rgba(0, 0, 0, .4);
 }
 .attacker-battle-panel {
   padding: 1em;
-  background-image: linear-gradient(#0073a0,#002d40);
+  background-image: linear-gradient(#0073a0, #002d40);
   border-radius: 1em;
+  margin: 2px;
+  box-shadow: -5px 7px rgba(0, 0, 0, .4);
 }
 .panel-heading {
   margin-bottom: 1em;
 }
 body {
-  background-image: radial-gradient(farthest-corner at 0px 0px, #99947E, #FDF9CA);
+  background-image: radial-gradient(#c4cbff , #161c4f);
+  background-repeat: no-repeat;
+
+  height: 100%;
+  width: 100%;
+
+}
+/*#conquer-menu {
+  position: absolute;
+  top: 870px;
+  left: 910px;
+  z-index: 2;
+}*/
+
+#combat-form {
+  position: absolute;
+  top: 800px;
+  left: 515px;
+  width: 750px;
+  z-index: 3;
+
 }
