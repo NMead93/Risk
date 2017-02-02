@@ -616,6 +616,7 @@ $(function() {
     //next phase
     currentGame.phase = 0;
     currentGame.assignment();
+    appendCurrentInfo();
     originCountry = 'undefined';
     targetCountry = 'undefined';
   })
@@ -640,6 +641,7 @@ $(function() {
           alert("You Fool! Choose a Valid Target")
         } else {
           console.log("To Battle!")
+          showBattle();
           appendTroopInfo();
           appendDice();
           placeIcon(attackerObject.countryId, currentGame)
@@ -683,6 +685,7 @@ $(function() {
               console.log('added unit at '+ currentGame.countries[i].countryId);
               checkEndSetup();
               choosePlayer();
+              appendCurrentInfo();
             }
           } else {
             console.log('you dont own this');
@@ -703,7 +706,7 @@ $(function() {
       defenderObject.unitCount += armiesLost[1];
       if (defenderObject.unitCount < 1) {//if attacker is winner
         appendTroopsQuantity()//add options from 2 to unitcount - 1(jquery)
-        hideBattle();
+        showTakeOver();
       }
     }
     placeIcon(attackerObject.countryId, currentGame)
@@ -712,6 +715,7 @@ $(function() {
     appendTroopInfo();
     attacker = "none";
     defender = "none";
+    hideBattle();
   })
 
   $("#move-army").submit(function(event) {
@@ -722,7 +726,7 @@ $(function() {
     }
     placeIcon(attackerObject.countryId, currentGame)
     placeIcon(defenderObject.countryId, currentGame)
-    showBattle();
+    hideTakeOver();
   })
 
   $("#next-phase").click(function() {
@@ -743,11 +747,19 @@ $(function() {
     $("#combat-form").show();
   }
 
+  function hideTakeOver() {
+    $("#move-army").hide();
+  }
+
+  function showTakeOver() {
+    $("#move-army").show();
+  }
+
   function appendTroopInfo() {
     $("#selected-attacker").text(attackerObject.countryName);
     $("#selected-defender").text(defenderObject.countryName);
-    $("#attacker-troops").text(attackerObject.unitCount);
-    $("#defender-troops").text(defenderObject.unitCount);
+    $("#attacker-strength").text(attackerObject.unitCount);
+    $("#defender-strength").text(defenderObject.unitCount);
   }
 
   function appendDice() {
@@ -777,5 +789,10 @@ $(function() {
     for (var i = 2; i < attackerObject.unitCount; i++) {
       $("#army-quantity").append("<option value='" + i + "'>" + parseInt(i) + "</option>");
     }
+  }
+
+  function appendCurrentInfo() {
+    $("#player-name").text(currentGame.currentPlayer.playerName);
+    $("#phase").text(currentGame.phase);
   }
 });

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>RISK</title>
-    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/scripts.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-  </head>
-  <body>
+<<<<<<< HEAD
+<head>
+  <title>RISK</title>
+  <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/scripts.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
   <form id="combat-form">
     <div id="combat" class="row">
       <div class="col-md-4  attacker-battle-panel">
@@ -34,7 +35,7 @@
           <span id="selected-defender">Defender</span>
         </div>
         <div  class="panel defend-box-bg">
-          <span class="troop-strength">Troop Strength: <span id="attacker-strength"></span></span>
+          <span class="troop-strength">Troop Strength: <span id="defender-strength"></span></span>
         </div>
         <div  class="panel  defend-box-bg form-control">
           <span>Number of Dice: </span>
@@ -93,57 +94,62 @@
       <area class="clickable-space" id="new-guinea" alt="" title="New Guinea" shape="poly" coords="1065,468,1070,458,1087,473,1104,471,1123,475,1128,488,1136,495,1147,510,1147,521,1134,514,1127,514,1128,500,1116,505,1106,508,1096,501,1094,498,1094,489,1089,485,1084,483,1079,483,1074,483" style="outline:none;" target="_self"     />
     </map>
   </div>
-      <form class="form-control" id="move-army">
-       <span>Enter Troops to Move</span>
-       <select id="army-quantity" class="" name="army-quantity">
-        <option value="1">1</option>
-       </select>
-       <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
+  <form class="form-control" id="move-army">
+    <span>Enter Troops to Move</span>
+    <select id="army-quantity" class="" name="army-quantity">
+      <option value="1">1</option>
+    </select>
+    <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
+  </form>
+  <div class="row" id="setup-display">
+    <h1>Setup Game</h1>
+    <div id="select-player-quantity" class="col-md-3">
+      <form id="number-form">
+        <div class="form-group player-numbers">
+          <label for="number-of-players">Select Number of Players</label>
+          <select class="setup" id="number-of-players">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select><br>
+          <button type="submit" name="button">Submit</button>
+        </div>
       </form>
     </div>
-  </form>
-</div>
-  <div class="row" id="setup-display">
-  <h1>Setup Game</h1>
-  <div id="select-player-quantity" class="col-md-3">
-  <form id="number-form">
-  <div class="form-group player-numbers">
-  <label for="number-of-players">Select Number of Players</label>
-  <select class="setup" id="number-of-players">
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  </select><br>
-  <button type="submit" name="button">Submit</button>
-  </div>
-  </form>
-  </div>
-  <form id="name-color-avatar">
-  <div class="col-md-3">
-  <div class="form-group player-name">
-  <label for=""></label>
-  </div>
-  </div>
+    <form id="name-color-avatar">
+      <div class="col-md-3">
+        <div class="form-group player-name">
+          <label for=""></label>
+        </div>
+      </div>
 
-  <div class="col-md-3">
-  <div class="form-group player-color">
+      <div class="col-md-3">
+        <div class="form-group player-color">
 
-  </div>
-  </div>
+        </div>
+      </div>
 
-  <div class="col-md-3">
-  <div class="form-group player-avatar">
+      <div class="col-md-3">
+        <div class="form-group player-avatar">
 
+        </div>
+      </div>
+      <button type="submit" name="button">Submit Players</button>
+    </form>
   </div>
-  </div>
-  <button type="submit" name="button">Submit Players</button>
-  </form>
+  <div class="current-player-info">
+    <div class="current-player-name">
+      <span>Current Player: <span id="player-name"></span></span>
+    </div>
+    <div class="current-phase">
+      <span>Phase: <span id="phase"></span></span>
+    </div>
   </div>
   <button type="button" id="next-phase">Next Phase</button>
   <button type="button" id="next-turn">Next Turn</button>
 
 
 
-  </body>
+</body>
 </html>
