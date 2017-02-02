@@ -434,13 +434,14 @@ $(function() {
 
     currentGame.setup();
     currentGame.currentPlayer = currentGame.players[0];
-    $("#setup-display").hide();
+    // $("#setup-display").hide();
     // end setup step 2
 
   })
 
   $('#next-turn').click(function(){
     choosePlayer()
+    currentGame.phase = 0;
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
