@@ -54,7 +54,7 @@ var locations = [["northwest-territory", 500, 420],
                 ["peru", 597, 764],
                 ["argentina", 582, 800],
                 ["western-australia", 1250, 773],
-                ["eastern-australia", 1283, 766],
+                ["eastern-australia", 1325, 818],
                 ["new-guinea", 1307, 705],
                 ["indonesia", 1199, 714],
                 ["southeast-asia", 1148, 630],
@@ -552,6 +552,7 @@ $(function() {
   });
 
   $("#combat-form").submit(function(event) {
+    console.log("in submit")
     event.preventDefault()
     attackerObject.diceNum = $("#attacker-dice option:selected").val()
     defenderObject.diceNum = $("#defender-dice option:selected").val()
