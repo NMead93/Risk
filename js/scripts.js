@@ -103,7 +103,7 @@ var generateList = function(arrayOfCountries) {
   }
 }
 
-var playerArray = [['Sam', 0, '#4286f4'], ['Derek', 1, '#00ff00'], ['Jeff?', 2, '#0f0f0f']];
+var playerArray = [['Sam', 0, 'blue'], ['Derek', 1, '#00ff00'], ['Jeff?', 2, '#0f0f0f']];
 var continents = [["Asia", 7], ["Europe", 5], ["North America", 5], ["Australia", 2], ["South America", 2], ["Africa", 3]]
 
 var dummyCountries = [];
@@ -293,6 +293,16 @@ Game.prototype.combat = function(attackDice, defendDice) {
     }
     // console.log(armiesLost);
     return armiesLost;
+}
+
+Game.prototype.getIndex = function(countryId) {
+  // utility script for finding the index of a country in the Game.countries array
+  for (var index = 0; index < this.countries.length; index++) {
+    if (this.countries[index].countryId === countryId) {
+      return index;
+    }
+  }
+  return "Found Nothing";
 }
 
 //end prototype functions
