@@ -600,6 +600,7 @@ $(function() {
       //get next active player and set to currentPlayer
       currentGame.getNextActivePlayer();
     }
+    //next phase
     currentGame.phase = 0;
     currentGame.assignment();
     originCountry = 'undefined';
