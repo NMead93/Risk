@@ -177,8 +177,8 @@ function Country(countryName, countryId, continent, adjacent) {
   this.unitCount = 5;
   this.adjacent = adjacent;
 };
-
 // begin
+
 
 // prototype functions ==========================
 
