@@ -182,10 +182,10 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // prototype functions ==========================
 
-Game.prototype.assignment = function(player) { //give troops at beginning of turn
+Game.prototype.assignment = function() { //give troops at beginning of turn
   console.log(this.currentPlayer);
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
-  this.continentChecker(player);
+  this.continentChecker(this.currentPlayer);
 }
 
 Game.prototype.continentChecker = function(player) { //check for continent bonus
@@ -487,8 +487,8 @@ function choosePlayer(){
 }
 
 function checkAdjacentAndOwner(attacker, defender) {
-  attackerObject = currentGame.countries[currentGame.getIndex(attacker)];
-  defenderObject = currentGame.countries[currentGame.getIndex(defender)];
+  attackerObject = currentGame.getCountryObject(attacker);
+  defenderObject = currentGame.getCountryObject(defender);
   if (attackerObject.adjacent.includes(defenderObject.countryId) && attackerObject.owner !== defenderObject.owner && attackerObject.unitCount > 1 && attackerObject.owner === currentGame.currentPlayer.playerName) {
     return true;
   } else {
@@ -601,22 +601,21 @@ $(function() {
       currentGame.getNextActivePlayer();
     }
     currentGame.phase = 0;
+    currentGame.assignment();
     originCountry = 'undefined';
     targetCountry = 'undefined';
   })
 
   $('.clickable-space').click(function(){ // this is the interaction between the user and the map
     var spaceClicked = $(this).attr('id');
-    if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
-      console.log('in the function');
-// select space with click, select country based on ID
-      for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked) {
-          currentGame.countries[i].unitCount++
-        }
+    if(currentGame.phase === 0){ //add troops to space if there reinforcements
+      if (currentGame.checkOwner(spaceClicked) === true && currentGame.currentPlayer.reinforcements > 0) {
+        var currentCountry = currentGame.getCountryObject(spaceClicked);
+        currentCountry.unitCount += 1;
+        currentGame.currentPlayer.reinforcements -= 1;
+        placeIcon(spaceClicked, currentGame);
+        console.log("you have " + currentGame.currentPlayer.reinforcements + " troops left.");
       }
-      // $(this).children("span").text();
-      currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
       //game.combatflow
       if (attacker === "none") {
