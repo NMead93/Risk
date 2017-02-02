@@ -40,6 +40,16 @@
   position: absolute;
   background-color: rgba(0, 0, 0, .4)
 }
+#setup-title {
+  text-align: center;
+}
+.current-player-info {
+  top: 26px;
+  left: 123px;
+  z-index: 1;
+  position: absolute;
+  text-shadow: -1px 1px rgba(0, 0, 0, .4)
+}
 
 
 .turn-buttons {

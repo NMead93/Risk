@@ -106,7 +106,7 @@
 
 </div>
 <div class="row" id="setup-display">
-  <h1>Setup Game</h1>
+  <h1 id="setup-title">Setup Game</h1>
   <div id="select-player-quantity" class="col-md-6">
     <form id="number-form">
       <div class="form-group player-numbers">
@@ -117,7 +117,7 @@
           <option value="4">4</option>
           <option value="5">5</option>
         </select><br>
-        <button type="submit" name="button">Submit</button>
+        <button type="submit" name="button" class="btn submission">Submit</button>
       </div>
     </form>
   </div>
@@ -139,7 +139,7 @@
 
       </div>
     </div>
-    <button type="submit" name="button">Submit Players</button>
+    <button type="submit" name="button" class="btn submission" >Submit Players</button>
   </form>
 </div>
   <form class="form-control" id="move-army">
@@ -153,6 +153,7 @@
     <div class="current-player-name">
       <span>Current Player: <span id="player-name"></span></span>
     </div>
+    <br>
     <div class="current-phase">
       <span>Phase: <span id="phase"></span></span>
     </div>
