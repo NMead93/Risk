@@ -609,7 +609,7 @@ $(function() {
         placeIcon(originCountry.countryId, currentGame);
         placeIcon(targetCountry.countryId, currentGame);
       }
-    } else if (currentGame.phase === "setup"){
+    } else if (currentGame.phase === "setup"){ // rotate through players assigning troops to spaces at beginning of game
         for (i = 0; i < currentGame.countries.length; i++) {
           if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0 && currentGame.countries[i].owner === currentGame.currentPlayer.playerName) {
             currentGame.countries[i].unitCount++
