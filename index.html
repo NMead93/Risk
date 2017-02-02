@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>RISK</title>
-    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/scripts.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-  </head>
-  <body>
-    <div class="container">
-    
-  <form id="combat-form">
-    <div id="combat" class="row">
-      <div class="col-md-4  attacker-battle-panel">
-        <div class="panel-heading attacker-heading">
-          <span id="selected-attacker">Attacker</span>
+<head>
+  <title>RISK</title>
+  <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/scripts.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+  <!--begin combat form-->
+  <div class="container">
+    <form id="combat-form">
+      <div id="combat" class="row">
+        <div class="col-md-4  attacker-battle-panel">
+          <div class="panel-heading attacker-heading">
+            <span id="selected-attacker">Attacker</span>
+          </div>
+          <div  class="panel attack-box-bg">
+            <span class="troop-strength">Troop Strength: <span id="attacker-strength"></span></span>
+          </div>
+          <div  class="panel  attack-box-bg form-control" >
+            <span>Number of Dice: </span>
+            <select id="attacker-dice" class="" name="one">
+              <option value="1">One <span class="dice-font"></span></option>
+            </select>
+          </div>
         </div>
-        <div  class="panel attack-box-bg">
-          <span class="troop-strength">Troop Strength: <span id="attacker-strength"></span></span>
-        </div>
-        <div  class="panel  attack-box-bg form-control" >
-          <span>Number of Dice: </span>
-          <select id="attacker-dice" class="" name="one">
-            <option value="1">One <span class="dice-font"></span></option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2 attack-padding">
+        <div class="col-md-2 attack-padding">
 
-        <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
-      </div>
-      <div class="col-md-4 defender-battle-panel">
-        <div  class="panel-heading defender-heading">
-          <span id="selected-defender">Defender</span>
+          <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
         </div>
-        <div  class="panel defend-box-bg">
-          <span class="troop-strength">Troop Strength: <span id="attacker-strength"></span></span>
-        </div>
-        <div  class="panel  defend-box-bg form-control">
-          <span>Number of Dice: </span>
-          <select id="defender-dice" class="" name="two">
+        <div class="col-md-4 defender-battle-panel">
+          <div  class="panel-heading defender-heading">
+            <span id="selected-defender">Defender</span>
+          </div>
+          <div  class="panel defend-box-bg">
+            <span class="troop-strength">Troop Strength: <span id="attacker-strength"></span></span>
+          </div>
+          <div  class="panel  defend-box-bg form-control">
+            <span>Number of Dice: </span>
+            <select id="defender-dice" class="" name="two">
 
-          </select>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
   </div>
+  <!-- end combat form -->
+  <!-- begin image map -->
   <div class="target-holder">
     <img id="Image-Maps-Com-image-maps-2017-01-30-133916" src="images/map.png" border="0" width="1280" height="905" orgWidth="1280" orgHeight="905" usemap="#image-maps-2017-01-30-133916" alt="" />
     <map name="image-maps-2017-01-30-133916" id="ImageMapsCom-image-maps-2017-01-30-133916">
@@ -94,59 +96,88 @@
       <area class="clickable-space" id="western-australia" alt="" title="Western Australia" shape="poly" coords="1049,524,1072,526,1073,567,1112,565,1112,625,1103,633,1098,611,1103,598,1095,605,1075,590,1069,592,1061,595,1059,604,1047,600,1029,616,1023,614,1017,602,1013,592,1011,580,1008,570,1012,554,1033,551,1043,548,1045,539" style="outline:none;" target="_self"     />
       <area class="clickable-space" id="eastern-australia" alt="" title="Eastern Australia" shape="poly" coords="1070,514,1072,566,1112,566,1111,630,1137,629,1148,621,1155,605,1165,598,1163,589,1164,576,1165,566,1156,558,1148,549,1139,547,1133,527,1128,531,1124,510,1120,513,1120,530,1119,535,1108,539,1104,535,1097,525,1100,514" style="outline:none;" target="_self"     />
       <area class="clickable-space" id="new-guinea" alt="" title="New Guinea" shape="poly" coords="1065,468,1070,458,1087,473,1104,471,1123,475,1128,488,1136,495,1147,510,1147,521,1134,514,1127,514,1128,500,1116,505,1106,508,1096,501,1094,498,1094,489,1089,485,1084,483,1079,483,1074,483" style="outline:none;" target="_self"     />
+
     </map>
   </div>
-      <form class="form-control" id="move-army">
-       <span>Enter Troops to Move</span>
-       <select id="army-quantity" class="" name="army-quantity">
-        <option value="1">1</option>
-       </select>
-       <button type="submit" class="btn btn-info" name="button">TakeOver!</button>
-      </form>
+  <!-- end image map -->
+  <!-- begin troops to move after conquering a country -->
+  <div class="form-container" id="conquer-menu">
+    <form class="" id="move-army">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle" type="submit" data-toggle="dropdown">Troops to move
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <option type="submit">asd</option>
+          <option type="submit">dfg</option>
+          <option type="submit">zxc</option>
+        </ul>
+
+        <!-- <span>Enter Troops to Move</span>
+        <select id="army-quantity" class="" name="army-quantity">
+        <option value="1">One</option>
+      </select>
+      <button type="submit" class="btn btn-info" name="button">TakeOver!</button> -->
     </div>
   </form>
 </div>
-  <div class="row" id="setup-display">
+<!-- <div class="container">
+<form>
+<input type="text" name="name" value="">
+<button class="btn"type="submit" name="button">+</button>
+</form>
+
+</div> -->
+
+
+<div class="container" id="setup-bg">
+
+</div>
+<div class="row" id="setup-display">
   <h1>Setup Game</h1>
-  <div id="select-player-quantity" class="col-md-3">
-  <form id="number-form">
-  <div class="form-group player-numbers">
-  <label for="number-of-players">Select Number of Players</label>
-  <select class="setup" id="number-of-players">
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  </select><br>
-  <button type="submit" name="button">Submit</button>
-  </div>
-  </form>
+  <div id="select-player-quantity" class="col-md-6">
+    <form id="number-form">
+      <div class="form-group player-numbers">
+        <label for="number-of-players">Select Number of Players</label>
+        <select class="setup" id="number-of-players">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select><br>
+        <button type="submit" name="button">Submit</button>
+      </div>
+    </form>
   </div>
   <form id="name-color-avatar">
-  <div class="col-md-3">
-  <div class="form-group player-name">
-  <label for=""></label>
-  </div>
-  </div>
+    <div class="col-md-6">
+      <div class="form-group player-name">
+        <label for=""></label>
+      </div>
+    </div>
 
-  <div class="col-md-3">
-  <div class="form-group player-color">
+    <div class="col-md-3">
+      <div class="form-group player-color">
 
-  </div>
-  </div>
+      </div>
+    </div>
 
-  <div class="col-md-3">
-  <div class="form-group player-avatar">
+    <div class="col-md-3">
+      <div class="form-group player-avatar">
 
-  </div>
-  </div>
-  <button type="submit" name="button">Submit Players</button>
+      </div>
+    </div>
+    <button type="submit" name="button">Submit Players</button>
   </form>
-  </div>
-  <button type="button" id="next-phase">Next Phase</button>
-  <button type="button" id="next-turn">Next Turn</button>
+</div>
 
 
 
-  </body>
+<div class="turn-buttons">
+  <button type="button" class="btn next-buttons" id="next-phase">Next Phase</button>
+  <button type="button" class="btn next-buttons" id="next-turn">Next Turn</button>
+</div>
+
+
+</body>
 </html>
