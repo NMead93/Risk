@@ -10,7 +10,7 @@
 </head>
   <body>
     <div class="container">
-      <div class="row">
+      <div class="row" id="setup-display">
         <h1>Setup Game</h1>
         <div id="select-player-quantity" class="col-md-3">
           <form id="number-form">
@@ -48,6 +48,7 @@
         </form>
       </div>
     </div>
+    <button type="button" id="next-phase">Next Phase</button>
     <button type="button" id="next-turn">Next Turn</button>
     <div class="target-holder">
       <img id="Image-Maps-Com-image-maps-2017-01-30-133916" src="http://www.image-maps.com/m/private/77957/89359-1280px-Riskgameboard.svg.png" border="0" width="1280" height="905" orgWidth="1280" orgHeight="905" usemap="#image-maps-2017-01-30-133916" alt="" />
@@ -98,60 +99,40 @@
 
       </map>
     </div>
-    <form class="form-control" id="combat-form">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="panel-heading">
-            <span id="selected-attacker">Attacker</span>
+    <div class="form-container">
+      <form id="combat-form" class="" action="index.html" method="post">
+        <div id="combat" class="row">
+          <div class="col-md-3  attacker-battle-panel">
+            <div class="panel-heading attacker-heading">
+              <span id="selected-attacker">Attacker</span>
+            </div>
+            <div  class="panel">
+              <span id="attacker-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control" >
+              <span>Number of Dice: </span>
+              <select id="attacker-dice" class="" name="one">
+                <option value="1">One <span class="dice-font"></span></option>
+              </select>
+            </div>
           </div>
-          <div  class="panel">
-            <span id="attacker-strength">Troop Strength</span>
-          </div>
-          <div  class="panel" >
-            <span>Number of Dice: </span>
-            <select id="attacker-dice" class="" name="one">
-              <option value="1">One</option>
+          <div class="col-md-3 defender-battle-panel">
+            <div  class="panel-heading defender-heading">
+              <span id="selected-defender">Defender</span>
+            </div>
+            <div  class="panel">
+              <span id="defender-strength" class="form-control">Troop Strength</span>
+            </div>
+            <div  class="panel form-control">
+              <span>Number of Dice: </span>
+              <select id="defender-dice" class="" name="two">
 
-            </select>
+              </select>
+            </div>
           </div>
+          <button id="attack-button" class="btn btn-danger"type="button" name="button">Attack!</button>
         </div>
-        <div class="col-md-3">
-          <div  class="panel-heading">
-            <span id="selected-defender">Defender</span>
-          </div>
-          <div  class="panel">
-            <span id="defender-strength">Troop Strength</span>
-          </div>
-          <div  class="panel">
-            <span>Number of Dice: </span>
-            <select id="defender-dice" class="" name="two">
-              <option value="1">One</option>
-            </select>
-          </div>
-          <button id="attack-button" class="btn btn-danger"type="submit" name="button">Attack!</button>
-        </div>
-      </div>
-    </form>
-    <div class="container">
-
-      <div class="row">
-        <div class="instructions">
-          <div class="troop-total">
-
-          </div>
-          <div class="countries-on">
-
-          </div>
-          <div class="current-player">
-
-          </div>
-          <button type="button" name="turn" id="next-turn">Next Turn</button>
-        </div>
-        <div id="country-holder">
-
-        </div>
-
-      </div>
+      </form>
     </div>
   </body>
 </html>

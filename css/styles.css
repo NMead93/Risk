@@ -2,10 +2,17 @@
   width: 50%;
   height: 50%;
 }
+#attack-button {
+  height: 8em;
+  width: 6em;
+}
 
 .clickable-space {
-  border: solid;
   height: 200px;
+}
+
+.form-container{
+
 }
 
 .country-div {
@@ -25,11 +32,46 @@
   color: #ffffff;
 }
 
-#attack-button {
-  height: 8em;
-  width: 6em;
-}
 
 .target-holder {
   margin-left: 100px;
+}
+
+.map-container {
+  text-align: center;
+  width: 1280px;
+}
+img {
+  border: solid black 10px;
+  border-radius: 2em;
+}
+
+.defender-heading {
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #009206;
+}
+.attacker-heading {
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #b36027;
+}
+
+.defender-battle-panel {
+  padding: 1em;
+  background-image: linear-gradient(#a00015,#400012);
+  border-radius: 1em;
+}
+.attacker-battle-panel {
+  padding: 1em;
+  background-image: linear-gradient(#0073a0,#002d40);
+  border-radius: 1em;
+}
+.panel-heading {
+  margin-bottom: 1em;
+}
+body {
+  background-image: radial-gradient(farthest-corner at 0px 0px, #99947E, #FDF9CA);
 }
