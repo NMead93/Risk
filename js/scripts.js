@@ -134,8 +134,8 @@ var continentAssigner = function(arrayOfContinents) {
   }
 };
 
-countryAssigner(countriesFull);
-continentAssigner(continents);
+countryAssigner(countriesFull); //initializing the game
+continentAssigner(continents); //initializing the game
 
 
 // END TEST FUNCTIONS AND VARIABLES
@@ -182,12 +182,13 @@ function Country(countryName, countryId, continent, adjacent) {
 
 // prototype functions ==========================
 
-Game.prototype.assignment = function(player) {
+Game.prototype.assignment = function(player) { //give troops at beginning of turn
   console.log(this.currentPlayer);
   this.currentPlayer.reinforcements = Math.floor(this.currentPlayer.countryArray.length / 3);
   this.continentChecker(player);
 }
-Game.prototype.continentChecker = function(player) {
+
+Game.prototype.continentChecker = function(player) { //check for continent bonus
   for (var index = 0; index < this.continents.length; index++) {
     var held = true;
     for (var continentCountry = 0; continentCountry < this.continents[index].countryArray.length; continentCountry++) {
@@ -452,11 +453,6 @@ var currentPlayerColors = [];
 
 $(function() {
   currentGame = new Game(dummyCountries, dummyContinents);
-  // START TEST FUNCTIONALITY
-  // currentGame.setup();
-  // currentGame.currentPlayer = currentGame.players[0];
-  // playerAssigner(playerArray);
-  // currentGame.players = dummyPlayers;
   currentGame.buildContinents();
 
   // start setup step 1 - choose the number of players
@@ -475,7 +471,7 @@ $(function() {
 
   // start setup the players step 2 - set the names of the players and call the setup prototype
 
-  $('#name-color-avatar').submit(function(event){
+  $('#name-color-avatar').submit(function(event){  //enter user info
     event.preventDefault();
     for(var i=0;i<totalPlayers;i++){
       currentPlayerNames.push($('#'+i).val());
@@ -491,7 +487,7 @@ $(function() {
     $("#setup-display").hide();
     // end setup step 2
 
-  })
+  })  // end user info
 
   $('#next-turn').click(function(){
     choosePlayer()
@@ -502,12 +498,10 @@ $(function() {
     var spaceClicked = $(this).attr('id');
     if(currentGame.currentPlayer.reinforcements > 0 && currentGame.phase === 0){ //add troops to space if there are troops available
       console.log('in the function');
-      var newUnitCount = 0;
 // select space with click, select country based on ID
       for (i = 0; i < currentGame.countries.length; i++) {
         if (currentGame.countries[i].countryId === spaceClicked) {
           currentGame.countries[i].unitCount++
-          newUnitCount = currentGame.countries[i].unitCount;
         }
       }
       $(this).children("span").text(newUnitCount);
@@ -584,7 +578,7 @@ $(function() {
   });
 
   function appendTroopInfo() {
-    
+
   }
 
   function appendDice() {
