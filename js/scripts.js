@@ -510,6 +510,24 @@ function moveArmies(armyCount) {//change global vars to move attacker armies and
   defenderObject.owner = currentGame.currentPlayer.playerName;
 }
 
+var noReinforcements =[];
+function checkEndSetup(){
+  if(noReinforcements.length === currentGame.players.length){
+    console.log('setup over');
+    currentGame.phase = 0;
+    currentGame.currentPlayer = currentGame.players[0]
+    currentGame.assignment();
+  }
+  else if(currentGame.currentPlayer.reinforcements === 0){
+    if(!noReinforcements.includes(currentGame.currentPlayer)){
+      noReinforcements.push(currentGame.currentPlayer);
+    }
+    console.log('check next person');
+    choosePlayer();
+    checkEndSetup();
+  }
+  console.log('you have units');
+}
 
 //=====================================================
 
@@ -597,7 +615,7 @@ $(function() {
           currentGame.countries[i].unitCount++
         }
       }
-      $(this).children("span").text(newUnitCount);
+      // $(this).children("span").text();
       currentGame.currentPlayer.reinforcements--;
     } else if (currentGame.phase === 1) {
       //game.combatflow
@@ -642,18 +660,22 @@ $(function() {
         placeIcon(originCountry.countryId, currentGame);
         placeIcon(targetCountry.countryId, currentGame);
       }
-    } else if (currentGame.phase === "setup"){
-      console.log('in setup');
-      for (i = 0; i < currentGame.countries.length; i++) {
-        if (currentGame.countries[i].countryId === spaceClicked && currentGame.currentPlayer.reinforcements > 0) {
-          currentGame.countries[i].unitCount++
-        } else {
-          console.log('not enough reinforcements')
+    } else if (currentGame.phase === "setup"){ // rotate through players assigning troops to spaces at beginning of game
+        for (i = 0; i < currentGame.countries.length; i++) {
+          if(currentGame.countries[i].countryId === spaceClicked && currentGame.countries[i].owner === currentGame.currentPlayer.playerName){
+            if(currentGame.currentPlayer.reinforcements > 0){
+              currentGame.countries[i].unitCount++
+              currentGame.currentPlayer.reinforcements--
+              console.log('added unit at '+ currentGame.countries[i].countryId);
+              checkEndSetup();
+              choosePlayer();
+            }
+          } else {
+            console.log('you dont own this');
+          }
         }
-      }
-      currentGame.currentPlayer.reinforcements--
-      choosePlayer();
-      console.log(currentGame.currentPlayer);
+        checkEndSetup();
+        console.log(currentGame.currentPlayer);
     }
   });
 
