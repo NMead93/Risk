@@ -611,6 +611,7 @@ $(function() {
     //next phase
     currentGame.phase = 0;
     currentGame.assignment();
+    appendCurrentInfo();
     originCountry = 'undefined';
     targetCountry = 'undefined';
   })
@@ -678,6 +679,7 @@ $(function() {
               console.log('added unit at '+ currentGame.countries[i].countryId);
               checkEndSetup();
               choosePlayer();
+              appendCurrentInfo();
             }
           } else {
             console.log('you dont own this');
@@ -767,5 +769,10 @@ $(function() {
     for (var i = 2; i < attackerObject.unitCount; i++) {
       $("#army-quantity").append("<option value='" + i + "'>" + parseInt(i) + "</option>");
     }
+  }
+
+  function appendCurrentInfo() {
+    $("#player-name").text(currentGame.currentPlayer.playerName);
+    $("#phase").text(currentGame.phase);
   }
 });
